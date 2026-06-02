@@ -1,0 +1,26 @@
+# Large, re-downloadable artifacts & scratch (model weights, catalogs, cutouts, embeddings)
+data/
+prototype_out/
+*.parquet
+*.npy
+*.npz
+*.fits
+*.safetensors
+
+# Secrets / keys
+*.pem
+*.ppk
+*.key
+.env
+.env.*
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# OS
+Thumbs.db
+.DS_Store
