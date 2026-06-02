@@ -8,7 +8,7 @@ Status going in: model `aion-large` downloaded locally (`data/models/aion-large`
 
 > **Operating rules (standing).**
 > 1. **Local is the system of record.** All code is authored/kept locally (canonical copy). The AWS box is compute-only — push code up to run it; **pull results, run artifacts, and logs back to local and verify** *before* terminating. Nothing of record lives only on an ephemeral spot instance.
-> 2. **Record everything as we go.** Maintain a running **`RUNLOG.md`** appended at every step — the exact command/decision, *why*, what happened, key numbers, observations — and capture all stdout/stderr to `~/logs/`. Goal: a complete, replayable record.
+> 2. **Record everything as we go.** Maintain a running **`runLog.md`** appended at every step — the exact command/decision, *why*, what happened, key numbers, observations — and capture all stdout/stderr to `~/logs/`. Goal: a complete, replayable record.
 > 3. **Clean, simple, minimal code.** Short readable scripts; minimal comments (only where intent isn't obvious); no dead code, no cleverness for its own sake.
 > 4. **Transparency — never overclaim.** State assumptions and limits; report every number with its uncertainty; never claim anything the data or logic cannot support. Always distinguish *measured* from *interpreted*.
 > 5. **Final deliverable: an explainable report.** Produce a presentable **`REPORT.md`** — what we did, how, why, the process, the math, the results and figures, *what they mean and what we can (and cannot) interpret* — honest and transparent throughout.
@@ -210,7 +210,7 @@ nvidia-smi   # confirm the L40S (48 GB) is visible
 ---
 
 ## 6. Environment setup on the instance (~10 min)
-- **Start the record (Operating-rule 2):** create `~/out/RUNLOG.md` + `~/logs/`; tee every step's stdout/stderr to `~/logs/<step>.log` and append a dated RUNLOG entry per action.
+- **Start the record (Operating-rule 2):** create `~/out/runLog.md` + `~/logs/`; tee every step's stdout/stderr to `~/logs/<step>.log` and append a dated RUNLOG entry per action.
 - Activate the DLAMI PyTorch env: `source activate pytorch` (or the env `nvidia-smi`/`conda env list` reports).
 - `pip install` (pin versions in `requirements.txt`): the `aion` package + `huggingface_hub`, `scikit-dimension`, `dadapy`, `datafold`, `pydiffmap`, `umap-learn`, `ripser`, `persim`, `GraphRicciCurvature`, `POT`, `scikit-learn`, `pyarrow`, `astropy`, `requests`, `matplotlib`, `tqdm`.
 - `python -c "import torch; print(torch.cuda.get_device_name(0))"` → confirm L40S.
@@ -263,8 +263,8 @@ nvidia-smi   # confirm the L40S (48 GB) is visible
 - *How:* TopK SAE (+AuxK) on `E_full`, R∈{4,8}, 2–3 seeds (tiny, GPU-fast); score features (max|Spearman| vs labels; residual-R² novelty); seed-stability; montages for 2–3 features. *Why:* the novel payload — aligned + "alien" concepts.
 
 **Step K — Synthesis & explainable report (~45 min).**
-- *How:* assemble `metrics.json`/CSV (all numbers + CIs) and ~8–10 figures; write the explainable **`REPORT.md`** (Operating-rule 5): what we did / how / why / the math behind each metric / the results and each figure with *what it means and what we can vs cannot conclude* / honest limits + the §3 go/no-go verdict. Finalize **`RUNLOG.md`**.
-- *Transparency:* every claim in `REPORT.md` is tagged *measured* vs *interpreted*; nothing is asserted beyond the data. *Output:* `REPORT.md` + `RUNLOG.md` + `figures/` + `metrics.json`.
+- *How:* assemble `metrics.json`/CSV (all numbers + CIs) and ~8–10 figures; write the explainable **`REPORT.md`** (Operating-rule 5): what we did / how / why / the math behind each metric / the results and each figure with *what it means and what we can vs cannot conclude* / honest limits + the §3 go/no-go verdict. Finalize **`runLog.md`**.
+- *Transparency:* every claim in `REPORT.md` is tagged *measured* vs *interpreted*; nothing is asserted beyond the data. *Output:* `REPORT.md` + `runLog.md` + `figures/` + `metrics.json`.
 
 ---
 
@@ -319,7 +319,7 @@ aws ec2 describe-instances --region $AWS_REGION --instance-ids $INSTID \
 
 ## 12. Deliverables (what lands on your laptop tomorrow)
 - **`REPORT.md`** — the presentable, explainable write-up: what / how / why, process, the math, results + every figure with its meaning and honest interpretation (*measured* vs *interpreted*), limits, and the §3 go/no-go verdict. (Operating-rule 5.)
-- **`RUNLOG.md`** + `logs/` — the complete step-by-step record (commands, decisions, numbers, observations) and raw stdout/stderr. (Operating-rule 2.)
+- **`runLog.md`** + `logs/` — the complete step-by-step record (commands, decisions, numbers, observations) and raw stdout/stderr. (Operating-rule 2.)
 - `metrics.json` + `metrics.csv` — every number with its CI / interval.
 - `figures/`: (1) diffusion map ×3 colorings, (2) ID-triangulation bar chart + synthetic-validation, (3) Gride scale curve, (4) probe-R² table + disentanglement angle heatmap, (5) δ-hyperbolicity histogram, (6) Ollivier-Ricci map overlay, (7) persistence diagrams (Euclidean vs intrinsic metric) + β-bootstrap, (8) SAE feature-alignment chart + 2–3 montages.
 - `embeddings.parquet` (50k×1024, `E_full`+`E_held`) — reusable for the scale-up.
@@ -343,7 +343,7 @@ All of the above are pulled back to local before teardown (Operating-rule 1).
 12. [ ] Step B embeddings (≥40k) checkpointed.
 13. [ ] Steps C–J metric battery complete.
 14. [ ] Step E2 synthetic validation passes.
-15. [ ] RUNLOG.md maintained throughout; Step K figures + metrics + **REPORT.md** written (measured-vs-interpreted; no overclaims).
+15. [ ] runLog.md maintained throughout; Step K figures + metrics + **REPORT.md** written (measured-vs-interpreted; no overclaims).
 16. [ ] §11 results + runs + **logs** pulled back to local and verified (Operating Rule); THEN instance TERMINATED; termination verified.
 
 ---

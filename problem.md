@@ -18,7 +18,7 @@ This document is three things at once:
 
 It contains **no code** and **no solution** — only data, models, mathematics, formulas, libraries, statistical bounds, expected results, and a toy-scale interpretation guide.
 Every external claim is sourced; the consolidated reference list is in Section 23.
-The companion paper grounding all model facts is OCR'd in-repo at [AION1.md](papers/AION1/AION1.md).
+The companion paper grounding all model facts is OCR'd in-repo at [aion1.md](papers/aion1/aion1.md).
 
 **Provenance & corrections.**
 This is the fourth revision.
@@ -192,14 +192,14 @@ Three empirical facts frame what a *faithful* embedding should look like.
 
 ## 3. Background: AION-1, the gap, and the ML lineage we plug into
 
-All model numbers are from the AION-1 paper (arXiv:2510.17960), its HTML, and the HF card `polymathic-ai/aion-base`; cross-references appear as [AION1.md:line](papers/AION1/AION1.md).
+All model numbers are from the AION-1 paper (arXiv:2510.17960), its HTML, and the HF card `polymathic-ai/aion-base`; cross-references appear as [aion1.md:line](papers/aion1/aion1.md).
 
 ### 3.1 What AION-1 is
 
 - **Identity.** "AstronomIcal Omni-modal Network," Polymathic AI (Flatiron/Simons + NYU, Cambridge, Princeton, LBNL).
 - **Architecture.** One encoder–decoder transformer trained by **multimodal masked modeling** (4M-style; Mizrahi et al. 2023) over **39 modalities** — multiband images, optical spectra, catalog scalars.
 - **Tokenizers.** FSQ image codebook 2¹², LFQ spectrum 1024, scalar 1024, scalar-field FSQ 1000.
-- **Self-supervised**, no labels ([AION1.md:9](papers/AION1/AION1.md#L9), [AION1.md:46](papers/AION1/AION1.md#L46)).
+- **Self-supervised**, no labels ([aion1.md:9](papers/aion1/aion1.md#L9), [aion1.md:46](papers/aion1/aion1.md#L46)).
 
 ### 3.2 Training data
 
@@ -207,11 +207,11 @@ All model numbers are from the AION-1 paper (arXiv:2510.17960), its HTML, and th
 
 - **>200 million *observations* of stars, galaxies, AND quasars** across five surveys — Legacy Survey, HSC, SDSS, DESI, Gaia — from the Multimodal Universe (arXiv:2412.02527).
 - ~4M cross-matched multimodal objects actually trained on (HF card).
-- Per-survey: Legacy ~122M, HSC ~2.5M, SDSS ~4M, DESI ~1M, Gaia ~220M ([AION1.md:98-126](papers/AION1/AION1.md#L98-L126)).
+- Per-survey: Legacy ~122M, HSC ~2.5M, SDSS ~4M, DESI ~1M, Gaia ~220M ([aion1.md:98-126](papers/aion1/aion1.md#L98-L126)).
 
 ### 3.3 Variants — and our choice
 
-**[CORRECTION — variant-dependent dimension]** ([AION1.md:301-308](papers/AION1/AION1.md#L301-L308)):
+**[CORRECTION — variant-dependent dimension]** ([aion1.md:301-308](papers/aion1/aion1.md#L301-L308)):
 
 | Variant | Blocks (enc/dec) | Hidden d | MLP | Heads | Params |
 |---|---|---|---|---|---|
@@ -237,7 +237,7 @@ All model numbers are from the AION-1 paper (arXiv:2510.17960), its HTML, and th
 
 AION-1 (frozen + light head) already shows:
 
-- PROVABGS property regression (R² up to ~0.96), GZ10 morphology (AION-L 87.2%), GZ-DECaLS retrieval (spirals nDCG@10 ≈ 0.64) ([AION1.md:405-604](papers/AION1/AION1.md#L405-L604)).
+- PROVABGS property regression (R² up to ~0.96), GZ10 morphology (AION-L 87.2%), GZ-DECaLS retrieval (spirals nDCG@10 ≈ 0.64) ([aion1.md:405-604](papers/aion1/aion1.md#L405-L604)).
 - So physics is **decodable** and similar objects are **close.**
 
 **The gap (triple-confirmed):**
@@ -279,19 +279,19 @@ AION-1 (frozen + light head) already shows:
 
 | Item | Specification | Source |
 |---|---|---|
-| Checkpoint | `polymathic-ai/aion-large`, fp16 | HF card; [AION1.md:301-310](papers/AION1/AION1.md#L301-L310) |
-| Embedding dim d | 1024 | Fig. 6, [AION1.md:305](papers/AION1/AION1.md#L305) |
+| Checkpoint | `polymathic-ai/aion-large`, fp16 | HF card; [aion1.md:301-310](papers/aion1/aion1.md#L301-L310) |
+| Embedding dim d | 1024 | Fig. 6, [aion1.md:305](papers/aion1/aion1.md#L305) |
 | Encoder output | per-token Z ∈ ℝ^{T×d}, T ≲ 600 | HF API; Eq. 7–8 |
-| Pooling | **mean** (primary); attentive (sensitivity) | [AION1.md:381-395](papers/AION1/AION1.md#L381-L395) |
-| State | **frozen**; decoder discarded (a *separate* light decoder is trained for the pullback metric, §10.2) | [AION1.md:377-379](papers/AION1/AION1.md#L377-L379) |
+| Pooling | **mean** (primary); attentive (sensitivity) | [aion1.md:381-395](papers/aion1/aion1.md#L381-L395) |
+| State | **frozen**; decoder discarded (a *separate* light decoder is trained for the pullback metric, §10.2) | [aion1.md:377-379](papers/aion1/aion1.md#L377-L379) |
 | Tokenization | `CodecManager` per modality | §4 |
-| Image preproc AION saw | 160×160 → center-crop 96×96; arcsinh; inverse-variance | [AION1.md:98](papers/AION1/AION1.md#L98), [AION1.md:142](papers/AION1/AION1.md#L142) |
+| Image preproc AION saw | 160×160 → center-crop 96×96; arcsinh; inverse-variance | [aion1.md:98](papers/aion1/aion1.md#L98), [aion1.md:142](papers/aion1/aion1.md#L142) |
 
 ### 5.1 [v4 — locked] Multimodal embeddings as the core representation
 
 **Decision:** the core embedding fuses **image + photometry + redshift** (and, where available, spectra), not images alone.
 
-- AION-1 supports this natively: concatenate the tokens from any subset of modalities and pass the union through the frozen encoder; no fusion module is needed ([AION1.md:397](papers/AION1/AION1.md#L397)).
+- AION-1 supports this natively: concatenate the tokens from any subset of modalities and pass the union through the frozen encoder; no fusion module is needed ([aion1.md:397](papers/aion1/aion1.md#L397)).
 - Per-galaxy modalities fused: Legacy `{g,r,i,z}` image (96×96), `{g,r,i,z}` + WISE fluxes, E(B−V), ellipticity, R_eff (scalars), redshift (scalar), and the DESI/SDSS spectrum when cross-matched.
 - This yields a *richer* manifold whose geometry reflects multi-instrument physics — the more interesting object to characterize.
 
@@ -332,7 +332,7 @@ Pooling has geometric consequences (mean vs attentive change δ, homology lifeti
 For the concept-axis and SAE arms we need *continuous physical scalars*:
 
 - **redshift** — GZ DESI `external_catalog.parquet` `redshift` = **SDSS spec-z where available, else photo-z** (hybrid; spec fraction unverified, likely a minority — propagate photo-z error, flag spec vs photo). **[CAVEAT]** verify the cross-match join key.
-- **stellar mass, sSFR, age, metallicity** — cross-match to **PROVABGS** (Hahn et al. 2023), the SED-fit catalog AION-1 itself used ([AION1.md:401](papers/AION1/AION1.md#L401)); ~120k DESI BGS galaxies with z, M⋆, t_age, Z_met, SFR.
+- **stellar mass, sSFR, age, metallicity** — cross-match to **PROVABGS** (Hahn et al. 2023), the SED-fit catalog AION-1 itself used ([aion1.md:401](papers/aion1/aion1.md#L401)); ~120k DESI BGS galaxies with z, M⋆, t_age, Z_met, SFR.
 - **structural** — Sérsic index n, half-light radius R_eff, asymmetry, concentration (Legacy `tractor` / GZ) as additional "candidate concept" targets.
 
 ### 6.3 Images and the cutout service
@@ -351,7 +351,7 @@ For the concept-axis and SAE arms we need *continuous physical scalars*:
 ### 6.5 Sample design and the inherited selection function
 
 - ~10⁴ galaxies (morphology + physical params); fixed-seed 2k subsample for homology/curvature/δ.
-- **Selection function** (AION §8.1, [AION1.md:655-657](papers/AION1/AION1.md#L655-L657)): magnitude/quality cuts, SGC footprint, 1″ cross-match, plus GZ r<19.
+- **Selection function** (AION §8.1, [aion1.md:655-657](papers/aion1/aion1.md#L655-L657)): magnitude/quality cuts, SGC footprint, 1″ cross-match, plus GZ r<19.
 - Morphology is entangled with apparent size and redshift in ground-based imaging.
 - **Regress out redshift before calling an axis "physical"** — using **E_held(redshift)** (Section 5.1) to avoid circularity.
 - De-duplicate and remove r₁=r₂ ties before any NN-based estimator.
@@ -1072,7 +1072,7 @@ Writing the rebuttals now is part of pre-registration: each is a design constrai
 ## 23. References
 
 **AION-1 & ecosystem**
-- AION-1, arXiv:2510.17960 — https://arxiv.org/abs/2510.17960 ; HTML https://arxiv.org/html/2510.17960v1 ; OCR [AION1.md](papers/AION1/AION1.md)
+- AION-1, arXiv:2510.17960 — https://arxiv.org/abs/2510.17960 ; HTML https://arxiv.org/html/2510.17960v1 ; OCR [aion1.md](papers/aion1/aion1.md)
 - HF card `polymathic-ai/aion-base` — https://huggingface.co/polymathic-ai/aion-base ; GitHub https://github.com/PolymathicAI/AION ; blog https://polymathic-ai.org/blog/aion-1/
 - Multimodal Universe, arXiv:2412.02527 — https://arxiv.org/abs/2412.02527
 - AstroCLIP, *MNRAS* 531, 4990; arXiv:2310.03024 — https://arxiv.org/abs/2310.03024
@@ -1080,7 +1080,7 @@ Writing the rebuttals now is part of pre-registration: each is a design constrai
 
 **Data**
 - Galaxy Zoo DESI (Walmsley et al. 2023), *MNRAS* 526, 4768; arXiv:2309.11425 — https://arxiv.org/abs/2309.11425 ; Zenodo 10.5281/zenodo.8360385 — https://zenodo.org/records/8360385 ; Zoobot https://github.com/mwalmsley/zoobot
-- PROVABGS (Hahn et al. 2023), *ApJ* 945, 16 — referenced [AION1.md:401](papers/AION1/AION1.md#L401)
+- PROVABGS (Hahn et al. 2023), *ApJ* 945, 16 — referenced [aion1.md:401](papers/aion1/aion1.md#L401)
 - DESI Legacy Surveys (Dey et al. 2019); cutout svc https://www.legacysurvey.org/dr10/description/
 - CAMELS (Villaescusa-Navarro et al. 2021), arXiv:2010.00619 — https://arxiv.org/abs/2010.00619 ; sim-vs-real OOD arXiv:2410.10606
 
@@ -1378,7 +1378,7 @@ This harness is what turns the prototype from "we ran a stack of geometry tools 
 **Verification provenance.**
 
 - All factual and mathematical claims were checked by two adversarial multi-agent research passes (12 + 7 agents) against primary sources — arXiv papers, journal articles, Hugging Face model cards, and library documentation.
-- The AION-1 paper was OCR'd locally to ground every model fact ([AION1.md](papers/AION1/AION1.md)).
+- The AION-1 paper was OCR'd locally to ground every model fact ([aion1.md](papers/aion1/aion1.md)).
 - Inline citations and §23 give the sources; `[CORRECTION]` tags mark every place a v1 claim was found wrong and fixed.
 
 **Status.** Specification complete and internally consistent. Open decisions are listed in §24; unless overridden, the stated defaults are in force. The next step is execution against the §16 pipeline, beginning with the §5 embedding build and the Appendix-D validation harness.
