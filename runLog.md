@@ -171,3 +171,9 @@ Plain record of every step. Newest at the bottom. Local is the system of record.
 - GEOMETRY-OF-CONCEPTS (geometryOfConcepts.py; results/geometryOfConcepts.json; PARTIAL/exploratory, Park et al.). CORRECTED a tautological test (cos(parent, child_residual)=0 by construction); replaced with a permutation null. cos(featured,spiral)=0.072 vs null_p95=0.084 -> NOT significant -> no clear linear concept-hierarchy for featured->spiral (honest exploratory null).
 - >>> ALL 10 ARMS DONE (8 core + 2 partial). PRE-REPORT VERDICT: STRONG-GO on (b)(c)(d); ID ~10-12 at/just-above the 4-10 band (borderline-strong on a). Stopping before the report per user.
 - REPRO NOTE: global-BGH-bandwidth diffusion maps fragment in high-d; self-tuning local-scaling bandwidth is the robust fix (always verify a single connected component, per the spec).
+
+## 2026-06-02 — TEARDOWN (verified, user-confirmed)
+- Billable audit first: OUR only billable resource = GPU box i-029fea82286d7f99c (+ 500GB volume vol-07064737, DeleteOnTermination=True). FLAGGED + KEPT (NOT ours): pre-existing AMI ami-03deb3bad69887360 'iccd-stage8-6models-v1' + 500GB snapshot snap-05a275d05d925e58a (created 2026-06-01 by a DIFFERENT instance = another project on the shared account). No Elastic IPs.
+- Verified ALL data/results/code local + git-committed BEFORE teardown (incl sae_acts0.npy 793MB).
+- Terminated box i-029fea82286d7f99c; deleted SG aion-proto-sg (sg-0002b823509e3a607); deleted IAM role aion-fleet-role + instance profile aion-fleet-profile (detached S3FullAccess). (S3 bucket + temp SSH ingress already removed earlier.)
+- FINAL VERIFY: box=terminated; vol-07064737=NotFound (auto-deleted); 0 non-terminated instances (ours); aion-fleet-role/profile=NoSuchEntity; 0 EBS volumes; 0 EIPs. iccd snapshot=completed + AMI PRESERVED (untouched). => OUR project has ZERO billable AWS resources; billing stopped. Local is the system of record (fully reproducible from code/ + docs).
