@@ -82,7 +82,7 @@ Two reading rules follow from the table. First, treat any number without an inte
 
 ### Figure index
 
-Eighteen figures carry the quantitative load. Each is embedded in the section that owns it, with a full caption naming every axis, colour scale, legend, and reference line. Figures are numbered by the two-digit number in their filename. This index is the map.
+Nineteen figures carry the quantitative load. Each is embedded in the section that owns it, with a full caption naming every axis, colour scale, legend, and reference line. Figures are numbered by the two-digit number in their filename. This index is the map.
 
 | Figure | File | One-line description |
 |---|---|---|
@@ -104,5 +104,6 @@ Eighteen figures carry the quantitative load. Each is embedded in the section th
 | 16 | figures/16_stratified_id.png | The g-r colour split plus passive versus star-forming intrinsic dimension and the delta-ID. |
 | 17 | figures/17_pca_variance.png | Linear PCA cumulative variance, the linear baseline for the dimension result. |
 | 18 | figures/18_manifold_galaxy_montage.png | Real galaxy cutouts sampled along the colour and morphology axes. |
+| 19 | figures/19_persistence_diagrams.png | H1 persistence diagrams under the three metrics with a bootstrap noise band, confirming $\beta_1 = 0$. |
 
 With the map in hand, Section 1 states the question and why, despite the model's own claims, it is still open.

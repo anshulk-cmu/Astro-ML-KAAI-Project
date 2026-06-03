@@ -226,7 +226,7 @@ it means; the report keeps that boundary visible on purpose.
 
 ### Figure index
 
-Eighteen figures carry the quantitative load. Each is embedded in the section that owns
+Nineteen figures carry the quantitative load. Each is embedded in the section that owns
 it, with a full caption naming every axis, colour scale, legend, and reference line.
 Figures are numbered by the two-digit number in their filename. This index is the map.
 
@@ -250,6 +250,7 @@ Figures are numbered by the two-digit number in their filename. This index is th
 | 16 | figures/16_stratified_id.png | The g-r colour split plus passive versus star-forming intrinsic dimension and the delta-ID. |
 | 17 | figures/17_pca_variance.png | Linear PCA cumulative variance, the linear baseline for the dimension result. |
 | 18 | figures/18_manifold_galaxy_montage.png | Real galaxy cutouts sampled along the colour and morphology axes. |
+| 19 | figures/19_persistence_diagrams.png | H1 persistence diagrams under the three metrics with a bootstrap noise band, confirming $\beta_1 = 0$. |
 
 With the map in hand, Section 1 states the question and why, despite the model's own
 claims, it is still open.
@@ -5209,6 +5210,61 @@ line, the diffusion bar sits below it, and the recurring-loop counts are essenti
 everywhere. No loop is both tall and repeatable. That is the visual proof of $\beta_1 = 0$
 (measured): the thousands of noise bars never condense into a single hole that survives
 resampling or a change of metric.
+
+### Seeing the gap directly: the persistence diagrams
+
+Panel B of Figure 15 reported only the single tallest loop per metric. That is a summary,
+and a careful reader will want the full picture: the whole population of loops, and how
+cleanly the noise separates from anything that might be real. So we recomputed the loops
+keeping every birth and death this time, and added a proper statistical band. The result
+is Figure 19.
+
+![Figure 19. H1 persistence diagrams under the three metrics, with the bootstrap noise band.](figures/19_persistence_diagrams.png)
+
+Start with what is plotted. Each dot is one loop. The top row is the standard persistence
+diagram: a loop is born at radius $x$ (when its ring of points first closes) and dies at
+radius $y$ (when the ring fills in), so every dot sits above the 45-degree diagonal, and
+its distance above the diagonal is its lifetime. The bottom row plots that lifetime
+straight up the vertical axis against birth, which flattens the diagonal into the floor
+and makes the noise band horizontal and easy to read. Both rows draw the same three
+references over the loops: the diagonal (or the floor), the fixed 0.1 threshold from
+earlier as a red dashed line, and a blue band.
+
+The blue band is the new piece, and it is what makes the call statistical rather than
+eyeballed. It is a bootstrap 95% confidence band built the standard way (Fasy and Chazal):
+we resample the 2,000-point cloud with replacement, recompute its diagram, measure how far
+that diagram moved from the original using the bottleneck distance, and take the 95th
+percentile of that movement as a half-width $c_n$. A loop has to rise past twice that, a
+lifetime above $2 c_n$, before we can call it distinguishable from sampling noise. We
+computed the band on the worst-case subsample for each metric, the one that produced the
+longest loop, so this is the hardest test for a "no loops" verdict.
+
+Here are the measured bands and the longest loops, in diameter-normalised units
+(measured): Euclidean band $2 c_n = 0.109$, longest loop 0.105; Fermat band 0.197, longest
+loop 0.138; diffusion band 0.081, longest loop 0.081. Under every metric the longest loop
+sits inside its own band. None clears it.
+
+The Fermat panel carries the cleanest answer, and it is the one to watch, because Fermat
+is our primary metric and also the metric whose strongest loop (0.138) pokes above the
+crude 0.1 line. That is exactly why the number looked borderline in the summary. The
+bootstrap band settles it. Fermat's band reaches 0.197, well above 0.138, because a
+2,000-point Fermat diagram is noisier and shifts more under resampling, so it takes a
+longer-lived loop to stand out from its own noise. Measured against the variability of its
+own metric, the 0.138 loop is comfortably inside the noise. The fixed 0.1 line flagged it;
+the honest statistical band does not.
+
+The bottom row makes the geometry of "no signal" visible. In each panel the loops form a
+dense cushion near zero lifetime that thins out smoothly as lifetime grows, and the single
+longest loop (red ring) sits at the upper edge of that cushion with empty space above it.
+That empty space is the whole point. A real hole would appear as a dot floating clear of
+the cushion, separated by a visible gap. There is no such dot in any panel. The longest
+loop is the tallest blade of grass, not a tree.
+
+So the persistence diagrams confirm $\beta_1 = 0$ a second way, and a firmer way than the
+summary bars did. The candidate loop fails to recur across subsamples, fails to survive a
+change of metric, and now we can add that it never rises above the sampling noise of any
+single metric, including the Fermat metric we trust most. The raw diagrams and the band
+widths are saved with the other results, so the check is reproducible.
 
 ### What it means, and the honest caveats
 
