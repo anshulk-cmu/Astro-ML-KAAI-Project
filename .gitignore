@@ -24,3 +24,17 @@ venv/
 # OS
 Thumbs.db
 .DS_Store
+
+# Slides
+slides/
+
+# figures
+figures/persistenceSlide.png
+code/plots/figPersistenceSlide.py
+
+# Logs and Docs
+runLog.md
+prototypePlan.md
+analysisPlan.md
+problem.md
+report_sections
