@@ -28,4 +28,15 @@ AION-1 (Polymathic AI) compresses any galaxy into a **1024-number vector**. Its 
 ## Reproduce
 `setupAion.sh` (model + AION) → `stageInspect.py` (catalogs) → `buildSample.py` → `fleet/launchFleet.py` + `gather.py` (images) → `embed.py` → `analysis/*` in the order listed in `analysisPlan.md`. Every measurement is pulled back to local; the AWS box was compute-only and was **terminated after verification** (no billable resources remain).
 
+## Phase 2 (in progress): is the ASTRID simulation in-distribution for AION-1?
+
+The frozen encoder becomes the measuring instrument: forward-model **~50k ASTRID galaxies** (CMU McWilliams cosmological simulation, run to z = 0) into Legacy-Survey-like mock observations, embed them with the same frozen model, and attribute every component of the sim-vs-real gap — instrument, dust, demographics, residual physics — with per-galaxy false-discovery-rate control and pre-registered falsifiable predictions (ASTRID's published quiescent-fraction and luminosity-function deficits must be rediscovered blind).
+
+**Groundwork complete (measured, on PSC Vera where the data live):**
+- **Data census.** 49 SubFind catalogs (44.4M subhalos at z = 0), 80+ photometric products mapped; working snapshots locked (z 0.1→771, 0.2→743, 0.3→743, 0.4→692; snapshot 724 is flagged-bad and excluded). Per-galaxy star access via catalog offsets, verified exact.
+- **Conventions established by measurement, not documentation** (the products carry no metadata): the main photometry tier is **intrinsic** (its z=0 g-band luminosity function overshoots the observed bright end ~1,500×, the classic dust-free signature); attenuation lives in a separate κ = 2.9 tier, proven row-aligned star-for-star; the two star-formation conventions differ by ~3× (quiescent fraction nearly doubles at high mass) → pinned to `newSFa`; DECam bands derive from LSST bands via a measured colour term (residual ≤ 0.019 mag).
+- **Catalogs extracted** (5 snapshots, 4.85M galaxies above 10⁹ M☉) — sample construction runs locally.
+
+`vera/` holds the Phase 2 scripts, logs, and results; the execution plan is pre-registered before any simulated galaxy is embedded. Science scope now also includes four interpretability tracks on the real embeddings (angular loops, Hubble-fork branch point, redshift-axis steering, multidimensional SAE features) and cross-modal decoder generation.
+
 **Principles:** local is the system of record; every number is tagged *measured* vs *interpreted*; full data, no shortcuts, honest limits.
