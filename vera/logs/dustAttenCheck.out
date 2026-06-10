@@ -1,0 +1,15 @@
+row counts: dust z0.1=64219305883, intrinsic 771=64219305883, subfind 771 stars=64219305883
+A_g stats: {'p1': 0.0, 'p5': 0.0, 'p25': 0.002704620361328125, 'p50': 0.038318634033203125, 'p75': 0.23751258850097656, 'p95': 1.0804100036621094, 'p99': 2.924551010131836, 'mean': 0.24728290727615357, 'min': 0.0, 'max': 6.557460784912109, 'fracBelow0p01': 0.3267695, 'fracNegativeBeyondNoise': 0.0, 'fracNegativeAny': 0.0}
+Z decile  1 [4.84e-08,2.09e-03] n= 200000 medianA_g=0.0086 p95=0.5800
+Z decile  2 [2.09e-03,4.15e-03] n= 200000 medianA_g=0.0187 p95=0.7343
+Z decile  3 [4.15e-03,6.28e-03] n= 200000 medianA_g=0.0247 p95=0.8005
+Z decile  4 [6.28e-03,8.63e-03] n= 200000 medianA_g=0.0317 p95=0.8744
+Z decile  5 [8.63e-03,1.14e-02] n= 200000 medianA_g=0.0405 p95=0.9471
+Z decile  6 [1.14e-02,1.48e-02] n= 200000 medianA_g=0.0525 p95=1.0411
+Z decile  7 [1.48e-02,1.91e-02] n= 200000 medianA_g=0.0668 p95=1.1309
+Z decile  8 [1.91e-02,2.51e-02] n= 200000 medianA_g=0.0847 p95=1.2714
+Z decile  9 [2.51e-02,3.42e-02] n= 200000 medianA_g=0.1051 p95=1.4488
+Z decile 10 [3.42e-02,1.30e-01] n= 200000 medianA_g=0.0929 p95=1.9571
+
+verdict: ROW-ALIGNED (negative tail negligible)
+wrote /hildafs/projects/phy200026p/akumar45/results/dustAttenCheck.json

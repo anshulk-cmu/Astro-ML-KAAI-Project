@@ -6,6 +6,7 @@ prototype_out/
 *.npz
 *.fits
 *.safetensors
+vera/phase2sync.tar.gz
 
 # Secrets / keys
 *.pem
@@ -38,3 +39,5 @@ prototypePlan.md
 analysisPlan.md
 problem.md
 report_sections
+papers/
+paper-suggestions.md

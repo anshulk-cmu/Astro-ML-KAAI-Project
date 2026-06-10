@@ -1,0 +1,75 @@
+########## PIG_817_photometric
+/hildafs/datasets/Asterix/photometric/PIG_817_photometric
+top-level blocks: ['4', 'SubGroups']
+4/ columns (16):
+  des_g        dtype=<f4 size=69007912666 attrs=none
+  des_i        dtype=<f4 size=69007912666 attrs=none
+  des_r        dtype=<f4 size=69007912666 attrs=none
+  des_y        dtype=<f4 size=69007912666 attrs=none
+  des_z        dtype=<f4 size=69007912666 attrs=none
+  lsst_g       dtype=<f4 size=69007912666 attrs=none
+  lsst_i       dtype=<f4 size=69007912666 attrs=none
+  lsst_r       dtype=<f4 size=69007912666 attrs=none
+  lsst_u       dtype=<f4 size=69007912666 attrs=none
+  lsst_y       dtype=<f4 size=69007912666 attrs=none
+  lsst_z       dtype=<f4 size=69007912666 attrs=none
+  sdss_g       dtype=<f4 size=69007912666 attrs=none
+  sdss_i       dtype=<f4 size=69007912666 attrs=none
+  sdss_r       dtype=<f4 size=69007912666 attrs=none
+  sdss_u       dtype=<f4 size=69007912666 attrs=none
+  sdss_z       dtype=<f4 size=69007912666 attrs=none
+  sample 4/des_g[:5] = [-7.5444922 -6.658961  -6.3506527 -6.132209  -5.966345 ]
+SubGroups/ columns (16):
+  des_g        dtype=<f4 size=44366700 attrs=none
+  des_i        dtype=<f4 size=44366700 attrs=none
+  des_r        dtype=<f4 size=44366700 attrs=none
+  des_y        dtype=<f4 size=44366700 attrs=none
+  des_z        dtype=<f4 size=44366700 attrs=none
+  lsst_g       dtype=<f4 size=44366700 attrs=none
+  lsst_i       dtype=<f4 size=44366700 attrs=none
+  lsst_r       dtype=<f4 size=44366700 attrs=none
+  lsst_u       dtype=<f4 size=44366700 attrs=none
+  lsst_y       dtype=<f4 size=44366700 attrs=none
+  lsst_z       dtype=<f4 size=44366700 attrs=none
+  sdss_g       dtype=<f4 size=44366700 attrs=none
+  sdss_i       dtype=<f4 size=44366700 attrs=none
+  sdss_r       dtype=<f4 size=44366700 attrs=none
+  sdss_u       dtype=<f4 size=44366700 attrs=none
+  sdss_z       dtype=<f4 size=44366700 attrs=none
+  sample SubGroups/des_g[:5] = [-26.647778 -22.164764 -23.15587  -21.832947 -22.784693]
+
+########## PIG_724_photometric (Fatemeh/LSST)
+/hildafs/datasets/Asterix/Fatemeh/LSST/PIG_724_photometric
+top-level blocks: ['4', 'SubGroups']
+4/ columns (6):
+  lsst_g       dtype=<f4 size=59728055907 attrs=none
+  lsst_i       dtype=<f4 size=59728055907 attrs=none
+  lsst_r       dtype=<f4 size=59728055907 attrs=none
+  lsst_u       dtype=<f4 size=59728055907 attrs=none
+  lsst_y       dtype=<f4 size=59728055907 attrs=none
+  lsst_z       dtype=<f4 size=59728055907 attrs=none
+  sample 4/lsst_g[:5] = [36.464626 35.51931  36.03359  33.27461  35.853073]
+SubGroups/ columns (6):
+  lsst_g       dtype=<f8 size=46359683 attrs=none
+  lsst_i       dtype=<f8 size=46359683 attrs=none
+  lsst_r       dtype=<f8 size=46359683 attrs=none
+  lsst_u       dtype=<f8 size=46359683 attrs=none
+  lsst_y       dtype=<f8 size=46359683 attrs=none
+  lsst_z       dtype=<f8 size=46359683 attrs=none
+  sample SubGroups/lsst_g[:5] = [14.96887207 19.01818156 18.75522137 19.16179419 19.0306747 ]
+
+########## structural comparison
+blocks only in PIG_817_photometric: ['4/des_g', '4/des_i', '4/des_r', '4/des_y', '4/des_z', '4/sdss_g', '4/sdss_i', '4/sdss_r', '4/sdss_u', '4/sdss_z', 'SubGroups/des_g', 'SubGroups/des_i', 'SubGroups/des_r', 'SubGroups/des_y', 'SubGroups/des_z', 'SubGroups/sdss_g', 'SubGroups/sdss_i', 'SubGroups/sdss_r', 'SubGroups/sdss_u', 'SubGroups/sdss_z']
+blocks only in PIG_724_photometric (Fatemeh/LSST): []
+  4/lsst_g                 <f4 n=69007912666  vs  <f4 n=59728055907
+  4/lsst_i                 <f4 n=69007912666  vs  <f4 n=59728055907
+  4/lsst_r                 <f4 n=69007912666  vs  <f4 n=59728055907
+  4/lsst_u                 <f4 n=69007912666  vs  <f4 n=59728055907
+  4/lsst_y                 <f4 n=69007912666  vs  <f4 n=59728055907
+  4/lsst_z                 <f4 n=69007912666  vs  <f4 n=59728055907
+  SubGroups/lsst_g         <f4 n=44366700  vs  <f8 n=46359683 <-- dtype differs
+  SubGroups/lsst_i         <f4 n=44366700  vs  <f8 n=46359683 <-- dtype differs
+  SubGroups/lsst_r         <f4 n=44366700  vs  <f8 n=46359683 <-- dtype differs
+  SubGroups/lsst_u         <f4 n=44366700  vs  <f8 n=46359683 <-- dtype differs
+  SubGroups/lsst_y         <f4 n=44366700  vs  <f8 n=46359683 <-- dtype differs
+  SubGroups/lsst_z         <f4 n=44366700  vs  <f8 n=46359683 <-- dtype differs

@@ -1,0 +1,3104 @@
+{
+ "generated": "2026-06-10",
+ "subfindCounts": {
+  "PIG2/PIG_023_subfind": {
+   "nsub": 17499971,
+   "nstar": 43870934
+  },
+  "PIG2/PIG_031_subfind": {
+   "nsub": 27693393,
+   "nstar": 115699385
+  },
+  "PIG2/PIG_047_subfind": {
+   "nsub": 38844175,
+   "nstar": 317420191
+  },
+  "PIG2/PIG_047_subfind_old": {
+   "nsub": 44080448,
+   "nstar": 317420191
+  },
+  "PIG2/PIG_107_subfind": {
+   "nsub": 49425203,
+   "nstar": 884192491
+  },
+  "PIG2/PIG_147_subfind": {
+   "nsub": 56964045,
+   "nstar": 2484897945
+  },
+  "PIG2/PIG_214_subfind": {
+   "nsub": 60367163,
+   "nstar": 6468549017
+  },
+  "PIG2/PIG_225_subfind": {
+   "nsub": 60198871,
+   "nstar": 7054288104
+  },
+  "PIG2/PIG_252_subfind": {
+   "nsub": 59837513,
+   "nstar": 8604993734
+  },
+  "PIG2/PIG_261_subfind": {
+   "nsub": 59441626,
+   "nstar": 9432656952
+  },
+  "PIG2/PIG_272_subfind": {
+   "nsub": 59028095,
+   "nstar": 10296326862
+  },
+  "PIG2/PIG_280_subfind": {
+   "nsub": 58612523,
+   "nstar": 11181996020
+  },
+  "PIG2/PIG_311_subfind": {
+   "nsub": 58302866,
+   "nstar": 13109245092
+  },
+  "PIG2/PIG_329_subfind": {
+   "nsub": 57778135,
+   "nstar": 14154287390
+  },
+  "PIG2/PIG_348_subfind": {
+   "nsub": 57236028,
+   "nstar": 15556127762
+  },
+  "PIG2/PIG_367_subfind": {
+   "nsub": 56669574,
+   "nstar": 16526450956
+  },
+  "PIG2/PIG_385_subfind": {
+   "nsub": 55814913,
+   "nstar": 17853596029
+  },
+  "PIG2/PIG_403_subfind": {
+   "nsub": 55841990,
+   "nstar": 19380321458
+  },
+  "PIG2/PIG_421_subfind": {
+   "nsub": 55251272,
+   "nstar": 20856246382
+  },
+  "PIG2/PIG_440_subfind": {
+   "nsub": 54551419,
+   "nstar": 22404829276
+  },
+  "PIG2/PIG_461_subfind": {
+   "nsub": 53769365,
+   "nstar": 24077352957
+  },
+  "PIG2/PIG_483_subfind": {
+   "nsub": 53643402,
+   "nstar": 25863910873
+  },
+  "PIG2/PIG_505_subfind": {
+   "nsub": 52755249,
+   "nstar": 27891634628
+  },
+  "PIG2/PIG_523_subfind": {
+   "nsub": 52547114,
+   "nstar": 30130116052
+  },
+  "PIG2/PIG_544_subfind": {
+   "nsub": 51612526,
+   "nstar": 32526938850
+  },
+  "PIG2/PIG_567_subfind": {
+   "nsub": 51387543,
+   "nstar": 35005759922
+  },
+  "PIG2/PIG_590_subfind": {
+   "nsub": 50306064,
+   "nstar": 37662188875
+  },
+  "PIG2/PIG_609_subfind": {
+   "nsub": 49825044,
+   "nstar": 40592753515
+  },
+  "PIG2/PIG_634_subfind": {
+   "nsub": 49328519,
+   "nstar": 43848153522
+  },
+  "PIG2/PIG_660_subfind": {
+   "nsub": 48072380,
+   "nstar": 47396099830
+  },
+  "PIG2/PIG_692_subfind": {
+   "nsub": 47560550,
+   "nstar": 51104133524
+  },
+  "PIG2/PIG_724_subfind": {
+   "nsub": 46940435,
+   "nstar": 55329029829
+  },
+  "PIG2/PIG_743_subfind": {
+   "nsub": 46359683,
+   "nstar": 59728055907
+  },
+  "PIG2/PIG_771_subfind": {
+   "nsub": 45091639,
+   "nstar": 64219305883
+  },
+  "PIG2/PIG_817_subfind": {
+   "nsub": 44366700,
+   "nstar": 69007912666
+  },
+  "PIG3/PIG_023_subfind": {
+   "nsub": 17499971,
+   "nstar": 43870934
+  },
+  "PIG3/PIG_031_subfind": {
+   "nsub": 27693393,
+   "nstar": 115699385
+  },
+  "PIG3/PIG_107_subfind": {
+   "nsub": 49425203,
+   "nstar": 884192491
+  },
+  "PIG3/PIG_147_subfind": {
+   "nsub": 56964045,
+   "nstar": 2484897945
+  },
+  "PIG3/PIG_214_subfind": {
+   "nsub": 60367163,
+   "nstar": 6468549017
+  },
+  "PIG3/PIG_609_subfind_reassign": {
+   "nsub": 49825044,
+   "nstar": 40592753515
+  },
+  "PIG3/PIG_634_subfind_reassign": {
+   "nsub": 49328519,
+   "nstar": 43848153522
+  },
+  "PIG3/PIG_658_subfind_reassign": {
+   "nsub": 48109830
+  },
+  "PIG3/PIG_660_subfind_reassign": {
+   "nsub": 48072380,
+   "nstar": 47396099830
+  },
+  "PIG3/PIG_692_subfind_reassign": {
+   "nsub": 47560550,
+   "nstar": 51104133524
+  },
+  "PIG3/PIG_724_subfind": {
+   "nsub": 46940435,
+   "nstar": 55329029829
+  },
+  "PIG3/PIG_743_subfind": {
+   "nsub": 46359683,
+   "nstar": 59728055907
+  },
+  "PIG3/PIG_771_subfind": {
+   "nsub": 45091639,
+   "nstar": 64219305883
+  },
+  "PIG3/PIG_817_subfind": {
+   "nsub": 44366700,
+   "nstar": 69007912666
+  }
+ },
+ "products": [
+  {
+   "product": "photometric/PIG_544_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 32526938850,
+    "sampleMedian": 41.75822639465332,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 51612526,
+    "sampleMedian": 30.056958198547363,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_544_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_544_subfind"
+   ]
+  },
+  {
+   "product": "photometric/PIG_567_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 51387543,
+    "sampleMedian": 29.343181848526,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_567_subfind"
+   ]
+  },
+  {
+   "product": "photometric/PIG_590_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 50306064,
+    "sampleMedian": 28.549543619155884,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_590_subfind"
+   ]
+  },
+  {
+   "product": "photometric/PIG_609_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 49825044,
+    "sampleMedian": 27.52976417541504,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_609_subfind",
+    "PIG3/PIG_609_subfind_reassign"
+   ]
+  },
+  {
+   "product": "photometric/PIG_634_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 49328519,
+    "sampleMedian": 27.07833170890808,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_634_subfind",
+    "PIG3/PIG_634_subfind_reassign"
+   ]
+  },
+  {
+   "product": "photometric/PIG_660_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 48072380,
+    "sampleMedian": 26.427582502365112,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_660_subfind",
+    "PIG3/PIG_660_subfind_reassign"
+   ]
+  },
+  {
+   "product": "photometric/PIG_692_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 47560550,
+    "sampleMedian": 25.75040102005005,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_692_subfind",
+    "PIG3/PIG_692_subfind_reassign"
+   ]
+  },
+  {
+   "product": "photometric/PIG_743_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 46359683,
+    "sampleMedian": 23.11708927154541,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_743_subfind",
+    "PIG3/PIG_743_subfind"
+   ]
+  },
+  {
+   "product": "photometric/PIG_771_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 64219305883,
+    "sampleMedian": 32.962026596069336,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f8",
+    "rows": 45091639,
+    "sampleMedian": 21.12267255783081,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_771_subfind",
+    "PIG3/PIG_771_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_771_subfind",
+    "PIG3/PIG_771_subfind"
+   ]
+  },
+  {
+   "product": "photometric/PIG_817_newSFa_removemass_z01",
+   "topBlocks": [
+    "newstar_mass"
+   ]
+  },
+  {
+   "product": "photometric/PIG_817_newSFa_removemass_z02",
+   "topBlocks": [
+    "newstar_mass"
+   ]
+  },
+  {
+   "product": "photometric/PIG_817_newSFa_removemass_z03",
+   "topBlocks": [
+    "newstar_mass"
+   ]
+  },
+  {
+   "product": "photometric/PIG_817_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 69007912666,
+    "sampleMedian": -6.290378570556641,
+    "convention": "absolute"
+   },
+   "SubGroups": {
+    "columns": [
+     "des_g",
+     "des_i",
+     "des_r",
+     "des_y",
+     "des_z",
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z",
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 44366700,
+    "sampleMedian": -17.305421829223633,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ]
+  },
+  {
+   "product": "photometric/PIG_817_photometric_newSFa",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 69007912666,
+    "sampleMedian": -6.225998878479004,
+    "convention": "absolute"
+   },
+   "SubGroups": {
+    "columns": [
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 44366711,
+    "sampleMedian": -17.243178367614746,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [],
+   "alignedSubfindStars": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ]
+  },
+  {
+   "product": "photometric/PIG_817_photometric_newSFa_z01",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 69007912666,
+    "sampleMedian": 32.1843376159668,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 44366700,
+    "sampleMedian": 20.989848136901855,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ]
+  },
+  {
+   "product": "photometric/PIG_817_photometric_oriSFa_z01",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 69007912666,
+    "sampleMedian": 32.185333251953125,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "sdss_g",
+     "sdss_i",
+     "sdss_r",
+     "sdss_u",
+     "sdss_z"
+    ],
+    "dtype": "<f4",
+    "rows": 44366700,
+    "sampleMedian": 20.9980525970459,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_107_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 49425203,
+    "sampleMedian": -11.786654472351074,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_107_subfind",
+    "PIG3/PIG_107_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_147_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 56964045,
+    "sampleMedian": -12.00715446472168,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_147_subfind",
+    "PIG3/PIG_147_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_214_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 6468549017,
+    "sampleMedian": -11.217195510864258,
+    "convention": "absolute"
+   },
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 60367163,
+    "sampleMedian": -10.69105339050293,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_214_subfind",
+    "PIG3/PIG_214_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_214_subfind",
+    "PIG3/PIG_214_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_225_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 60198871,
+    "sampleMedian": -10.677913665771484,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_225_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_23_photometric",
+   "topBlocks": [],
+   "note": "empty (no blocks)"
+  },
+  {
+   "product": "photometric/restframe/PIG_252_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 59837513,
+    "sampleMedian": -10.599298000335693,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_252_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_261_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 59441626,
+    "sampleMedian": -10.631175994873047,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_261_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_272_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 59028095,
+    "sampleMedian": -10.521993637084961,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_272_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_280_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 58612523,
+    "sampleMedian": -10.720819473266602,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_280_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_311_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 58302866,
+    "sampleMedian": -12.380303382873535,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_311_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_31_photometric",
+   "topBlocks": [],
+   "note": "empty (no blocks)"
+  },
+  {
+   "product": "photometric/restframe/PIG_329_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 57778135,
+    "sampleMedian": -12.341100692749023,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_329_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_348_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 15556127762,
+    "sampleMedian": 1.022959291934967,
+    "convention": "ambiguous"
+   },
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 57236028,
+    "sampleMedian": -12.236663818359375,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_348_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_348_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_367_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 56669574,
+    "sampleMedian": -11.805224895477295,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_367_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_385_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 55814913,
+    "sampleMedian": -11.622201919555664,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_385_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_403_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 55841990,
+    "sampleMedian": -11.811717987060547,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_403_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_421_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 55251272,
+    "sampleMedian": -11.48752737045288,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_421_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_440_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 54551419,
+    "sampleMedian": -11.60973072052002,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_440_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_461_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 53769365,
+    "sampleMedian": -13.728761196136475,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_461_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_47_photometric",
+   "topBlocks": [],
+   "note": "empty (no blocks)"
+  },
+  {
+   "product": "photometric/restframe/PIG_483_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 53643402,
+    "sampleMedian": -13.144221305847168,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_483_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_505_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 27891634628,
+    "sampleMedian": 2.2207765579223633,
+    "convention": "ambiguous"
+   },
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 52755249,
+    "sampleMedian": -12.430729389190674,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_505_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_505_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_523_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 30130116052,
+    "sampleMedian": 0.8288169801235199,
+    "convention": "ambiguous"
+   },
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 52547114,
+    "sampleMedian": -11.335611820220947,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_523_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_523_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_544_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 32526938850,
+    "sampleMedian": 7.269796371459961,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 51612526,
+    "sampleMedian": -10.681207656860352,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_544_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_544_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_567_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 51387543,
+    "sampleMedian": -10.655690670013428,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_567_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_590_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 50306064,
+    "sampleMedian": -10.817962169647217,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_590_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_609_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 49825044,
+    "sampleMedian": -10.99306058883667,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_609_subfind",
+    "PIG3/PIG_609_subfind_reassign"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_634_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 49328519,
+    "sampleMedian": -10.039473056793213,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_634_subfind",
+    "PIG3/PIG_634_subfind_reassign"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_660_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 48072380,
+    "sampleMedian": -9.200965881347656,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_660_subfind",
+    "PIG3/PIG_660_subfind_reassign"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_692_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 47560550,
+    "sampleMedian": -8.59221887588501,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_692_subfind",
+    "PIG3/PIG_692_subfind_reassign"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_724_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 46940435,
+    "sampleMedian": -8.30702257156372,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_724_subfind",
+    "PIG3/PIG_724_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_743_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 46359683,
+    "sampleMedian": -8.106496334075928,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_743_subfind",
+    "PIG3/PIG_743_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_771_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 45091639,
+    "sampleMedian": -7.975833177566528,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_771_subfind",
+    "PIG3/PIG_771_subfind"
+   ]
+  },
+  {
+   "product": "photometric/restframe/PIG_817_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "galex_fuv",
+     "galex_nuv"
+    ],
+    "dtype": "<f4",
+    "rows": 44366700,
+    "sampleMedian": -8.12053918838501,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_348_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 57236028,
+    "sampleMedian": 32.55137920379639,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_348_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_367_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 56669574,
+    "sampleMedian": 32.74116039276123,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_367_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_385_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 55814913,
+    "sampleMedian": 32.659759521484375,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_385_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_403_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 55841990,
+    "sampleMedian": 32.25369691848755,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_403_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_421_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 55251272,
+    "sampleMedian": 32.172508239746094,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_421_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_440_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 54551419,
+    "sampleMedian": 31.775259971618652,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_440_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_461_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 53769365,
+    "sampleMedian": 29.69959855079651,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_461_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_483_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 53643402,
+    "sampleMedian": 29.904547929763794,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_483_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_505_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 52755249,
+    "sampleMedian": 29.99860167503357,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_505_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_523_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 52547114,
+    "sampleMedian": 30.324876308441162,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_523_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_544_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 51612526,
+    "sampleMedian": 30.168285369873047,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_544_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_567_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 51387543,
+    "sampleMedian": 29.46535587310791,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_567_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_590_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 50306064,
+    "sampleMedian": 28.712528944015503,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_590_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_609_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 49825044,
+    "sampleMedian": 27.73005723953247,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_609_subfind",
+    "PIG3/PIG_609_subfind_reassign"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_634_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 49328519,
+    "sampleMedian": 27.243633270263672,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_634_subfind",
+    "PIG3/PIG_634_subfind_reassign"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_660_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 48072380,
+    "sampleMedian": 26.565312147140503,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_660_subfind",
+    "PIG3/PIG_660_subfind_reassign"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_692_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 47560550,
+    "sampleMedian": 25.87011218070984,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_692_subfind",
+    "PIG3/PIG_692_subfind_reassign"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_724_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 46940435,
+    "sampleMedian": 24.79308009147644,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_724_subfind",
+    "PIG3/PIG_724_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_743_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 46359683,
+    "sampleMedian": 23.24238419532776,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_743_subfind",
+    "PIG3/PIG_743_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_771_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 45091639,
+    "sampleMedian": 21.24039649963379,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_771_subfind",
+    "PIG3/PIG_771_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_817_photometric",
+   "topBlocks": [
+    "SubGroups"
+   ],
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 44366700,
+    "sampleMedian": -17.172110080718994,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_348_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 15556127762,
+    "sampleMedian": 44.327253341674805,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 57236028,
+    "sampleMedian": 32.41349458694458,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_348_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_348_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_367_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 16526450956,
+    "sampleMedian": 45.31716346740723,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 56669574,
+    "sampleMedian": 32.62377142906189,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_367_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_367_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_385_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 17853596029,
+    "sampleMedian": 45.24106788635254,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 55814913,
+    "sampleMedian": 32.54687547683716,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_385_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_385_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_403_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 19380321458,
+    "sampleMedian": 38.861778259277344,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 55841990,
+    "sampleMedian": 32.14003562927246,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_403_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_403_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_421_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 20856246382,
+    "sampleMedian": 43.819339752197266,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 55251272,
+    "sampleMedian": 32.060760259628296,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_421_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_421_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_440_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 22404829276,
+    "sampleMedian": 43.716726303100586,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 54551419,
+    "sampleMedian": 31.64620876312256,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_440_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_440_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_461_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 24077352957,
+    "sampleMedian": 43.46125793457031,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 53769365,
+    "sampleMedian": 29.55876588821411,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_461_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_461_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_483_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 25863910873,
+    "sampleMedian": 43.38420104980469,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 53643402,
+    "sampleMedian": 29.77112650871277,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_483_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_483_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_505_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 27891634628,
+    "sampleMedian": 40.8523063659668,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 52755249,
+    "sampleMedian": 29.845563173294067,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_505_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_505_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_523_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 30130116052,
+    "sampleMedian": 39.78018379211426,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 52547114,
+    "sampleMedian": 30.201706886291504,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_523_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_523_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_544_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 32526938850,
+    "sampleMedian": 41.80952072143555,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 51612526,
+    "sampleMedian": 30.067498683929443,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_544_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_544_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_567_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 35005759922,
+    "sampleMedian": 38.21634292602539,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 51387543,
+    "sampleMedian": 29.360560178756714,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_567_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_567_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_590_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 37662188875,
+    "sampleMedian": 39.18693161010742,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 50306064,
+    "sampleMedian": 28.58847737312317,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_590_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_590_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_609_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 40592753515,
+    "sampleMedian": 39.7785758972168,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 49825044,
+    "sampleMedian": 27.551546096801758,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_609_subfind",
+    "PIG3/PIG_609_subfind_reassign"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_609_subfind",
+    "PIG3/PIG_609_subfind_reassign"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_634_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 43848153522,
+    "sampleMedian": 39.10793876647949,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 49328519,
+    "sampleMedian": 27.103556394577026,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_634_subfind",
+    "PIG3/PIG_634_subfind_reassign"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_634_subfind",
+    "PIG3/PIG_634_subfind_reassign"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_660_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 47396099830,
+    "sampleMedian": 38.3499698638916,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 48072380,
+    "sampleMedian": 26.44792675971985,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_660_subfind",
+    "PIG3/PIG_660_subfind_reassign"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_660_subfind",
+    "PIG3/PIG_660_subfind_reassign"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_692_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 51104133524,
+    "sampleMedian": 37.427656173706055,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 47560550,
+    "sampleMedian": 25.767279863357544,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_692_subfind",
+    "PIG3/PIG_692_subfind_reassign"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_692_subfind",
+    "PIG3/PIG_692_subfind_reassign"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_724_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 59728055907,
+    "sampleMedian": 36.0654296875,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 46359683,
+    "sampleMedian": 24.114099740982056,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_743_subfind",
+    "PIG3/PIG_743_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_743_subfind",
+    "PIG3/PIG_743_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_743_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 59728055907,
+    "sampleMedian": 34.70822334289551,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 46359683,
+    "sampleMedian": 23.1416654586792,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_743_subfind",
+    "PIG3/PIG_743_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_743_subfind",
+    "PIG3/PIG_743_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_771_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 64219305883,
+    "sampleMedian": 32.87656784057617,
+    "convention": "apparent"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 45091639,
+    "sampleMedian": 21.13523244857788,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_771_subfind",
+    "PIG3/PIG_771_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_771_subfind",
+    "PIG3/PIG_771_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/PIG_817_photometric",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": 69007912666,
+    "sampleMedian": -6.280520915985107,
+    "convention": "absolute"
+   },
+   "SubGroups": {
+    "columns": [
+     "lsst_g",
+     "lsst_i",
+     "lsst_r",
+     "lsst_u",
+     "lsst_y",
+     "lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 44366700,
+    "sampleMedian": -17.297924757003784,
+    "convention": "absolute"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ],
+   "alignedSubfindStars": [
+    "PIG2/PIG_817_subfind",
+    "PIG3/PIG_817_subfind"
+   ]
+  },
+  {
+   "product": "Fatemeh/LSST/dust",
+   "topBlocks": [
+    "4",
+    "SubGroups"
+   ],
+   "4": {
+    "columns": [
+     "z0.0/lsst_g/kappa_2_9/lsst_g",
+     "z0.0/lsst_i/kappa_2_9/lsst_i",
+     "z0.0/lsst_r/kappa_2_9/lsst_r",
+     "z0.0/lsst_u/kappa_2_9/lsst_u",
+     "z0.0/lsst_y/kappa_2_9/lsst_y",
+     "z0.0/lsst_z/kappa_2_9/lsst_z",
+     "z0.1/lsst_g/kappa_2_9/lsst_g",
+     "z0.1/lsst_i/kappa_2_9/lsst_i",
+     "z0.1/lsst_r/kappa_2_9/lsst_r",
+     "z0.1/lsst_u/kappa_2_9/lsst_u",
+     "z0.1/lsst_y/kappa_2_9/lsst_y",
+     "z0.1/lsst_z/kappa_2_9/lsst_z",
+     "z0.2/lsst_g/kappa_2_9/lsst_g",
+     "z0.2/lsst_i/kappa_2_9/lsst_i",
+     "z0.2/lsst_r/kappa_2_9/lsst_r",
+     "z0.2/lsst_u/kappa_2_9/lsst_u",
+     "z0.2/lsst_y/kappa_2_9/lsst_y",
+     "z0.2/lsst_z/kappa_2_9/lsst_z",
+     "z0.3/lsst_g/kappa_2_9/lsst_g",
+     "z0.3/lsst_i/kappa_2_9/lsst_i",
+     "z0.3/lsst_r/kappa_2_9/lsst_r",
+     "z0.3/lsst_u/kappa_2_9/lsst_u",
+     "z0.3/lsst_y/kappa_2_9/lsst_y",
+     "z0.3/lsst_z/kappa_2_9/lsst_z",
+     "z0.3_issue/lsst_g/kappa_2_9/lsst_g",
+     "z0.3_issue/lsst_i/kappa_2_9/lsst_i",
+     "z0.3_issue/lsst_r/kappa_2_9/lsst_r",
+     "z0.3_issue/lsst_u/kappa_2_9/lsst_u",
+     "z0.3_issue/lsst_y/kappa_2_9/lsst_y",
+     "z0.3_issue/lsst_z/kappa_2_9/lsst_z",
+     "z0.4/lsst_g/kappa_2_9/lsst_g",
+     "z0.4/lsst_i/kappa_2_9/lsst_i",
+     "z0.4/lsst_r/kappa_2_9/lsst_r",
+     "z0.4/lsst_u/kappa_2_9/lsst_u",
+     "z0.4/lsst_y/kappa_2_9/lsst_y",
+     "z0.4/lsst_z/kappa_2_9/lsst_z",
+     "z0.5/lsst_g/kappa_2_9/lsst_g",
+     "z0.5/lsst_i/kappa_2_9/lsst_i",
+     "z0.5/lsst_r/kappa_2_9/lsst_r",
+     "z0.5/lsst_u/kappa_2_9/lsst_u",
+     "z0.5/lsst_y/kappa_2_9/lsst_y",
+     "z0.5/lsst_z/kappa_2_9/lsst_z",
+     "z0.6/lsst_g/kappa_2_9/lsst_g",
+     "z0.6/lsst_i/kappa_2_9/lsst_i",
+     "z0.6/lsst_r/kappa_2_9/lsst_r",
+     "z0.6/lsst_u/kappa_2_9/lsst_u",
+     "z0.6/lsst_y/kappa_2_9/lsst_y",
+     "z0.6/lsst_z/kappa_2_9/lsst_z",
+     "z0.7/lsst_g/kappa_2_9/lsst_g",
+     "z0.7/lsst_i/kappa_2_9/lsst_i",
+     "z0.7/lsst_r/kappa_2_9/lsst_r",
+     "z0.7/lsst_u/kappa_2_9/lsst_u",
+     "z0.7/lsst_y/kappa_2_9/lsst_y",
+     "z0.7/lsst_z/kappa_2_9/lsst_z",
+     "z0.8/lsst_g/kappa_2_9/lsst_g",
+     "z0.8/lsst_i/kappa_2_9/lsst_i",
+     "z0.8/lsst_r/kappa_2_9/lsst_r",
+     "z0.8/lsst_u/kappa_2_9/lsst_u",
+     "z0.8/lsst_y/kappa_2_9/lsst_y",
+     "z0.8/lsst_z/kappa_2_9/lsst_z",
+     "z0.9/lsst_g/kappa_2_9/lsst_g",
+     "z0.9/lsst_i/kappa_2_9/lsst_i",
+     "z0.9/lsst_r/kappa_2_9/lsst_r",
+     "z0.9/lsst_u/kappa_2_9/lsst_u",
+     "z0.9/lsst_y/kappa_2_9/lsst_y",
+     "z0.9/lsst_z/kappa_2_9/lsst_z",
+     "z1.0/lsst_g/kappa_2_9/lsst_g",
+     "z1.0/lsst_i/kappa_2_9/lsst_i",
+     "z1.0/lsst_r/kappa_2_9/lsst_r",
+     "z1.0/lsst_u/kappa_2_9/lsst_u",
+     "z1.0/lsst_y/kappa_2_9/lsst_y",
+     "z1.0/lsst_z/kappa_2_9/lsst_z",
+     "z1.1/lsst_g/kappa_2_9/lsst_g",
+     "z1.1/lsst_i/kappa_2_9/lsst_i",
+     "z1.1/lsst_r/kappa_2_9/lsst_r",
+     "z1.1/lsst_u/kappa_2_9/lsst_u",
+     "z1.1/lsst_y/kappa_2_9/lsst_y",
+     "z1.1/lsst_z/kappa_2_9/lsst_z",
+     "z1.2/lsst_g/kappa_2_9/lsst_g",
+     "z1.2/lsst_i/kappa_2_9/lsst_i",
+     "z1.2/lsst_r/kappa_2_9/lsst_r",
+     "z1.2/lsst_u/kappa_2_9/lsst_u",
+     "z1.2/lsst_y/kappa_2_9/lsst_y",
+     "z1.2/lsst_z/kappa_2_9/lsst_z",
+     "z1.3/lsst_g/kappa_2_9/lsst_g",
+     "z1.3/lsst_i/kappa_2_9/lsst_i",
+     "z1.3/lsst_r/kappa_2_9/lsst_r",
+     "z1.3/lsst_u/kappa_2_9/lsst_u",
+     "z1.3/lsst_y/kappa_2_9/lsst_y",
+     "z1.3/lsst_z/kappa_2_9/lsst_z",
+     "z1.4/lsst_g/kappa_2_9/lsst_g",
+     "z1.4/lsst_i/kappa_2_9/lsst_i",
+     "z1.4/lsst_r/kappa_2_9/lsst_r",
+     "z1.4/lsst_u/kappa_2_9/lsst_u",
+     "z1.4/lsst_y/kappa_2_9/lsst_y",
+     "z1.4/lsst_z/kappa_2_9/lsst_z",
+     "z1.5/lsst_g/kappa_2_9/lsst_g",
+     "z1.5/lsst_i/kappa_2_9/lsst_i",
+     "z1.5/lsst_r/kappa_2_9/lsst_r",
+     "z1.5/lsst_u/kappa_2_9/lsst_u",
+     "z1.5/lsst_y/kappa_2_9/lsst_y",
+     "z1.5/lsst_z/kappa_2_9/lsst_z",
+     "z1.6/lsst_g/kappa_2_9/lsst_g",
+     "z1.6/lsst_i/kappa_2_9/lsst_i",
+     "z1.6/lsst_r/kappa_2_9/lsst_r",
+     "z1.6/lsst_u/kappa_2_9/lsst_u",
+     "z1.6/lsst_y/kappa_2_9/lsst_y",
+     "z1.6/lsst_z/kappa_2_9/lsst_z",
+     "z1.7/lsst_g/kappa_2_9/lsst_g",
+     "z1.7/lsst_i/kappa_2_9/lsst_i",
+     "z1.7/lsst_r/kappa_2_9/lsst_r",
+     "z1.7/lsst_u/kappa_2_9/lsst_u",
+     "z1.7/lsst_y/kappa_2_9/lsst_y",
+     "z1.7/lsst_z/kappa_2_9/lsst_z",
+     "z1.8/lsst_g/kappa_2_9/lsst_g",
+     "z1.8/lsst_i/kappa_2_9/lsst_i",
+     "z1.8/lsst_r/kappa_2_9/lsst_r",
+     "z1.8/lsst_u/kappa_2_9/lsst_u",
+     "z1.8/lsst_y/kappa_2_9/lsst_y",
+     "z1.8/lsst_z/kappa_2_9/lsst_z",
+     "z1.9/lsst_g/kappa_2_9/lsst_g",
+     "z1.9/lsst_i/kappa_2_9/lsst_i",
+     "z1.9/lsst_r/kappa_2_9/lsst_r",
+     "z1.9/lsst_u/kappa_2_9/lsst_u",
+     "z1.9/lsst_y/kappa_2_9/lsst_y",
+     "z1.9/lsst_z/kappa_2_9/lsst_z",
+     "z2.0/lsst_g/kappa_2_9/lsst_g",
+     "z2.0/lsst_i/kappa_2_9/lsst_i",
+     "z2.0/lsst_r/kappa_2_9/lsst_r",
+     "z2.0/lsst_u/kappa_2_9/lsst_u",
+     "z2.0/lsst_y/kappa_2_9/lsst_y",
+     "z2.0/lsst_z/kappa_2_9/lsst_z"
+    ],
+    "dtype": "<f4",
+    "rows": {
+     "z0.0/lsst_g/kappa_2_9/lsst_g": 69007912666,
+     "z0.0/lsst_i/kappa_2_9/lsst_i": 69007912666,
+     "z0.0/lsst_r/kappa_2_9/lsst_r": 69007912666,
+     "z0.0/lsst_u/kappa_2_9/lsst_u": 69007912666,
+     "z0.0/lsst_y/kappa_2_9/lsst_y": 69007912666,
+     "z0.0/lsst_z/kappa_2_9/lsst_z": 69007912666,
+     "z0.1/lsst_g/kappa_2_9/lsst_g": 64219305883,
+     "z0.1/lsst_i/kappa_2_9/lsst_i": 64219305883,
+     "z0.1/lsst_r/kappa_2_9/lsst_r": 64219305883,
+     "z0.1/lsst_u/kappa_2_9/lsst_u": 64219305883,
+     "z0.1/lsst_y/kappa_2_9/lsst_y": 64219305883,
+     "z0.1/lsst_z/kappa_2_9/lsst_z": 64219305883,
+     "z0.2/lsst_g/kappa_2_9/lsst_g": 59728055907,
+     "z0.2/lsst_i/kappa_2_9/lsst_i": 59728055907,
+     "z0.2/lsst_r/kappa_2_9/lsst_r": 59728055907,
+     "z0.2/lsst_u/kappa_2_9/lsst_u": 59728055907,
+     "z0.2/lsst_y/kappa_2_9/lsst_y": 59728055907,
+     "z0.2/lsst_z/kappa_2_9/lsst_z": 59728055907,
+     "z0.3/lsst_g/kappa_2_9/lsst_g": 59728055907,
+     "z0.3/lsst_i/kappa_2_9/lsst_i": 59728055907,
+     "z0.3/lsst_r/kappa_2_9/lsst_r": 59728055907,
+     "z0.3/lsst_u/kappa_2_9/lsst_u": 59728055907,
+     "z0.3/lsst_y/kappa_2_9/lsst_y": 59728055907,
+     "z0.3/lsst_z/kappa_2_9/lsst_z": 59728055907,
+     "z0.3_issue/lsst_g/kappa_2_9/lsst_g": 55329029829,
+     "z0.3_issue/lsst_i/kappa_2_9/lsst_i": 55329029829,
+     "z0.3_issue/lsst_r/kappa_2_9/lsst_r": 55329029829,
+     "z0.3_issue/lsst_u/kappa_2_9/lsst_u": 55329029829,
+     "z0.3_issue/lsst_y/kappa_2_9/lsst_y": 55329029829,
+     "z0.3_issue/lsst_z/kappa_2_9/lsst_z": 55329029829,
+     "z0.4/lsst_g/kappa_2_9/lsst_g": 51104133524,
+     "z0.4/lsst_i/kappa_2_9/lsst_i": 51104133524,
+     "z0.4/lsst_r/kappa_2_9/lsst_r": 51104133524,
+     "z0.4/lsst_u/kappa_2_9/lsst_u": 51104133524,
+     "z0.4/lsst_y/kappa_2_9/lsst_y": 51104133524,
+     "z0.4/lsst_z/kappa_2_9/lsst_z": 51104133524,
+     "z0.5/lsst_g/kappa_2_9/lsst_g": 47396099830,
+     "z0.5/lsst_i/kappa_2_9/lsst_i": 47396099830,
+     "z0.5/lsst_r/kappa_2_9/lsst_r": 47396099830,
+     "z0.5/lsst_u/kappa_2_9/lsst_u": 47396099830,
+     "z0.5/lsst_y/kappa_2_9/lsst_y": 47396099830,
+     "z0.5/lsst_z/kappa_2_9/lsst_z": 47396099830,
+     "z0.6/lsst_g/kappa_2_9/lsst_g": 43848153522,
+     "z0.6/lsst_i/kappa_2_9/lsst_i": 43848153522,
+     "z0.6/lsst_r/kappa_2_9/lsst_r": 43848153522,
+     "z0.6/lsst_u/kappa_2_9/lsst_u": 43848153522,
+     "z0.6/lsst_y/kappa_2_9/lsst_y": 43848153522,
+     "z0.6/lsst_z/kappa_2_9/lsst_z": 43848153522,
+     "z0.7/lsst_g/kappa_2_9/lsst_g": 40592753515,
+     "z0.7/lsst_i/kappa_2_9/lsst_i": 40592753515,
+     "z0.7/lsst_r/kappa_2_9/lsst_r": 40592753515,
+     "z0.7/lsst_u/kappa_2_9/lsst_u": 40592753515,
+     "z0.7/lsst_y/kappa_2_9/lsst_y": 40592753515,
+     "z0.7/lsst_z/kappa_2_9/lsst_z": 40592753515,
+     "z0.8/lsst_g/kappa_2_9/lsst_g": 37662188875,
+     "z0.8/lsst_i/kappa_2_9/lsst_i": 37662188875,
+     "z0.8/lsst_r/kappa_2_9/lsst_r": 37662188875,
+     "z0.8/lsst_u/kappa_2_9/lsst_u": 37662188875,
+     "z0.8/lsst_y/kappa_2_9/lsst_y": 37662188875,
+     "z0.8/lsst_z/kappa_2_9/lsst_z": 37662188875,
+     "z0.9/lsst_g/kappa_2_9/lsst_g": 35005759922,
+     "z0.9/lsst_i/kappa_2_9/lsst_i": 35005759922,
+     "z0.9/lsst_r/kappa_2_9/lsst_r": 35005759922,
+     "z0.9/lsst_u/kappa_2_9/lsst_u": 35005759922,
+     "z0.9/lsst_y/kappa_2_9/lsst_y": 35005759922,
+     "z0.9/lsst_z/kappa_2_9/lsst_z": 35005759922,
+     "z1.0/lsst_g/kappa_2_9/lsst_g": 32526938850,
+     "z1.0/lsst_i/kappa_2_9/lsst_i": 32526938850,
+     "z1.0/lsst_r/kappa_2_9/lsst_r": 32526938850,
+     "z1.0/lsst_u/kappa_2_9/lsst_u": 32526938850,
+     "z1.0/lsst_y/kappa_2_9/lsst_y": 32526938850,
+     "z1.0/lsst_z/kappa_2_9/lsst_z": 32526938850,
+     "z1.1/lsst_g/kappa_2_9/lsst_g": 30130116052,
+     "z1.1/lsst_i/kappa_2_9/lsst_i": 30130116052,
+     "z1.1/lsst_r/kappa_2_9/lsst_r": 30130116052,
+     "z1.1/lsst_u/kappa_2_9/lsst_u": 30130116052,
+     "z1.1/lsst_y/kappa_2_9/lsst_y": 30130116052,
+     "z1.1/lsst_z/kappa_2_9/lsst_z": 30130116052,
+     "z1.2/lsst_g/kappa_2_9/lsst_g": 27891634628,
+     "z1.2/lsst_i/kappa_2_9/lsst_i": 27891634628,
+     "z1.2/lsst_r/kappa_2_9/lsst_r": 27891634628,
+     "z1.2/lsst_u/kappa_2_9/lsst_u": 27891634628,
+     "z1.2/lsst_y/kappa_2_9/lsst_y": 27891634628,
+     "z1.2/lsst_z/kappa_2_9/lsst_z": 27891634628,
+     "z1.3/lsst_g/kappa_2_9/lsst_g": 25863910873,
+     "z1.3/lsst_i/kappa_2_9/lsst_i": 25863910873,
+     "z1.3/lsst_r/kappa_2_9/lsst_r": 25863910873,
+     "z1.3/lsst_u/kappa_2_9/lsst_u": 25863910873,
+     "z1.3/lsst_y/kappa_2_9/lsst_y": 25863910873,
+     "z1.3/lsst_z/kappa_2_9/lsst_z": 25863910873,
+     "z1.4/lsst_g/kappa_2_9/lsst_g": 24077352957,
+     "z1.4/lsst_i/kappa_2_9/lsst_i": 24077352957,
+     "z1.4/lsst_r/kappa_2_9/lsst_r": 24077352957,
+     "z1.4/lsst_u/kappa_2_9/lsst_u": 24077352957,
+     "z1.4/lsst_y/kappa_2_9/lsst_y": 24077352957,
+     "z1.4/lsst_z/kappa_2_9/lsst_z": 24077352957,
+     "z1.5/lsst_g/kappa_2_9/lsst_g": 22404829276,
+     "z1.5/lsst_i/kappa_2_9/lsst_i": 22404829276,
+     "z1.5/lsst_r/kappa_2_9/lsst_r": 22404829276,
+     "z1.5/lsst_u/kappa_2_9/lsst_u": 22404829276,
+     "z1.5/lsst_y/kappa_2_9/lsst_y": 22404829276,
+     "z1.5/lsst_z/kappa_2_9/lsst_z": 22404829276,
+     "z1.6/lsst_g/kappa_2_9/lsst_g": 20856246382,
+     "z1.6/lsst_i/kappa_2_9/lsst_i": 20856246382,
+     "z1.6/lsst_r/kappa_2_9/lsst_r": 20856246382,
+     "z1.6/lsst_u/kappa_2_9/lsst_u": 20856246382,
+     "z1.6/lsst_y/kappa_2_9/lsst_y": 20856246382,
+     "z1.6/lsst_z/kappa_2_9/lsst_z": 20856246382,
+     "z1.7/lsst_g/kappa_2_9/lsst_g": 19380321458,
+     "z1.7/lsst_i/kappa_2_9/lsst_i": 19380321458,
+     "z1.7/lsst_r/kappa_2_9/lsst_r": 19380321458,
+     "z1.7/lsst_u/kappa_2_9/lsst_u": 19380321458,
+     "z1.7/lsst_y/kappa_2_9/lsst_y": 19380321458,
+     "z1.7/lsst_z/kappa_2_9/lsst_z": 19380321458,
+     "z1.8/lsst_g/kappa_2_9/lsst_g": 17853596029,
+     "z1.8/lsst_i/kappa_2_9/lsst_i": 17853596029,
+     "z1.8/lsst_r/kappa_2_9/lsst_r": 17853596029,
+     "z1.8/lsst_u/kappa_2_9/lsst_u": 17853596029,
+     "z1.8/lsst_y/kappa_2_9/lsst_y": 17853596029,
+     "z1.8/lsst_z/kappa_2_9/lsst_z": 17853596029,
+     "z1.9/lsst_g/kappa_2_9/lsst_g": 16526450956,
+     "z1.9/lsst_i/kappa_2_9/lsst_i": 16526450956,
+     "z1.9/lsst_r/kappa_2_9/lsst_r": 16526450956,
+     "z1.9/lsst_u/kappa_2_9/lsst_u": 16526450956,
+     "z1.9/lsst_y/kappa_2_9/lsst_y": 16526450956,
+     "z1.9/lsst_z/kappa_2_9/lsst_z": 16526450956,
+     "z2.0/lsst_g/kappa_2_9/lsst_g": 15556127762,
+     "z2.0/lsst_i/kappa_2_9/lsst_i": 15556127762,
+     "z2.0/lsst_r/kappa_2_9/lsst_r": 15556127762,
+     "z2.0/lsst_u/kappa_2_9/lsst_u": 15556127762,
+     "z2.0/lsst_y/kappa_2_9/lsst_y": 15556127762,
+     "z2.0/lsst_z/kappa_2_9/lsst_z": 15556127762
+    },
+    "sampleMedian": -6.280520915985107,
+    "convention": "absolute"
+   },
+   "SubGroups": {
+    "columns": [
+     "z0.5/SubGroups/lsst_g",
+     "z0.5/SubGroups/lsst_i",
+     "z0.5/SubGroups/lsst_r",
+     "z0.5/SubGroups/lsst_u",
+     "z0.5/SubGroups/lsst_y",
+     "z0.5/SubGroups/lsst_z"
+    ],
+    "dtype": "<f8",
+    "rows": 48072380,
+    "sampleMedian": 26.44792675971985,
+    "convention": "apparent"
+   },
+   "alignedSubfind": [
+    "PIG2/PIG_660_subfind",
+    "PIG3/PIG_660_subfind_reassign"
+   ]
+  }
+ ]
+}

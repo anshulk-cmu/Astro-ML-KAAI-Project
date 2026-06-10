@@ -1,0 +1,6 @@
+srun: job 962618 queued and waiting for resources
+srun: job 962618 has been allocated resources
+/hildafs/projects/phy200026p/akumar45/code/recipePhotomDiff.py:55: RuntimeWarning: invalid value encountered in subtract
+  d = (mags[f"new_{b}"] - mags[f"ori_{b}"])[finite]
+/hildafs/projects/phy200026p/akumar45/code/recipePhotomDiff.py:62: RuntimeWarning: invalid value encountered in subtract
+  dgr = ((mags["new_g"] - mags["new_r"]) - (mags["ori_g"] - mags["ori_r"]))[finite]

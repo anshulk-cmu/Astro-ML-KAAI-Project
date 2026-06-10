@@ -1,0 +1,181 @@
+wrote /hildafs/projects/phy200026p/akumar45/results/photometricCensus.json
+
+product                                                    bands                              4/ rows    SG rows     conv4    convSG aligned
+photometric/PIG_544_photometric                            des,lsst,sdss(16)              32526938850   51612526  apparent  apparent PIG2/PIG_544_subfind
+photometric/PIG_567_photometric                            des,lsst,sdss(16)                        -   51387543         -  apparent PIG2/PIG_567_subfind
+photometric/PIG_590_photometric                            des,lsst,sdss(16)                        -   50306064         -  apparent PIG2/PIG_590_subfind
+photometric/PIG_609_photometric                            des,lsst,sdss(16)                        -   49825044         -  apparent PIG2/PIG_609_subfind;PIG3/PIG_609_subfind_reassign
+photometric/PIG_634_photometric                            des,lsst,sdss(16)                        -   49328519         -  apparent PIG2/PIG_634_subfind;PIG3/PIG_634_subfind_reassign
+photometric/PIG_660_photometric                            des,lsst,sdss(16)                        -   48072380         -  apparent PIG2/PIG_660_subfind;PIG3/PIG_660_subfind_reassign
+photometric/PIG_692_photometric                            des,lsst,sdss(16)                        -   47560550         -  apparent PIG2/PIG_692_subfind;PIG3/PIG_692_subfind_reassign
+photometric/PIG_743_photometric                            des,lsst,sdss(16)                        -   46359683         -  apparent PIG2/PIG_743_subfind;PIG3/PIG_743_subfind
+photometric/PIG_771_photometric                            des,lsst,sdss(16)              64219305883   45091639  apparent  apparent PIG2/PIG_771_subfind;PIG3/PIG_771_subfind
+photometric/PIG_817_newSFa_removemass_z01                  -                                        -          -         -         - -
+photometric/PIG_817_newSFa_removemass_z02                  -                                        -          -         -         - -
+photometric/PIG_817_newSFa_removemass_z03                  -                                        -          -         -         - -
+photometric/PIG_817_photometric                            des,lsst,sdss(16)              69007912666   44366700  absolute  absolute PIG2/PIG_817_subfind;PIG3/PIG_817_subfind
+photometric/PIG_817_photometric_newSFa                     sdss(5)                        69007912666   44366711  absolute  absolute -
+photometric/PIG_817_photometric_newSFa_z01                 sdss(5)                        69007912666   44366700  apparent  apparent PIG2/PIG_817_subfind;PIG3/PIG_817_subfind
+photometric/PIG_817_photometric_oriSFa_z01                 sdss(5)                        69007912666   44366700  apparent  apparent PIG2/PIG_817_subfind;PIG3/PIG_817_subfind
+photometric/restframe/PIG_107_photometric                  galex(2)                                 -   49425203         -  absolute PIG2/PIG_107_subfind;PIG3/PIG_107_subfind
+photometric/restframe/PIG_147_photometric                  galex(2)                                 -   56964045         -  absolute PIG2/PIG_147_subfind;PIG3/PIG_147_subfind
+photometric/restframe/PIG_214_photometric                  galex(2)                        6468549017   60367163  absolute  absolute PIG2/PIG_214_subfind;PIG3/PIG_214_subfind
+photometric/restframe/PIG_225_photometric                  galex(2)                                 -   60198871         -  absolute PIG2/PIG_225_subfind
+photometric/restframe/PIG_23_photometric                   -                                        -          -         -         - empty (no blocks)
+photometric/restframe/PIG_252_photometric                  galex(2)                                 -   59837513         -  absolute PIG2/PIG_252_subfind
+photometric/restframe/PIG_261_photometric                  galex(2)                                 -   59441626         -  absolute PIG2/PIG_261_subfind
+photometric/restframe/PIG_272_photometric                  galex(2)                                 -   59028095         -  absolute PIG2/PIG_272_subfind
+photometric/restframe/PIG_280_photometric                  galex(2)                                 -   58612523         -  absolute PIG2/PIG_280_subfind
+photometric/restframe/PIG_311_photometric                  galex(2)                                 -   58302866         -  absolute PIG2/PIG_311_subfind
+photometric/restframe/PIG_31_photometric                   -                                        -          -         -         - empty (no blocks)
+photometric/restframe/PIG_329_photometric                  galex(2)                                 -   57778135         -  absolute PIG2/PIG_329_subfind
+photometric/restframe/PIG_348_photometric                  galex(2)                       15556127762   57236028 ambiguous  absolute PIG2/PIG_348_subfind
+photometric/restframe/PIG_367_photometric                  galex(2)                                 -   56669574         -  absolute PIG2/PIG_367_subfind
+photometric/restframe/PIG_385_photometric                  galex(2)                                 -   55814913         -  absolute PIG2/PIG_385_subfind
+photometric/restframe/PIG_403_photometric                  galex(2)                                 -   55841990         -  absolute PIG2/PIG_403_subfind
+photometric/restframe/PIG_421_photometric                  galex(2)                                 -   55251272         -  absolute PIG2/PIG_421_subfind
+photometric/restframe/PIG_440_photometric                  galex(2)                                 -   54551419         -  absolute PIG2/PIG_440_subfind
+photometric/restframe/PIG_461_photometric                  galex(2)                                 -   53769365         -  absolute PIG2/PIG_461_subfind
+photometric/restframe/PIG_47_photometric                   -                                        -          -         -         - empty (no blocks)
+photometric/restframe/PIG_483_photometric                  galex(2)                                 -   53643402         -  absolute PIG2/PIG_483_subfind
+photometric/restframe/PIG_505_photometric                  galex(2)                       27891634628   52755249 ambiguous  absolute PIG2/PIG_505_subfind
+photometric/restframe/PIG_523_photometric                  galex(2)                       30130116052   52547114 ambiguous  absolute PIG2/PIG_523_subfind
+photometric/restframe/PIG_544_photometric                  galex(2)                       32526938850   51612526  apparent  absolute PIG2/PIG_544_subfind
+photometric/restframe/PIG_567_photometric                  galex(2)                                 -   51387543         -  absolute PIG2/PIG_567_subfind
+photometric/restframe/PIG_590_photometric                  galex(2)                                 -   50306064         -  absolute PIG2/PIG_590_subfind
+photometric/restframe/PIG_609_photometric                  galex(2)                                 -   49825044         -  absolute PIG2/PIG_609_subfind;PIG3/PIG_609_subfind_reassign
+photometric/restframe/PIG_634_photometric                  galex(2)                                 -   49328519         -  absolute PIG2/PIG_634_subfind;PIG3/PIG_634_subfind_reassign
+photometric/restframe/PIG_660_photometric                  galex(2)                                 -   48072380         -  absolute PIG2/PIG_660_subfind;PIG3/PIG_660_subfind_reassign
+photometric/restframe/PIG_692_photometric                  galex(2)                                 -   47560550         -  absolute PIG2/PIG_692_subfind;PIG3/PIG_692_subfind_reassign
+photometric/restframe/PIG_724_photometric                  galex(2)                                 -   46940435         -  absolute PIG2/PIG_724_subfind;PIG3/PIG_724_subfind
+photometric/restframe/PIG_743_photometric                  galex(2)                                 -   46359683         -  absolute PIG2/PIG_743_subfind;PIG3/PIG_743_subfind
+photometric/restframe/PIG_771_photometric                  galex(2)                                 -   45091639         -  absolute PIG2/PIG_771_subfind;PIG3/PIG_771_subfind
+photometric/restframe/PIG_817_photometric                  galex(2)                                 -   44366700         -  absolute PIG2/PIG_817_subfind;PIG3/PIG_817_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_348_photometric lsst(6)                                  -   57236028         -  apparent PIG2/PIG_348_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_367_photometric lsst(6)                                  -   56669574         -  apparent PIG2/PIG_367_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_385_photometric lsst(6)                                  -   55814913         -  apparent PIG2/PIG_385_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_403_photometric lsst(6)                                  -   55841990         -  apparent PIG2/PIG_403_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_421_photometric lsst(6)                                  -   55251272         -  apparent PIG2/PIG_421_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_440_photometric lsst(6)                                  -   54551419         -  apparent PIG2/PIG_440_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_461_photometric lsst(6)                                  -   53769365         -  apparent PIG2/PIG_461_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_483_photometric lsst(6)                                  -   53643402         -  apparent PIG2/PIG_483_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_505_photometric lsst(6)                                  -   52755249         -  apparent PIG2/PIG_505_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_523_photometric lsst(6)                                  -   52547114         -  apparent PIG2/PIG_523_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_544_photometric lsst(6)                                  -   51612526         -  apparent PIG2/PIG_544_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_567_photometric lsst(6)                                  -   51387543         -  apparent PIG2/PIG_567_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_590_photometric lsst(6)                                  -   50306064         -  apparent PIG2/PIG_590_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_609_photometric lsst(6)                                  -   49825044         -  apparent PIG2/PIG_609_subfind;PIG3/PIG_609_subfind_reassign
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_634_photometric lsst(6)                                  -   49328519         -  apparent PIG2/PIG_634_subfind;PIG3/PIG_634_subfind_reassign
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_660_photometric lsst(6)                                  -   48072380         -  apparent PIG2/PIG_660_subfind;PIG3/PIG_660_subfind_reassign
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_692_photometric lsst(6)                                  -   47560550         -  apparent PIG2/PIG_692_subfind;PIG3/PIG_692_subfind_reassign
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_724_photometric lsst(6)                                  -   46940435         -  apparent PIG2/PIG_724_subfind;PIG3/PIG_724_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_743_photometric lsst(6)                                  -   46359683         -  apparent PIG2/PIG_743_subfind;PIG3/PIG_743_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_771_photometric lsst(6)                                  -   45091639         -  apparent PIG2/PIG_771_subfind;PIG3/PIG_771_subfind
+Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_817_photometric lsst(6)                                  -   44366700         -  absolute PIG2/PIG_817_subfind;PIG3/PIG_817_subfind
+Fatemeh/LSST/PIG_348_photometric                           lsst(6)                        15556127762   57236028  apparent  apparent PIG2/PIG_348_subfind
+Fatemeh/LSST/PIG_367_photometric                           lsst(6)                        16526450956   56669574  apparent  apparent PIG2/PIG_367_subfind
+Fatemeh/LSST/PIG_385_photometric                           lsst(6)                        17853596029   55814913  apparent  apparent PIG2/PIG_385_subfind
+Fatemeh/LSST/PIG_403_photometric                           lsst(6)                        19380321458   55841990  apparent  apparent PIG2/PIG_403_subfind
+Fatemeh/LSST/PIG_421_photometric                           lsst(6)                        20856246382   55251272  apparent  apparent PIG2/PIG_421_subfind
+Fatemeh/LSST/PIG_440_photometric                           lsst(6)                        22404829276   54551419  apparent  apparent PIG2/PIG_440_subfind
+Fatemeh/LSST/PIG_461_photometric                           lsst(6)                        24077352957   53769365  apparent  apparent PIG2/PIG_461_subfind
+Fatemeh/LSST/PIG_483_photometric                           lsst(6)                        25863910873   53643402  apparent  apparent PIG2/PIG_483_subfind
+Fatemeh/LSST/PIG_505_photometric                           lsst(6)                        27891634628   52755249  apparent  apparent PIG2/PIG_505_subfind
+Fatemeh/LSST/PIG_523_photometric                           lsst(6)                        30130116052   52547114  apparent  apparent PIG2/PIG_523_subfind
+Fatemeh/LSST/PIG_544_photometric                           lsst(6)                        32526938850   51612526  apparent  apparent PIG2/PIG_544_subfind
+Fatemeh/LSST/PIG_567_photometric                           lsst(6)                        35005759922   51387543  apparent  apparent PIG2/PIG_567_subfind
+Fatemeh/LSST/PIG_590_photometric                           lsst(6)                        37662188875   50306064  apparent  apparent PIG2/PIG_590_subfind
+Fatemeh/LSST/PIG_609_photometric                           lsst(6)                        40592753515   49825044  apparent  apparent PIG2/PIG_609_subfind;PIG3/PIG_609_subfind_reassign
+Fatemeh/LSST/PIG_634_photometric                           lsst(6)                        43848153522   49328519  apparent  apparent PIG2/PIG_634_subfind;PIG3/PIG_634_subfind_reassign
+Fatemeh/LSST/PIG_660_photometric                           lsst(6)                        47396099830   48072380  apparent  apparent PIG2/PIG_660_subfind;PIG3/PIG_660_subfind_reassign
+Fatemeh/LSST/PIG_692_photometric                           lsst(6)                        51104133524   47560550  apparent  apparent PIG2/PIG_692_subfind;PIG3/PIG_692_subfind_reassign
+Fatemeh/LSST/PIG_724_photometric                           lsst(6)                        59728055907   46359683  apparent  apparent PIG2/PIG_743_subfind;PIG3/PIG_743_subfind
+Fatemeh/LSST/PIG_743_photometric                           lsst(6)                        59728055907   46359683  apparent  apparent PIG2/PIG_743_subfind;PIG3/PIG_743_subfind
+Fatemeh/LSST/PIG_771_photometric                           lsst(6)                        64219305883   45091639  apparent  apparent PIG2/PIG_771_subfind;PIG3/PIG_771_subfind
+Fatemeh/LSST/PIG_817_photometric                           lsst(6)                        69007912666   44366700  absolute  absolute PIG2/PIG_817_subfind;PIG3/PIG_817_subfind
+Fatemeh/LSST/dust                                          z0.5/SubGroups/lsst(6)       {'z0.0/lsst_g/kappa_2_9/lsst_g': 69007912666, 'z0.0/lsst_i/kappa_2_9/lsst_i': 69007912666, 'z0.0/lsst_r/kappa_2_9/lsst_r': 69007912666, 'z0.0/lsst_u/kappa_2_9/lsst_u': 69007912666, 'z0.0/lsst_y/kappa_2_9/lsst_y': 69007912666, 'z0.0/lsst_z/kappa_2_9/lsst_z': 69007912666, 'z0.1/lsst_g/kappa_2_9/lsst_g': 64219305883, 'z0.1/lsst_i/kappa_2_9/lsst_i': 64219305883, 'z0.1/lsst_r/kappa_2_9/lsst_r': 64219305883, 'z0.1/lsst_u/kappa_2_9/lsst_u': 64219305883, 'z0.1/lsst_y/kappa_2_9/lsst_y': 64219305883, 'z0.1/lsst_z/kappa_2_9/lsst_z': 64219305883, 'z0.2/lsst_g/kappa_2_9/lsst_g': 59728055907, 'z0.2/lsst_i/kappa_2_9/lsst_i': 59728055907, 'z0.2/lsst_r/kappa_2_9/lsst_r': 59728055907, 'z0.2/lsst_u/kappa_2_9/lsst_u': 59728055907, 'z0.2/lsst_y/kappa_2_9/lsst_y': 59728055907, 'z0.2/lsst_z/kappa_2_9/lsst_z': 59728055907, 'z0.3/lsst_g/kappa_2_9/lsst_g': 59728055907, 'z0.3/lsst_i/kappa_2_9/lsst_i': 59728055907, 'z0.3/lsst_r/kappa_2_9/lsst_r': 59728055907, 'z0.3/lsst_u/kappa_2_9/lsst_u': 59728055907, 'z0.3/lsst_y/kappa_2_9/lsst_y': 59728055907, 'z0.3/lsst_z/kappa_2_9/lsst_z': 59728055907, 'z0.3_issue/lsst_g/kappa_2_9/lsst_g': 55329029829, 'z0.3_issue/lsst_i/kappa_2_9/lsst_i': 55329029829, 'z0.3_issue/lsst_r/kappa_2_9/lsst_r': 55329029829, 'z0.3_issue/lsst_u/kappa_2_9/lsst_u': 55329029829, 'z0.3_issue/lsst_y/kappa_2_9/lsst_y': 55329029829, 'z0.3_issue/lsst_z/kappa_2_9/lsst_z': 55329029829, 'z0.4/lsst_g/kappa_2_9/lsst_g': 51104133524, 'z0.4/lsst_i/kappa_2_9/lsst_i': 51104133524, 'z0.4/lsst_r/kappa_2_9/lsst_r': 51104133524, 'z0.4/lsst_u/kappa_2_9/lsst_u': 51104133524, 'z0.4/lsst_y/kappa_2_9/lsst_y': 51104133524, 'z0.4/lsst_z/kappa_2_9/lsst_z': 51104133524, 'z0.5/lsst_g/kappa_2_9/lsst_g': 47396099830, 'z0.5/lsst_i/kappa_2_9/lsst_i': 47396099830, 'z0.5/lsst_r/kappa_2_9/lsst_r': 47396099830, 'z0.5/lsst_u/kappa_2_9/lsst_u': 47396099830, 'z0.5/lsst_y/kappa_2_9/lsst_y': 47396099830, 'z0.5/lsst_z/kappa_2_9/lsst_z': 47396099830, 'z0.6/lsst_g/kappa_2_9/lsst_g': 43848153522, 'z0.6/lsst_i/kappa_2_9/lsst_i': 43848153522, 'z0.6/lsst_r/kappa_2_9/lsst_r': 43848153522, 'z0.6/lsst_u/kappa_2_9/lsst_u': 43848153522, 'z0.6/lsst_y/kappa_2_9/lsst_y': 43848153522, 'z0.6/lsst_z/kappa_2_9/lsst_z': 43848153522, 'z0.7/lsst_g/kappa_2_9/lsst_g': 40592753515, 'z0.7/lsst_i/kappa_2_9/lsst_i': 40592753515, 'z0.7/lsst_r/kappa_2_9/lsst_r': 40592753515, 'z0.7/lsst_u/kappa_2_9/lsst_u': 40592753515, 'z0.7/lsst_y/kappa_2_9/lsst_y': 40592753515, 'z0.7/lsst_z/kappa_2_9/lsst_z': 40592753515, 'z0.8/lsst_g/kappa_2_9/lsst_g': 37662188875, 'z0.8/lsst_i/kappa_2_9/lsst_i': 37662188875, 'z0.8/lsst_r/kappa_2_9/lsst_r': 37662188875, 'z0.8/lsst_u/kappa_2_9/lsst_u': 37662188875, 'z0.8/lsst_y/kappa_2_9/lsst_y': 37662188875, 'z0.8/lsst_z/kappa_2_9/lsst_z': 37662188875, 'z0.9/lsst_g/kappa_2_9/lsst_g': 35005759922, 'z0.9/lsst_i/kappa_2_9/lsst_i': 35005759922, 'z0.9/lsst_r/kappa_2_9/lsst_r': 35005759922, 'z0.9/lsst_u/kappa_2_9/lsst_u': 35005759922, 'z0.9/lsst_y/kappa_2_9/lsst_y': 35005759922, 'z0.9/lsst_z/kappa_2_9/lsst_z': 35005759922, 'z1.0/lsst_g/kappa_2_9/lsst_g': 32526938850, 'z1.0/lsst_i/kappa_2_9/lsst_i': 32526938850, 'z1.0/lsst_r/kappa_2_9/lsst_r': 32526938850, 'z1.0/lsst_u/kappa_2_9/lsst_u': 32526938850, 'z1.0/lsst_y/kappa_2_9/lsst_y': 32526938850, 'z1.0/lsst_z/kappa_2_9/lsst_z': 32526938850, 'z1.1/lsst_g/kappa_2_9/lsst_g': 30130116052, 'z1.1/lsst_i/kappa_2_9/lsst_i': 30130116052, 'z1.1/lsst_r/kappa_2_9/lsst_r': 30130116052, 'z1.1/lsst_u/kappa_2_9/lsst_u': 30130116052, 'z1.1/lsst_y/kappa_2_9/lsst_y': 30130116052, 'z1.1/lsst_z/kappa_2_9/lsst_z': 30130116052, 'z1.2/lsst_g/kappa_2_9/lsst_g': 27891634628, 'z1.2/lsst_i/kappa_2_9/lsst_i': 27891634628, 'z1.2/lsst_r/kappa_2_9/lsst_r': 27891634628, 'z1.2/lsst_u/kappa_2_9/lsst_u': 27891634628, 'z1.2/lsst_y/kappa_2_9/lsst_y': 27891634628, 'z1.2/lsst_z/kappa_2_9/lsst_z': 27891634628, 'z1.3/lsst_g/kappa_2_9/lsst_g': 25863910873, 'z1.3/lsst_i/kappa_2_9/lsst_i': 25863910873, 'z1.3/lsst_r/kappa_2_9/lsst_r': 25863910873, 'z1.3/lsst_u/kappa_2_9/lsst_u': 25863910873, 'z1.3/lsst_y/kappa_2_9/lsst_y': 25863910873, 'z1.3/lsst_z/kappa_2_9/lsst_z': 25863910873, 'z1.4/lsst_g/kappa_2_9/lsst_g': 24077352957, 'z1.4/lsst_i/kappa_2_9/lsst_i': 24077352957, 'z1.4/lsst_r/kappa_2_9/lsst_r': 24077352957, 'z1.4/lsst_u/kappa_2_9/lsst_u': 24077352957, 'z1.4/lsst_y/kappa_2_9/lsst_y': 24077352957, 'z1.4/lsst_z/kappa_2_9/lsst_z': 24077352957, 'z1.5/lsst_g/kappa_2_9/lsst_g': 22404829276, 'z1.5/lsst_i/kappa_2_9/lsst_i': 22404829276, 'z1.5/lsst_r/kappa_2_9/lsst_r': 22404829276, 'z1.5/lsst_u/kappa_2_9/lsst_u': 22404829276, 'z1.5/lsst_y/kappa_2_9/lsst_y': 22404829276, 'z1.5/lsst_z/kappa_2_9/lsst_z': 22404829276, 'z1.6/lsst_g/kappa_2_9/lsst_g': 20856246382, 'z1.6/lsst_i/kappa_2_9/lsst_i': 20856246382, 'z1.6/lsst_r/kappa_2_9/lsst_r': 20856246382, 'z1.6/lsst_u/kappa_2_9/lsst_u': 20856246382, 'z1.6/lsst_y/kappa_2_9/lsst_y': 20856246382, 'z1.6/lsst_z/kappa_2_9/lsst_z': 20856246382, 'z1.7/lsst_g/kappa_2_9/lsst_g': 19380321458, 'z1.7/lsst_i/kappa_2_9/lsst_i': 19380321458, 'z1.7/lsst_r/kappa_2_9/lsst_r': 19380321458, 'z1.7/lsst_u/kappa_2_9/lsst_u': 19380321458, 'z1.7/lsst_y/kappa_2_9/lsst_y': 19380321458, 'z1.7/lsst_z/kappa_2_9/lsst_z': 19380321458, 'z1.8/lsst_g/kappa_2_9/lsst_g': 17853596029, 'z1.8/lsst_i/kappa_2_9/lsst_i': 17853596029, 'z1.8/lsst_r/kappa_2_9/lsst_r': 17853596029, 'z1.8/lsst_u/kappa_2_9/lsst_u': 17853596029, 'z1.8/lsst_y/kappa_2_9/lsst_y': 17853596029, 'z1.8/lsst_z/kappa_2_9/lsst_z': 17853596029, 'z1.9/lsst_g/kappa_2_9/lsst_g': 16526450956, 'z1.9/lsst_i/kappa_2_9/lsst_i': 16526450956, 'z1.9/lsst_r/kappa_2_9/lsst_r': 16526450956, 'z1.9/lsst_u/kappa_2_9/lsst_u': 16526450956, 'z1.9/lsst_y/kappa_2_9/lsst_y': 16526450956, 'z1.9/lsst_z/kappa_2_9/lsst_z': 16526450956, 'z2.0/lsst_g/kappa_2_9/lsst_g': 15556127762, 'z2.0/lsst_i/kappa_2_9/lsst_i': 15556127762, 'z2.0/lsst_r/kappa_2_9/lsst_r': 15556127762, 'z2.0/lsst_u/kappa_2_9/lsst_u': 15556127762, 'z2.0/lsst_y/kappa_2_9/lsst_y': 15556127762, 'z2.0/lsst_z/kappa_2_9/lsst_z': 15556127762}   48072380  absolute  apparent PIG2/PIG_660_subfind;PIG3/PIG_660_subfind_reassign
+
+--- subfind reference counts ---
+PIG2/PIG_023_subfind                       nsub=  17499971 nstar=     43870934
+PIG2/PIG_031_subfind                       nsub=  27693393 nstar=    115699385
+PIG2/PIG_047_subfind                       nsub=  38844175 nstar=    317420191
+PIG2/PIG_047_subfind_old                   nsub=  44080448 nstar=    317420191
+PIG2/PIG_107_subfind                       nsub=  49425203 nstar=    884192491
+PIG2/PIG_147_subfind                       nsub=  56964045 nstar=   2484897945
+PIG2/PIG_214_subfind                       nsub=  60367163 nstar=   6468549017
+PIG2/PIG_225_subfind                       nsub=  60198871 nstar=   7054288104
+PIG2/PIG_252_subfind                       nsub=  59837513 nstar=   8604993734
+PIG2/PIG_261_subfind                       nsub=  59441626 nstar=   9432656952
+PIG2/PIG_272_subfind                       nsub=  59028095 nstar=  10296326862
+PIG2/PIG_280_subfind                       nsub=  58612523 nstar=  11181996020
+PIG2/PIG_311_subfind                       nsub=  58302866 nstar=  13109245092
+PIG2/PIG_329_subfind                       nsub=  57778135 nstar=  14154287390
+PIG2/PIG_348_subfind                       nsub=  57236028 nstar=  15556127762
+PIG2/PIG_367_subfind                       nsub=  56669574 nstar=  16526450956
+PIG2/PIG_385_subfind                       nsub=  55814913 nstar=  17853596029
+PIG2/PIG_403_subfind                       nsub=  55841990 nstar=  19380321458
+PIG2/PIG_421_subfind                       nsub=  55251272 nstar=  20856246382
+PIG2/PIG_440_subfind                       nsub=  54551419 nstar=  22404829276
+PIG2/PIG_461_subfind                       nsub=  53769365 nstar=  24077352957
+PIG2/PIG_483_subfind                       nsub=  53643402 nstar=  25863910873
+PIG2/PIG_505_subfind                       nsub=  52755249 nstar=  27891634628
+PIG2/PIG_523_subfind                       nsub=  52547114 nstar=  30130116052
+PIG2/PIG_544_subfind                       nsub=  51612526 nstar=  32526938850
+PIG2/PIG_567_subfind                       nsub=  51387543 nstar=  35005759922
+PIG2/PIG_590_subfind                       nsub=  50306064 nstar=  37662188875
+PIG2/PIG_609_subfind                       nsub=  49825044 nstar=  40592753515
+PIG2/PIG_634_subfind                       nsub=  49328519 nstar=  43848153522
+PIG2/PIG_660_subfind                       nsub=  48072380 nstar=  47396099830
+PIG2/PIG_692_subfind                       nsub=  47560550 nstar=  51104133524
+PIG2/PIG_724_subfind                       nsub=  46940435 nstar=  55329029829
+PIG2/PIG_743_subfind                       nsub=  46359683 nstar=  59728055907
+PIG2/PIG_771_subfind                       nsub=  45091639 nstar=  64219305883
+PIG2/PIG_817_subfind                       nsub=  44366700 nstar=  69007912666
+PIG3/PIG_023_subfind                       nsub=  17499971 nstar=     43870934
+PIG3/PIG_031_subfind                       nsub=  27693393 nstar=    115699385
+PIG3/PIG_107_subfind                       nsub=  49425203 nstar=    884192491
+PIG3/PIG_147_subfind                       nsub=  56964045 nstar=   2484897945
+PIG3/PIG_214_subfind                       nsub=  60367163 nstar=   6468549017
+PIG3/PIG_609_subfind_reassign              nsub=  49825044 nstar=  40592753515
+PIG3/PIG_634_subfind_reassign              nsub=  49328519 nstar=  43848153522
+PIG3/PIG_658_subfind_reassign              nsub=  48109830 nstar=            -
+PIG3/PIG_660_subfind_reassign              nsub=  48072380 nstar=  47396099830
+PIG3/PIG_692_subfind_reassign              nsub=  47560550 nstar=  51104133524
+PIG3/PIG_724_subfind                       nsub=  46940435 nstar=  55329029829
+PIG3/PIG_743_subfind                       nsub=  46359683 nstar=  59728055907
+PIG3/PIG_771_subfind                       nsub=  45091639 nstar=  64219305883
+PIG3/PIG_817_subfind                       nsub=  44366700 nstar=  69007912666
+
+--- focus questions ---
+PIG_660: photometric/PIG_660_photometric                         des=True conv={'SubGroups': 'apparent'}
+PIG_660: photometric/restframe/PIG_660_photometric               des=False conv={'SubGroups': 'absolute'}
+PIG_660: Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_660_photometric des=False conv={'SubGroups': 'apparent'}
+PIG_660: Fatemeh/LSST/PIG_660_photometric                        des=False conv={'4': 'apparent', 'SubGroups': 'apparent'}
+PIG_692: photometric/PIG_692_photometric                         des=True conv={'SubGroups': 'apparent'}
+PIG_692: photometric/restframe/PIG_692_photometric               des=False conv={'SubGroups': 'absolute'}
+PIG_692: Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_692_photometric des=False conv={'SubGroups': 'apparent'}
+PIG_692: Fatemeh/LSST/PIG_692_photometric                        des=False conv={'4': 'apparent', 'SubGroups': 'apparent'}
+PIG_743: photometric/PIG_743_photometric                         des=True conv={'SubGroups': 'apparent'}
+PIG_743: photometric/restframe/PIG_743_photometric               des=False conv={'SubGroups': 'absolute'}
+PIG_743: Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_743_photometric des=False conv={'SubGroups': 'apparent'}
+PIG_743: Fatemeh/LSST/PIG_743_photometric                        des=False conv={'4': 'apparent', 'SubGroups': 'apparent'}
+PIG_771: photometric/PIG_771_photometric                         des=True conv={'4': 'apparent', 'SubGroups': 'apparent'}
+PIG_771: photometric/restframe/PIG_771_photometric               des=False conv={'SubGroups': 'absolute'}
+PIG_771: Fatemeh/LSST/Aperture/2_Stellar_half_mass/PIG_771_photometric des=False conv={'SubGroups': 'apparent'}
+PIG_771: Fatemeh/LSST/PIG_771_photometric                        des=False conv={'4': 'apparent', 'SubGroups': 'apparent'}
+
+--- addendum: Fatemeh/LSST/dust layout (manual recon, the table row above is auto-mangled) ---
+dust/4/{z0.0..z2.0, z0.3_issue}/{lsst_band}/kappa_2_9/{lsst_band} : per-star dust-attenuated
+  apparent mags, f4. Star counts map each observed-z bin to a snapshot:
+  z0.0->817, z0.1->771, z0.2->743, z0.3->743 (NOT 724!), z0.3_issue->724, z0.4->692, z0.5->660,
+  z0.6->634, z0.7->609, z0.8->590, z0.9->567, z1.0->544, z1.1->523, z1.2->505, z1.3->483,
+  z1.4->461, z1.5->440, z1.6->421, z1.7->403, z1.8->385, z1.9->367, z2.0->348.
+dust/SubGroups/z0.5/SubGroups/{lsst_band} : per-subhalo dust mags, z0.5 ONLY.
+dust/allbands_kappa2.9/z0.3 : present but contains no bigfile blocks (empty/incomplete).
+
+--- addendum: Fatemeh 724-vs-743 data check ---
+Fatemeh/LSST/PIG_724_photometric and PIG_743_photometric have IDENTICAL row counts (snapshot
+743's catalog: 46,359,683 subhalos / 59.7e9 stars) but DIFFERENT data values (cmp differs at
+byte 4) -> 724-named product = snapshot-743 galaxies at a different observed redshift, not a
+copy. The real snapshot-724 catalog (46,940,435 subhalos) appears only in
+Aperture/2_Stellar_half_mass/PIG_724_photometric and dust z0.3_issue.

@@ -1,0 +1,4 @@
+srun: job 962621 queued and waiting for resources
+srun: job 962621 has been allocated resources
+/hildafs/projects/phy200026p/akumar45/code/bandOffsets.py:56: RuntimeWarning: invalid value encountered in subtract
+  d = (cols[f"des_{b}"] - cols[f"lsst_{b}"])[finite]

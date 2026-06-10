@@ -1,0 +1,12 @@
+snapshot 817: /hildafs/datasets/Asterix/PIG2/PIG_817_subfind, 44366700 subhalos
+  -> /hildafs/projects/phy200026p/akumar45/data/catalogs/catalog817.parquet: 1013097 rows (667208 centrals), 126.0 MB
+snapshot 771: /hildafs/datasets/Asterix/PIG2/PIG_771_subfind, 45091639 subhalos
+  -> /hildafs/projects/phy200026p/akumar45/data/catalogs/catalog771.parquet: 1002773 rows (666894 centrals), 124.9 MB
+snapshot 743: /hildafs/datasets/Asterix/PIG2/PIG_743_subfind, 46359683 subhalos
+  -> /hildafs/projects/phy200026p/akumar45/data/catalogs/catalog743.parquet: 983697 rows (659921 centrals), 122.9 MB
+snapshot 692: /hildafs/datasets/Asterix/PIG2/PIG_692_subfind, 47560550 subhalos
+  -> /hildafs/projects/phy200026p/akumar45/data/catalogs/catalog692.parquet: 939605 rows (639049 centrals), 118.1 MB
+snapshot 660: /hildafs/datasets/Asterix/PIG2/PIG_660_subfind, 48072380 subhalos
+  -> /hildafs/projects/phy200026p/akumar45/data/catalogs/catalog660.parquet: 913248 rows (624910 centrals), 115.2 MB
+
+total catalog size: 607.1 MB

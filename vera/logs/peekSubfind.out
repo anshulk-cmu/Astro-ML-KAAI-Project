@@ -1,0 +1,122 @@
+opened /hildafs/datasets/Asterix/PIG2/PIG_817_subfind
+top-level blocks: ['0', '1', '4', '5', 'FOFGroups', 'Header', 'NewgalSFR', 'SubGroups']
+
+Header attrs:
+  BoxSize = [250000.]
+  CMBTemperature = [2.7255]
+  HubbleParam = [0.6774]
+  MassTable = [1.26680398e-04 6.74773361e-04 0.00000000e+00 0.00000000e+00
+ 3.16700995e-05 3.16700995e-05]
+  NumFOFGroupsTotal = [157097137]
+  NumPartInGroupTotal = [65889360104 92397755716           0           0 69007912666    12027559]
+  Omega0 = [0.3089]
+  OmegaBaryon = [0.0486]
+  OmegaLambda = [0.6911]
+  RSDFactor = [9.99973049]
+  Time = [1.]
+  UsePeculiarVelocity = [1]
+
+FOFGroups/ columns (21):
+  BlackholeAccretionRate           dtype=<f4 nmemb=1 size=157097137
+  BlackholeMass                    dtype=<f4 nmemb=1 size=157097137
+  FirstPos                         dtype=|V12 nmemb=(3,) size=157097137
+  GasMetalElemMass                 dtype=|V36 nmemb=(9,) size=157097137
+  GasMetalMass                     dtype=<f4 nmemb=1 size=157097137
+  GroupFirstSub                    dtype=<i4 nmemb=1 size=157097137
+  GroupID                          dtype=<u4 nmemb=1 size=157097137
+  GroupNsubs                       dtype=<i4 nmemb=1 size=157097137
+  Imom                             dtype=|V36 nmemb=(9,) size=157097137
+  Jmom                             dtype=|V12 nmemb=(3,) size=157097137
+  LengthByType                     dtype=|V24 nmemb=(6,) size=157097137
+  Mass                             dtype=<f4 nmemb=1 size=157097137
+  MassByType                       dtype=|V24 nmemb=(6,) size=157097137
+  MassCenterPosition               dtype=|V24 nmemb=(3,) size=157097137
+  MassCenterVelocity               dtype=|V12 nmemb=(3,) size=157097137
+  MassHeIonized                    dtype=<f4 nmemb=1 size=157097137
+  MinID                            dtype=<u8 nmemb=1 size=157097137
+  OffsetByType                     dtype=|V48 nmemb=(6,) size=157097137
+  StarFormationRate                dtype=<f4 nmemb=1 size=157097137
+  StellarMetalElemMass             dtype=|V36 nmemb=(9,) size=157097137
+  StellarMetalMass                 dtype=<f4 nmemb=1 size=157097137
+
+SubGroups/ columns (39):
+  SubhaloBHMass                    dtype=<f4 nmemb=1 size=44366700
+  SubhaloBHMdot                    dtype=<f4 nmemb=1 size=44366700
+  SubhaloCM                        dtype=|V12 nmemb=(3,) size=44366700
+  SubhaloGasMassSFR                dtype=<f4 nmemb=1 size=44366700
+  SubhaloGroupNr                   dtype=<i8 nmemb=1 size=44366700
+  SubhaloHalfmassRad               dtype=<f4 nmemb=1 size=44366700
+  SubhaloHalfmassRadType           dtype=|V24 nmemb=(6,) size=44366700
+  SubhaloIDMostbound               dtype=<u8 nmemb=1 size=44366700
+  SubhaloIntertiaTensorStars       dtype=|V24 nmemb=(6,) size=44366700
+  SubhaloKineticEnergyStars        dtype=<f4 nmemb=1 size=44366700
+  SubhaloLen                       dtype=<i4 nmemb=1 size=44366700
+  SubhaloLenType                   dtype=|V24 nmemb=(6,) size=44366700
+  SubhaloMass                      dtype=<f4 nmemb=1 size=44366700
+  SubhaloMassInHalfRad             dtype=<f4 nmemb=1 size=44366700
+  SubhaloMassInHalfRadType         dtype=|V24 nmemb=(6,) size=44366700
+  SubhaloMassInMaxRad              dtype=<f4 nmemb=1 size=44366700
+  SubhaloMassInMaxRadType          dtype=|V24 nmemb=(6,) size=44366700
+  SubhaloMassInRad                 dtype=<f4 nmemb=1 size=44366700
+  SubhaloMassInRadType             dtype=|V24 nmemb=(6,) size=44366700
+  SubhaloMassType                  dtype=|V24 nmemb=(6,) size=44366700
+  SubhaloOffsetType                dtype=|V48 nmemb=(6,) size=44366700
+  SubhaloParentRank                dtype=<i4 nmemb=1 size=44366700
+  SubhaloPos                       dtype=|V12 nmemb=(3,) size=44366700
+  SubhaloRankInGr                  dtype=<i4 nmemb=1 size=44366700
+  SubhaloRotationalEnergyStars     dtype=<f4 nmemb=1 size=44366700
+  SubhaloSFR                       dtype=<f4 nmemb=1 size=44366700
+  SubhaloSFR_old                   dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInHalfRad              dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInHalfRad_old          dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInMaxRad               dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInMaxRad_old           dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInRad                  dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInRad_old              dtype=<f4 nmemb=1 size=44366700
+  SubhaloSpin                      dtype=|V12 nmemb=(3,) size=44366700
+  SubhaloSpinType                  dtype=|V72 nmemb=(18,) size=44366700
+  SubhaloVel                       dtype=|V12 nmemb=(3,) size=44366700
+  SubhaloVelDisp                   dtype=<f4 nmemb=1 size=44366700
+  SubhaloVmax                      dtype=<f4 nmemb=1 size=44366700
+  SubhaloVmaxRad                   dtype=<f4 nmemb=1 size=44366700
+
+4/ columns (15):
+  BirthDensity                     dtype=<f4 nmemb=1 size=69007912666
+  Generation                       dtype=|u1 nmemb=1 size=69007912666
+  GroupID                          dtype=<u4 nmemb=1 size=69007912666
+  ID                               dtype=<u8 nmemb=1 size=69007912666
+  LastEnrichmentMyr                dtype=<f4 nmemb=1 size=69007912666
+  Mass                             dtype=<f4 nmemb=1 size=69007912666
+  Metallicity                      dtype=<f4 nmemb=1 size=69007912666
+  Metals                           dtype=|V36 nmemb=(9,) size=69007912666
+  NewIndex                         dtype=<i4 nmemb=1 size=69007912666
+  Position                         dtype=|V24 nmemb=(3,) size=69007912666
+  SmoothingLength                  dtype=<f4 nmemb=1 size=69007912666
+  StarFormationTime                dtype=<f4 nmemb=1 size=69007912666
+  SubgroupID                       dtype=<i4 nmemb=1 size=69007912666
+  TotalMassReturned                dtype=<f4 nmemb=1 size=69007912666
+  Velocity                         dtype=|V12 nmemb=(3,) size=69007912666
+
+NewgalSFR/ columns (4):
+  SubhaloSFR                       dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInHalfRad              dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInMaxRad               dtype=<f4 nmemb=1 size=44366700
+  SubhaloSfrInRad                  dtype=<f4 nmemb=1 size=44366700
+
+total subhalo count: 44366700
+subhalos with Mstar > 10^9.3 Msun (1.995e+09 Msun): 716068
+subhalos with Mstar > 10^10  Msun: 255435
+max Mstar = 9.739e+12 Msun
+
+picked subhalo index 15610655: Mstar = 1.500e+10 Msun
+  SubhaloGroupNr = 79
+  SubhaloPos = [52091.85  63128.777 14992.513]
+  SubhaloHalfmassRadType = [27.32627  36.045376  0.        0.        4.126601  0.      ]
+  SubhaloSFR = 1.8518179655075073
+  SubhaloIDMostbound = 72057796660441794
+  star particles: offset=56876812810 count=71173
+  slice check: GroupID uniq=[147496]  SubgroupID uniq=[413]
+  Position  [ckpc/h]      n=71173 min=[52031.72028249 63032.69572524 14915.31199698] max=[52165.14534505 63191.12109932 15112.94623107]
+  Mass      [Msun]        sum=1.500e+10 min=1.749e+05 max=8.430e+05
+  SFTime    [scale fac a] min=0.0710 max=1.0000 median=0.6439
+  Metallicity [mass frac] min=8.408e-08 max=5.411e-02 median=1.130e-02

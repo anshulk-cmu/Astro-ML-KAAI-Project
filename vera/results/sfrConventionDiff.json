@@ -1,0 +1,154 @@
+{
+ "assumptions": "SFR in Msun/yr; new=NewgalSFR/SubhaloSFR, old=SubGroups/SubhaloSFR_old; relDiff=(max-min)/max, both-zero counted as equal; quiescent sSFR<1e-11/yr",
+ "identity": {
+  "mainEqualsNewgal": 44366700,
+  "mainEqualsOld": 39767931,
+  "maxAbsDiffMainNewgal": 0.0,
+  "negativeSFRs": {
+   "main": 0,
+   "old": 0,
+   "newgal": 0
+  },
+  "nTotal": 44366700
+ },
+ "overall": {
+  "allSubhalos": {
+   "n": 44366700,
+   "bothZero": 39767931,
+   "fracNewLowerOfDiffering": 0.8596263478335181,
+   "fracDiffGt5pct": 0.10258583577322632,
+   "fracDiffGt20pct": 0.098949527460911,
+   "fracDiffGt2x": 0.08723612529216733,
+   "medianRelDiff": 0.0,
+   "p90RelDiff": 0.15974022683104142,
+   "quiescentFracNew": 0.8146552785351855,
+   "quiescentFracOld": 0.7418781383380427
+  },
+  "mstar1e8to1e12": {
+   "n": 2541637,
+   "bothZero": 442200,
+   "fracNewLowerOfDiffering": 0.9424836277535358,
+   "fracDiffGt5pct": 0.8195733694465417,
+   "fracDiffGt20pct": 0.7967597261135245,
+   "fracDiffGt2x": 0.6956371031740567,
+   "medianRelDiff": 0.6606618563607426,
+   "p90RelDiff": 0.8016795135777507,
+   "quiescentFracNew": 0.2250679384979051,
+   "quiescentFracOld": 0.21025425739395515
+  }
+ },
+ "massBins": [
+  {
+   "n": 864832,
+   "bothZero": 228369,
+   "fracNewLowerOfDiffering": 0.8882480207019104,
+   "fracDiffGt5pct": 0.7212568452601199,
+   "fracDiffGt20pct": 0.6697682324428328,
+   "fracDiffGt2x": 0.4793127451343151,
+   "medianRelDiff": 0.47804427342351474,
+   "p90RelDiff": 0.8341235940114965,
+   "quiescentFracNew": 0.3281712517575668,
+   "quiescentFracOld": 0.3085836324280323,
+   "logMstarLo": 8.0,
+   "logMstarHi": 8.5
+  },
+  {
+   "n": 664031,
+   "bothZero": 116387,
+   "fracNewLowerOfDiffering": 0.9588400493751416,
+   "fracDiffGt5pct": 0.8211634697777664,
+   "fracDiffGt20pct": 0.8078237311209868,
+   "fracDiffGt2x": 0.7013497863804551,
+   "medianRelDiff": 0.6280304720989551,
+   "p90RelDiff": 0.7968515574291652,
+   "quiescentFracNew": 0.22407237011525064,
+   "quiescentFracOld": 0.2091483680731773,
+   "logMstarLo": 8.5,
+   "logMstarHi": 9.0
+  },
+  {
+   "n": 456693,
+   "bothZero": 57524,
+   "fracNewLowerOfDiffering": 0.9702832634798795,
+   "fracDiffGt5pct": 0.8728073344675745,
+   "fracDiffGt20pct": 0.8684652490841769,
+   "fracDiffGt2x": 0.840989461191654,
+   "medianRelDiff": 0.6912086466609912,
+   "p90RelDiff": 0.7910716262376005,
+   "quiescentFracNew": 0.16547877896092122,
+   "quiescentFracOld": 0.15390207425995142,
+   "logMstarLo": 9.0,
+   "logMstarHi": 9.5
+  },
+  {
+   "n": 300969,
+   "bothZero": 27578,
+   "fracNewLowerOfDiffering": 0.9705110994875471,
+   "fracDiffGt5pct": 0.9073027454654798,
+   "fracDiffGt20pct": 0.9037907558585768,
+   "fracDiffGt2x": 0.8906997066143024,
+   "medianRelDiff": 0.7242109442085918,
+   "p90RelDiff": 0.8023669153164427,
+   "quiescentFracNew": 0.1283786702284953,
+   "quiescentFracOld": 0.11919167754818602,
+   "logMstarLo": 9.5,
+   "logMstarHi": 10.0
+  },
+  {
+   "n": 178045,
+   "bothZero": 9427,
+   "fracNewLowerOfDiffering": 0.9709936068509887,
+   "fracDiffGt5pct": 0.9456373388750036,
+   "fracDiffGt20pct": 0.9406610688309135,
+   "fracDiffGt2x": 0.9273610604060771,
+   "medianRelDiff": 0.7399345715006882,
+   "p90RelDiff": 0.7962555902741927,
+   "quiescentFracNew": 0.08363615939790503,
+   "quiescentFracOld": 0.07732314864219719,
+   "logMstarLo": 10.0,
+   "logMstarHi": 10.5
+  },
+  {
+   "n": 56626,
+   "bothZero": 2311,
+   "fracNewLowerOfDiffering": 0.9705606186136426,
+   "fracDiffGt5pct": 0.9573870660120792,
+   "fracDiffGt20pct": 0.950446791226645,
+   "fracDiffGt2x": 0.9298025641931268,
+   "medianRelDiff": 0.7253050216323611,
+   "p90RelDiff": 0.776083637782627,
+   "quiescentFracNew": 0.07146893653092219,
+   "quiescentFracOld": 0.06744251757143362,
+   "logMstarLo": 10.5,
+   "logMstarHi": 11.0
+  },
+  {
+   "n": 17280,
+   "bothZero": 582,
+   "fracNewLowerOfDiffering": 0.962031381003713,
+   "fracDiffGt5pct": 0.9622685185185185,
+   "fracDiffGt20pct": 0.9478587962962963,
+   "fracDiffGt2x": 0.8798611111111111,
+   "medianRelDiff": 0.6922102168176163,
+   "p90RelDiff": 0.750595115302088,
+   "quiescentFracNew": 0.25538194444444445,
+   "quiescentFracOld": 0.22552083333333334,
+   "logMstarLo": 11.0,
+   "logMstarHi": 11.5
+  },
+  {
+   "n": 3161,
+   "bothZero": 22,
+   "fracNewLowerOfDiffering": 0.9882128066263142,
+   "fracDiffGt5pct": 0.9908256880733946,
+   "fracDiffGt20pct": 0.981651376146789,
+   "fracDiffGt2x": 0.85416007592534,
+   "medianRelDiff": 0.6249139104285337,
+   "p90RelDiff": 0.8083501045091187,
+   "quiescentFracNew": 0.5931667193925972,
+   "quiescentFracOld": 0.31445745017399557,
+   "logMstarLo": 11.5,
+   "logMstarHi": 12.0
+  }
+ ]
+}
