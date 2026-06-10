@@ -357,18 +357,13 @@ established by measurement, not documentation.
   applied once, here, and never re-derived downstream.
 - **M* definition: stellar mass within 2x the stellar half-mass radius** (the z=0 paper's
   convention) for matching and for P1-P3 [adopted]. The extracted catalogs currently carry
-  total bound stellar mass (SubhaloMassType[4]); the aperture-vs-total mapping is measured on
-  a stratified ~50k subsample before the final Sample A draw. If Spearman rank agreement
-  within z-bins is >= 0.99, total-mass RANKS may stand in for aperture ranks in rank matching
-  (rank matching is invariant to monotone recalibration); otherwise aperture masses are
-  computed exactly for the full candidate pool. Aperture masses are computed exactly for ALL
-  pool members with total M* > 10^10.5 regardless (the P3 starvation diagnostics and strict
-  dedup live there). The route taken is logged. NOTE: the 0.99 rank-agreement threshold, the
-  ~50k subsample size, and the 10^10.5 exact-aperture floor are set HERE at pre-registration
-  time, before the aperture-vs-total mapping has been measured (an execution refinement of
-  the plan's aperture-mass requirement, logged as an amendment in `runLog.md`); the
-  pre-registered absolute thresholds (10^10.4, 10^10.8, 10^11) always refer to aperture
-  masses.
+  total bound stellar mass (SubhaloMassType[4]); aperture masses are computed EXACTLY for the
+  FULL candidate pool (every subhalo above the selection floor at every working snapshot) by
+  star-particle slicing on Vera before the final Sample A draw — no proxy, no conditional
+  stand-in (an earlier draft's rank-agreement substitution rule was removed the same day on
+  the user's no-shortcuts directive; amendment logged in `runLog.md`). The measured
+  aperture-vs-total mapping is still reported, as a QC diagnostic only. All pre-registered
+  absolute mass thresholds (10^9.3, 10^10.4, 10^10.8, 10^11) refer to aperture masses.
 - [adopted] Magnitudes AB; AION-1 flux convention nanomaggies at zeropoint 22.5
   (`flux = 10^((22.5 - m)/2.5)`); mock images delivered as raw nanomaggie pixel values, never
   pre-normalized (the tokenizer applies arcsinh internally).
