@@ -1,0 +1,44 @@
+{
+  "snapshots": [
+    "817",
+    "771",
+    "743",
+    "692",
+    "660"
+  ],
+  "poolSnapshots": [
+    "771",
+    "743",
+    "692",
+    "660"
+  ],
+  "redshifts": {
+    "817": 0.0,
+    "771": 0.1,
+    "743": 0.2,
+    "692": 0.4,
+    "660": 0.49677
+  },
+  "totalRows5snap": 4852420,
+  "uniquePhysicalGalaxies": 4839845,
+  "chainLenDist": {
+    "1": 4827726,
+    "2": 11685,
+    "3": 413,
+    "4": 20,
+    "5": 1
+  },
+  "multiSnapChains": 12119,
+  "massConsistency_logSpread": {
+    "median": 0.07237516343593597,
+    "p95": 0.2649114817380906,
+    "frac_gt_0p3dex": 0.027972605000412574
+  },
+  "pool": {
+    "rows": 3839323,
+    "unique": 3831444,
+    "rowsInMultiChain": 15541,
+    "fracRowsInMultiChain": 0.00404784906088912
+  },
+  "note": "Sample A/B draw at most one snapshot instance per idMostbound chain; duplication is strongly mass-dependent (massive galaxies persist across all snaps)."
+}

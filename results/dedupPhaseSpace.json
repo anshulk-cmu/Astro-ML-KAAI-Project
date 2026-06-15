@@ -1,0 +1,78 @@
+{
+  "poolSnapshots": [
+    "771",
+    "743",
+    "692",
+    "660"
+  ],
+  "dtGyr": {
+    "771->743": 1.1661,
+    "743->692": 1.9043,
+    "692->660": 0.756
+  },
+  "velocityCalibration": {
+    "771->743": {
+      "nCalib": 14808,
+      "kCkpchPerKmps": -0.5678263221796802,
+      "residMedian_noVel": 218.20654803886012,
+      "residMedian_velCorr": 88.60473549376991
+    },
+    "743->692": {
+      "nCalib": 2758,
+      "kCkpchPerKmps": -0.2947886136474348,
+      "residMedian_noVel": 230.80831244576632,
+      "residMedian_velCorr": 197.41466378118113
+    },
+    "692->660": {
+      "nCalib": 17047,
+      "kCkpchPerKmps": -0.5799601675186713,
+      "residMedian_noVel": 211.84388491441544,
+      "residMedian_velCorr": 52.652705558266035
+    }
+  },
+  "pairLinks": {
+    "771->743": {
+      "nLinks": 348574,
+      "idMostboundAgree": 988
+    },
+    "743->692": {
+      "nLinks": 18154,
+      "idMostboundAgree": 104
+    },
+    "692->660": {
+      "nLinks": 686513,
+      "idMostboundAgree": 1341
+    }
+  },
+  "totalRows": 3839323,
+  "uniqueChains": 2786082,
+  "chainLenDist": {
+    "1": 1758204,
+    "2": 1012991,
+    "3": 4411,
+    "4": 10476
+  },
+  "recurrenceByMass": {
+    "9.0-10.0": {
+      "rows": 2987220,
+      "fracInChain": 0.5481266863505199,
+      "meanChainLen": 1.5714808417190564
+    },
+    "10.0-10.8": {
+      "rows": 741454,
+      "fracInChain": 0.5236724058404163,
+      "meanChainLen": 1.5478182058495875
+    },
+    "10.8-11.5": {
+      "rows": 100818,
+      "fracInChain": 0.5236862465036005,
+      "meanChainLen": 1.615971354321649
+    },
+    "11.5-99": {
+      "rows": 9831,
+      "fracInChain": 0.2713864306784661,
+      "meanChainLen": 1.2785067643169565
+    }
+  },
+  "note": "Phase-space chains are the S2 dedup substrate; idMostbound is a high-precision confirmer only (it agrees on a small minority of true links)."
+}
