@@ -1,0 +1,34 @@
+{
+  "n_anchor": 48398,
+  "n_with_colourmass": 48395,
+  "n_calibration_elpetro": 3727,
+  "holdout_r2": 0.9170125972501707,
+  "holdout_rmse_dex": 0.163964677177049,
+  "holdout_spearman_overall": 0.9678933666544473,
+  "holdout_spearman_per_zbin": {
+    "0.00-0.05": {
+      "n": 133,
+      "spearman": 0.935819875332837
+    },
+    "0.05-0.10": {
+      "n": 337,
+      "spearman": 0.9599673038670984
+    },
+    "0.10-0.15": {
+      "n": 276,
+      "spearman": 0.9626477932677902
+    }
+  },
+  "ridge_alpha": 0.31622776601683794,
+  "features": [
+    "g-r",
+    "r-z",
+    "Mz_abs_noK",
+    "z",
+    "(degree-2 poly)"
+  ],
+  "in_train_hull_frac": 0.378923442504391,
+  "mass_scale": "NSA elpetro (Chabrier IMF); not h-converted; recalibrate to Zou later",
+  "cosmology": "flat LCDM H0=67.74 Om0=0.3089 (distance scale only)",
+  "preReg_acceptance": "rank Spearman >= 0.8 within z-bins"
+}

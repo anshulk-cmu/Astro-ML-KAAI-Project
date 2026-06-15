@@ -1,0 +1,75 @@
+{
+  "definition": "dz = (photo_z - spec_z)/(1+spec_z); sigma = 1.4826*MAD",
+  "global": {
+    "n": 6693,
+    "bias_median": -0.00010357342450051356,
+    "sigma_nmad": 0.011520090207395414,
+    "outlier_frac": 0.0007470491558344539,
+    "raw_rms_dz": 0.020533589468444996
+  },
+  "per_specz_bin": {
+    "0.00-0.05": {
+      "n": 610,
+      "bias_median": 0.005000826645278915,
+      "sigma_nmad": 0.011407644536818197,
+      "outlier_frac": 0.0
+    },
+    "0.05-0.10": {
+      "n": 1663,
+      "bias_median": 0.0003011660321816686,
+      "sigma_nmad": 0.01205997332489135,
+      "outlier_frac": 0.0006013229104028864
+    },
+    "0.10-0.15": {
+      "n": 1638,
+      "bias_median": -0.0013869501241171242,
+      "sigma_nmad": 0.011693072981355159,
+      "outlier_frac": 0.0
+    },
+    "0.15-0.20": {
+      "n": 913,
+      "bias_median": 0.00018357636224099267,
+      "sigma_nmad": 0.010389882993222648,
+      "outlier_frac": 0.001095290251916758
+    },
+    "0.20-0.25": {
+      "n": 483,
+      "bias_median": 5.939742423795177e-05,
+      "sigma_nmad": 0.009497916021926293,
+      "outlier_frac": 0.0
+    },
+    "0.25-0.30": {
+      "n": 456,
+      "bias_median": 0.0015004926467750209,
+      "sigma_nmad": 0.012229856148272017,
+      "outlier_frac": 0.0
+    },
+    "0.30-0.35": {
+      "n": 437,
+      "bias_median": -0.0017982716096803777,
+      "sigma_nmad": 0.011468145756399779,
+      "outlier_frac": 0.002288329519450801
+    },
+    "0.35-0.40": {
+      "n": 318,
+      "bias_median": -0.0006271837129312534,
+      "sigma_nmad": 0.011328328364111953,
+      "outlier_frac": 0.0
+    },
+    "0.40-0.45": {
+      "n": 132,
+      "bias_median": -0.008721390512313184,
+      "sigma_nmad": 0.011184909187943654,
+      "outlier_frac": 0.0
+    },
+    "0.45-0.50": {
+      "n": 37,
+      "bias_median": -0.011962039231911904,
+      "sigma_nmad": 0.012774079096666438,
+      "outlier_frac": 0.0
+    }
+  },
+  "outlier_threshold": 0.15,
+  "usage": "draw observed_z = assigned_z + N(bias,sigma) or resample residuals, per z-bin, both domains",
+  "caveat": "spec-z subset is brighter/lower-z than the full anchor; high-z bins sparse"
+}
