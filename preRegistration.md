@@ -318,7 +318,7 @@ established by measurement, not documentation.
   | [0.15, 0.25) | 743 (z=0.2) |
   | [0.25, 0.35) | 743 re-projected (z=0.3; NOT 724) |
   | [0.35, 0.50) | 692 (z=0.4) |
-  | >= 0.50 tail | 660 (z~0.5) |
+  | >= 0.50 tail | 660 (z=0.49677, measured; header scale factor a=0.668106) |
 
 - **DES bands derive from LSST via per-snapshot colour terms** [measured]: per-star DES
   photometry exists only at snapshots 544 and 817; at the working snapshots DES is obtained
