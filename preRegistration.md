@@ -388,10 +388,18 @@ Anchor caveats carried verbatim into all Phase 2 interpretation: redshifts mostl
 5-10% error; mass/sSFR/Sersic cover only ~3.7-4.8k galaxies; selection function uncorrected.
 
 Footprint rule [adopted]: AION-1's image tokenizer was trained on DR10-South; all headline
-sim-vs-real comparisons run on the SOUTHERN subset of the anchor (count to be measured in the
-covariate cross-match and logged); the northern subset is reserved as the instrument-shift
-negative control. Real anchor galaxies at z < 0.07 are excluded from matched-pair analyses
-only (resolution rule); no mocks below z = 0.1.
+sim-vs-real comparisons run on the SOUTHERN subset of the anchor (MEASURED: 35,919 galaxies,
+release != 9011; northern subset = 12,371, release 9011 BASS/MzLS, reserved as the
+instrument-shift negative control; 48,290/48,398 covariate-matched, 108 unmatched). Real
+anchor galaxies at z < 0.07 are excluded from matched-pair analyses only (resolution rule);
+no mocks below z = 0.1.
+
+I-band missingness [measured, plan §6.3 conditional now RESOLVED]: 21,029/48,398 anchor images
+(43.5%) have a blank i-band channel (g-band blank = 3, so it is i-band coverage not artifact).
+North is 100% i-blank (BASS/MzLS have no i); the SOUTHERN headline subset is 24.0% i-blank
+(8,615 grz-only) vs 76% griz (27,304). This is MEANINGFUL -> the i-band-absent mock variant IS
+produced, and i-band missingness is mirrored into mocks matched to footprint/region (it is a
+footprint-correlated instrument confound, §17.3).
 
 ### 11.4 Anchor selection chain and self-pass gate
 
