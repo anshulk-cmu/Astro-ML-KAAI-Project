@@ -110,7 +110,9 @@ def main():
         time.sleep(0.2)
 
     full = pd.concat(chunks, ignore_index=True)
-    full["footprint"] = np.where(full["release"] == 10000, "south", "north")
+    # north == DR9 BASS/MzLS (release 9011); everything else is DECam-south
+    # (9010 DECaLS, 9012 DES, 10000/10001/10002 DR10 DECam)
+    full["footprint"] = np.where(full["release"] == 9011, "north", "south")
     full.to_parquet(FINAL)
     print(f"DONE {len(full)}/{len(a)} matched; "
           f"south={int((full.footprint=='south').sum())} "
