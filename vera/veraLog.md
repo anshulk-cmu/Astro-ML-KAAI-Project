@@ -314,3 +314,168 @@
   Units embedded in parquet schema metadata. Sanity: catalog817 row count == Task 8 Mstar>1e9
   count (1,013,097); row 0 = known most-massive subhalo (9.74e12 Msun).
 - isCentral = SubhaloRankInGr==0 (66% centrals at Mstar>1e9).
+
+## 2026-06-10 05:00 — sync package rebuilt
+
+- phase2sync.tar.gz rebuilt at workspace root: 510 MB, 42 entries (veraLog.md, code/ 9 scripts,
+  logs/ 16 files, results/ 8 files, data/catalogs/ 5 parquet). Home quota still 1.3G.
+
+## Status: Tasks 7-10 complete. Stopped per instructions.
+
+## 2026-06-14 — Phase2sync2 brief received (temporal grid + exact aperture masses + per-galaxy physics)
+
+- Re-oriented on existing workspace (Tasks 1-10 complete): 5 catalogs in data/catalogs/
+  carry index, starOffset, nStar, rHalfStar, posX/Y/Z, idMostbound, mStar -> Task B can JOIN
+  on `index` and slice stars without re-reading SubGroups offset arrays.
+- Confirmed via Snapshots.txt (measured, file lines = snap+1):
+  snap 660 a=0.668703, 692 a=0.714286, 743 a=0.833333, 771 a=0.909091, 817 a=1.
+  -> z (interpreted, 1/a-1): 660 z=0.49551, 692 z=0.40000, 743 z=0.20000, 771 z=0.10000, 817 z=0.
+- env.sh aion: astropy 7.2.0, numpy 2.4.6, bigfile 0.1.52 import OK.
+
+### Task A: snapshotGrid.py (login node, header-only reads = light)
+
+- Ran `python code/snapshotGrid.py` on login node (header attrs are metadata only). exit 0.
+  logs/snapshotGrid.out, results/snapshotGrid.json.
+- COSMOLOGY (measured, from snap-817 Header): FlatLambdaCDM, H0=67.74 km/s/Mpc (h=0.6774),
+  Om0=0.3089, OmegaLambda=0.6911 (flatness residual exactly 0), OmegaBaryon=0.0486,
+  CMBTemperature=2.7255. Identical Omega0/OmegaLambda/HubbleParam across all 5 headers.
+- Temporal grid (a,z measured; age/lookback/D_A/kpc-per-arcsec interpreted via astropy):
+  snap 817 a=1.000000 z=0.00000 age=13.8027 Gyr lookback=0.0000 D_A=0      kpc/asec=0      (z=0 degenerate)
+  snap 771 a=0.909091 z=0.10000 age=12.4589 lookback=1.3438 D_A=392.84 Mpc kpc/asec=1.90456
+  snap 743 a=0.833333 z=0.20000 age=11.2928 lookback=2.5099 D_A=702.39     kpc/asec=3.40527
+  snap 692 a=0.714286 z=0.40000 age= 9.3885 lookback=4.4142 D_A=1142.34    kpc/asec=5.53821
+  snap 660 a=0.668106 z=0.49677 age= 8.6325 lookback=5.1703 D_A=1292.64    kpc/asec=6.26689
+- Adjacent cosmic-time gaps (measured-derived; feed dedup v_pec*dt bound):
+  817->771 dt=1.3438 Gyr; 771->743 dt=1.1661; 743->692 dt=1.9043; 692->660 dt=0.7560.
+- SANITY PASS: 817 -> a=1.0, z=0 exactly. age(z=0)=13.80 Gyr consistent with Planck-ish cosmo.
+- FLAG (measured): snap 660 Header Time=0.6681056 DISAGREES with Snapshots.txt[660]=0.668703
+  (|da|=5.97e-4, dz~1.3e-3); other 4 agree to <1e-6. Header Time is the TRUE scale factor of
+  the written snapshot (MP-Gadget writes at the sync point >= requested grid time); Snapshots.txt
+  is the *requested* grid. catalog660.parquet was built from THIS file, so its galaxies live at
+  a=0.668106 (z=0.49677). -> Table uses header Time (authoritative). Effect on D_A/scale ~0.1-0.2%.
+  Recorded headerVsTxtAgree/AbsDiff per snap in JSON.
+
+### Task B PRE-FLIGHT (read-only, login node; from LOCAL catalogs only -- no dataset read)
+- Computed star-span vs useful-star counts to size the heavy job BEFORE any srun:
+  per masked subhalo we must read ALL its stars (no-shortcut aperture mass), Position f8x3 +
+  Mass/StarFormationTime/Metallicity f4 = 36 B/star.
+- RESULT (measured): masked subhalos (Mstar>1e9) contain ~95% of ALL stars in each snapshot.
+  useful stars per snap: 817 65.67e9, 771 60.84e9, 743 56.30e9, 692 47.64e9, 660 43.93e9.
+  TOTAL useful = 274.4e9 stars ~= 9.9 TB of reads across the 5 snapshots.
+  Contiguous-span (one block/snap) = 289.3e9 stars -> contiguous-read efficiency 94.8%
+  (only ~5% wasted on intervening unmasked subhalos) -> the brief's chunk-contiguous strategy
+  is near-optimal; NO gap-skipping needed.
+- Largest single subhalo: 48.6M stars (817) = 1.75 GB by itself -> chunk by a STAR-COUNT budget
+  (e.g. 300-500M stars/chunk ~= 11-18 GB) not by subhalo count; split per subhalo in memory.
+- IMPLICATION: this is a ~10 TB read / 274e9-star compute job (output is still only tens of MB).
+  Far heavier than "tens of MB" suggests. Age per star needs an interpolation table
+  a_form -> t(a_form) [Gyr] built once per snapshot (cannot call astropy 2.7e11 times).
+  -> reported to brain; awaiting go-ahead before launching the ~1000-subhalo/snap PILOT.
+
+### Task B PILOT submitted (srun on RM, background)
+- code/apertureMass.py written: shared computeGalaxy() (periodic min-image, aperture 2x/1x rHalf,
+  mass-wt age via per-snap a_form->t interp table 5000 pts, massWtMetalAper, sfr100/sfr10 from
+  current star mass within 2x rHalf, naive-vs-minimage radii for wrap check). Modes pilot|full;
+  full() raises (gated on STOP-2). Cosmology pinned from Task A.
+- Pilot: ~1000 subhalos/snap STRATIFIED in log M* (declining allocation 140/75/25/12/6 per
+  0.25-dex bin from 1e9 floor up), all 5 snaps, fresh subfind metadata (off/len/pos/rHalf) read
+  per sampled idx -> join-validated vs catalog; + one contiguous 100M-star probe at 817 for the
+  true full-run inner-loop rate. Writes results/apertureQcPilot.json.
+- Submitted: srun -p RM -A phy200026p -N1 -n1 -c8 --mem=48G --time=2:00:00 python
+  code/apertureMass.py pilot  (NOT on login node). Awaiting completion.
+
+### Task B PILOT v1 (job 973998, exit 0) -- BUG FOUND, results INVALID, re-running
+- BUG (measured): used catalog ROW POSITION as the subfind subhalo index. Catalog holds only
+  Mstar>1e9 subhalos (~1.01M of 44.4M; `index` col scattered to ~44M), so row `i` != subhalo
+  index idx[i]. -> sliced wrong subhalos. Symptoms: JOIN starOffset mismatch 955/956,
+  max|dPos|~2.45e5 (~box), SLICE relDev up to 6.2, nStarNonPos=563 (sampled massive-group
+  satellites). Gate still ~0.48 ONLY because each wrong subhalo was self-consistent (own
+  center+rHalf+stars) -> the aperture MATH is fine, the SAMPLE was wrong.
+- VALID from v1 (bug-free path): contiguous probe used catalog starOffset/pos/rHalf -> 0.34 GB/s
+  read, compute 4.98e6 st/s, COMBINED 3.27e6 st/s. Full-run extrapolation (serial read+compute):
+  817 5.83h, 771 5.42h, 743 5.04h, 692 4.31h, 660 3.99h; TOTAL 24.58h, no-817 18.75h. This
+  estimate is independent of the bug (probe path was correct).
+- FIX: read fresh subfind at gi=idx[row]; added idMostbound identity check (bulletproof join);
+  replaced flawed wrap heuristic with deterministic wrapTest() scanning catalog for centers
+  within 1xrHalf of a box face. Re-running pilot.
+
+### Task B PILOT v2 CORRECTED (job 974000, exit 0) -- ALL GATES PASS
+- Index fix confirmed. JOIN bulletproof: offMism=0, lenMism=0, idMostboundMism=0, max|dPos|=0,
+  max|dRHalf|=0 across all 5 snaps (~4767 sampled subhalos total). (measured)
+- HALF-MASS GATE mStarAper1/mStarTotalStars: median=0.5000 (IQR within [0.4999,0.5001]) for ALL
+  5 snaps; holds in EVERY nStar bin incl. lowest [2000,5000): 817 .4999, 771 .5002, 743 .5000,
+  692 .4996, 660 .4998. True pool star floor min nStar 2440-2845 (NOT 300). PASS. (measured)
+- SLICE: max relDev(totalStars vs catalog mStar) = 1.24-1.32e-7 (f4 precision), all snaps. (measured)
+- aper2/total DIAG: median 817 .910, 771 .911, 743 .910, 692 .903, 660 .895; IQR ~[.83,.94].
+  Mild trend (higher z -> slightly smaller fraction). (measured)
+- nStarAper: min ~3600-4300, median ~26k-32k, max ~20-32M. PATHOLOGIES rHalfNonPos=0,
+  emptyAperture=0, tinyNstar=0 for ALL snaps (v1's 243 tinyNstar was the bug). (measured)
+- WRAP TEST (deterministic, centers within 1xrHalf of a face): real straddlers found, e.g.
+  817 idx=2800087 center=(186653,186757,249999) rHalf=4.2: naiveMaxR=249999 vs minImageMaxR=47.4,
+  18613 stars wrapped, mAper2 naive=5.30e9 vs minImage=8.37e9 (naive 37% LOW). Many more at
+  817 & 660. Proves periodic min-image is necessary AND correct. (measured)
+- THROUGHPUT: per-subhalo-seek 1.26-1.56M st/s; contiguous probe (full-run path) read 0.37 GB/s
+  (10.4M st/s), per-subhalo-loop compute 7.8M st/s, combined 4.46M st/s. Pilot serial-process
+  extrapolation: no-817 13.7h. (measured)
+- Full-run code (full(), apFull.sbatch) prepared: vectorized bincount segmented reductions +
+  1-thread prefetch -> read-bound; 4-snap array skipping 817; per-chunk checkpoint. Verifying
+  processChunk == scalar computeGalaxy before any heavy launch.
+
+### Task B HEAVY-RUN code VERIFIED & sized (still gated; NOT launched)
+- VERIFY mode (job, 817, 100M-star block): vectorized processChunk == scalar computeGalaxy to
+  relDiff ~1e-12 (nStarAper exact) -> bincount path numerically correct. BUT vectorized compute
+  3.5M st/s vs scalar 7.8M st/s vs read 10.3M st/s -> vectorized is COMPUTE-BOUND (full-array
+  fancy-index gathers are memory-bandwidth bound). DECISION (measured): heavy run uses the
+  scalar computeGalaxy loop, parallelized across 8 cores. (measured)
+- full() rewritten: multiprocessing.Pool(8), each worker reads one contiguous 50M-star chunk
+  (CHUNK_STARS=50M -> ~1.8GB/worker, x8 ~15GB, fits --mem=64G) + scalar loop; per-chunk parquet
+  checkpoint (resumable); concat+sort-by-index at end; pathology rHalf<=0 -> NaN+flag (never 0).
+- SMOKE test (job 974002; snap 660, first 16 chunks, 8 workers): 735M stars in 34s =
+  21.5M st/s AGGREGATE (2.1x single-stream read 10.3M st/s -> READ-BOUND, good). Correctness
+  max relDev(totalStars vs catalog mStar)=1.42e-7. (measured)
+- WALL-CLOCK (measured 21.5M st/s, span/rate): 771 0.82h, 743 0.77h, 692 0.65h, 660 0.61h.
+  4-task sbatch array (one node x8 workers each) -> WALL ~0.82h (~49 min, snap 771).
+  Conservative w/ cross-task Lustre contention ~1-1.5h. << 24h. (interpreted from measured rate)
+- DELIVERABLES READY (gated): code/apFull.sbatch (array 0-3 -> 771/743/692/660, 817 skipped,
+  -c8 --mem=64G -t6h); full() writes data/apertureExtra{s}.parquet (12 cols per contract) +
+  results/apertureQc_{s}.json; `python code/apertureMass.py mergeqc` -> results/apertureQc.json.
+- Smoke checkpoints removed. STOP-2: awaiting greenlight to `sbatch code/apFull.sbatch`.
+
+### Task B HEAVY RUN LAUNCHED -- GREENLIT (job array 974003_[0-3], -t 2:00:00)
+- sbatch code/apFull.sbatch : array 0-3 -> snapshots 771/743/692/660 (817 skipped), each
+  -N1 -c8 --mem=64G. Submitted; awaiting completion. Will report row counts vs catalog,
+  wall-clock, peak mem, per-galaxy sanity, then mergeqc.
+
+### Task B HEAVY RUN COMPLETE (array 974003) + STOP-3 verification + 771 anomaly RESOLVED
+- WALL-CLOCK (sacct, measured): 771 1:02:39, 743 0:57:29, 692 0:50:36, 660 0:46:47 ->
+  array wall ~1h03m. PEAK RSS 18.9-19.7 GB/task (req 64G). All COMPLETED.
+- ROW COUNTS == catalog exactly: 771 1,002,773; 743 983,697; 692 939,605; 660 913,248.
+  index join exact (set match, no dupes) all snaps. (measured)
+- 771-ONLY ANOMALY diagnosed (STOP-3):
+  - relDev(mStarTotalStars vs catalog mStar): clean p99.9=1.3e-7 (f4 noise); a tail of 201 at
+    >1e-3 (up to 0.292) + 5 at 1e-4..7.5e-4, ALL in index 9.880-9.888M = FOF groups 13377/13378
+    (21.9% through the subhalo array). 743/692/660: max relDev 1.4e-7, ZERO anomalies. (measured)
+  - Pathology was emptyAperture (155), NOT rHalf<=0: bad set has rHalf 1.25-7.54 (all>0),
+    nStar 4.7k-267k, mStar up to 5.4e10 -> substantial galaxies with ZERO stars in 2xrHalf.
+  - DECISIVE (subfind srun, diagBad771.py): catalog faithful (off/len/massType mism=0). PER-SEEK
+    re-slice (pilot method, independent of chunking) REPRODUCES the mismatch: e.g. idx9880149
+    starMassSum 1.81e9 vs SubhaloMassType[4] 2.05e9 (ratio 0.885). Stars coherent (single
+    GroupID/SubgroupID) but member stars 296-590 ckpc/h from their own SubhaloPos. -> SubhaloPos
+    & SubhaloMassType are internally INCONSISTENT with star membership for this localized region.
+  - VERDICT: DATA quirk in PIG_771_subfind, NOT a chunk/code bug (per-seek == chunked path; other
+    snaps clean). Per pre-stated rule -> flag+exclude, NO RERUN. (measured + decided)
+  - ACTION (flagBad771.py, reversible): pathology='massMismatch' for the 208 relDev>1e-5 subhalos
+    (clean gap: f4 noise <=1e-6, then nothing until 1e-4). apertureExtra771.parquet clean rows
+    now 1,002,565 with max relDev 1.42e-7 (pure f4). results/bad771.json documents indices+groups.
+    apertureQc_771.json regenerated excluding flagged.
+- FINAL SANITY (clean rows, all 4 snaps): A1<=A2<=Total, 0<massWtAge<t_snap, sfr100/sfr10>=0,
+  nStarAper<=nStar, NaN only where flagged -> ALL PASS. Medians sane; massWtAge falls with z
+  (771 4.53 -> 660 2.88 Gyr). results/apertureQc.json merged (4 snaps). (measured)
+- NOT PACKAGED yet (per STOP-3); _ckpt_* dirs kept. Awaiting greenlight.
+
+### Task C: package phase2sync2.tar.gz (GREENLIT 2026-06-15)
+- Built at workspace root with: data/apertureExtra{771,743,692,660}.parquet (12-col),
+  results/apertureQc.json + apertureQc_{771,743,692,660}.json, results/bad771.json (208-excl
+  provenance), results/snapshotGrid.json (Task A grid), code/apertureMass.py, code/snapshotGrid.py,
+  code/apFull.sbatch, veraLog.md, logs/apFull_{0..3}.out. 19 files.
+- _ckpt_* dirs RETAINED pending local join-verification all-clear (tar-rebuild safety).
