@@ -6,7 +6,8 @@ prototype_out/
 *.npz
 *.fits
 *.safetensors
-vera/phase2sync.tar.gz
+vera/*.tar.gz
+.claude/
 
 # Secrets / keys
 *.pem
