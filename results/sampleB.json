@@ -1,0 +1,117 @@
+{
+  "nDrawn": 50095,
+  "nTarget": 50000,
+  "cap": 11426,
+  "chainReuse": 0,
+  "essByRenderSnap": {
+    "660": 4391.0,
+    "692": 11426.0,
+    "743r": 11426.0,
+    "743": 11426.0,
+    "771": 11426.0
+  },
+  "essTotal": 44078.0,
+  "shells": [
+    {
+      "rsnap": "771",
+      "zlo": 0.075,
+      "zhi": 0.15,
+      "nPool": 1002565,
+      "nSel": 393137,
+      "vShell": 227726426.0714038
+    },
+    {
+      "rsnap": "743",
+      "zlo": 0.15,
+      "zhi": 0.25,
+      "nPool": 983697,
+      "nSel": 135926,
+      "vShell": 862732592.1710912
+    },
+    {
+      "rsnap": "743r",
+      "zlo": 0.25,
+      "zhi": 0.35,
+      "nPool": 983697,
+      "nSel": 37715,
+      "vShell": 1727519654.2666633
+    },
+    {
+      "rsnap": "692",
+      "zlo": 0.35,
+      "zhi": 0.45,
+      "nPool": 939605,
+      "nSel": 15989,
+      "vShell": 2740134715.4322596
+    },
+    {
+      "rsnap": "660",
+      "zlo": 0.45,
+      "zhi": 0.55,
+      "nPool": 913248,
+      "nSel": 4391,
+      "vShell": 3817264706.6354876
+    }
+  ],
+  "P1_quiescentFractionVsMass": [
+    {
+      "logMlo": 10.0,
+      "nGal": 4415,
+      "ess": 4335.0,
+      "fQuiescent_weighted": 0.008,
+      "fQuiescent_raw": 0.01
+    },
+    {
+      "logMlo": 10.2,
+      "nGal": 5070,
+      "ess": 4936.0,
+      "fQuiescent_weighted": 0.009,
+      "fQuiescent_raw": 0.01
+    },
+    {
+      "logMlo": 10.4,
+      "nGal": 5340,
+      "ess": 4961.0,
+      "fQuiescent_weighted": 0.009,
+      "fQuiescent_raw": 0.009
+    },
+    {
+      "logMlo": 10.6,
+      "nGal": 7161,
+      "ess": 6313.0,
+      "fQuiescent_weighted": 0.01,
+      "fQuiescent_raw": 0.007
+    },
+    {
+      "logMlo": 10.8,
+      "nGal": 8803,
+      "ess": 7772.0,
+      "fQuiescent_weighted": 0.024,
+      "fQuiescent_raw": 0.014
+    },
+    {
+      "logMlo": 11.0,
+      "nGal": 6923,
+      "ess": 6113.0,
+      "fQuiescent_weighted": 0.086,
+      "fQuiescent_raw": 0.057
+    },
+    {
+      "logMlo": 11.2,
+      "nGal": 3714,
+      "ess": 3313.0,
+      "fQuiescent_weighted": 0.187,
+      "fQuiescent_raw": 0.15
+    },
+    {
+      "logMlo": 11.4,
+      "nGal": 1595,
+      "ess": 1432.0,
+      "fQuiescent_weighted": 0.182,
+      "fQuiescent_raw": 0.154
+    }
+  ],
+  "selectionModel": "cheap: intrinsic desR + distmod(z_assigned-z_snap) + 0.12 dust/MW, r<19.0; S3 refines",
+  "massConvention": "aperture mStarAper2 (h=0.6774); ssfr=sfrNew/mStarAper2 (newSFa SFR)",
+  "note": "volume-weighted-as-observed; P1 restricted to M*>1e10 (Q1 resolution caveat); weighted stats use 'weight'. Pre-selection candidate; r<19 refill loop = S3."
+}
