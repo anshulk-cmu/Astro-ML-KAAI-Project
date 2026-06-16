@@ -1,0 +1,188 @@
+{
+  "mode": "absolute",
+  "realmass": "zou",
+  "align": 0.0,
+  "nDrawn": 49490,
+  "nTargetTotal": 50000,
+  "scale": 1.5919004107103059,
+  "dedupChainReuse": 0,
+  "uniquePhysicalGalaxies": 49490,
+  "perBin": [
+    {
+      "zlo": 0.075,
+      "snap": "771",
+      "nTarget": 10656,
+      "nDrawn": 10443,
+      "starvation": 0.019988738738738743,
+      "nAvail": 981363,
+      "starvCells": [
+        {
+          "logMlo": 8.5,
+          "want": 25,
+          "got": 0
+        },
+        {
+          "logMlo": 8.6,
+          "want": 51,
+          "got": 0
+        },
+        {
+          "logMlo": 8.7,
+          "want": 56,
+          "got": 0
+        },
+        {
+          "logMlo": 8.8,
+          "want": 67,
+          "got": 55
+        }
+      ],
+      "simLogM_median": 10.167679967485816,
+      "realLogM_median": 10.151200294494629
+    },
+    {
+      "zlo": 0.125,
+      "snap": "771",
+      "nTarget": 11780,
+      "nDrawn": 11761,
+      "starvation": 0.001612903225806428,
+      "nAvail": 993124,
+      "starvCells": [
+        {
+          "logMlo": 8.5,
+          "want": 2,
+          "got": 0
+        },
+        {
+          "logMlo": 8.6,
+          "want": 3,
+          "got": 0
+        },
+        {
+          "logMlo": 8.7,
+          "want": 3,
+          "got": 0
+        }
+      ],
+      "simLogM_median": 10.473460593936345,
+      "realLogM_median": 10.477449893951416
+    },
+    {
+      "zlo": 0.175,
+      "snap": "743",
+      "nTarget": 11801,
+      "nDrawn": 11529,
+      "starvation": 0.02304889416151179,
+      "nAvail": 968644,
+      "starvCells": [
+        {
+          "logMlo": 8.7,
+          "want": 2,
+          "got": 0
+        },
+        {
+          "logMlo": 11.3,
+          "want": 277,
+          "got": 172
+        },
+        {
+          "logMlo": 11.4,
+          "want": 166,
+          "got": 46
+        },
+        {
+          "logMlo": 11.6,
+          "want": 45,
+          "got": 0
+        }
+      ],
+      "simLogM_median": 10.732179908200186,
+      "realLogM_median": 10.749799728393555
+    },
+    {
+      "zlo": 0.225,
+      "snap": "743",
+      "nTarget": 9816,
+      "nDrawn": 9810,
+      "starvation": 0.0006112469437652424,
+      "nAvail": 978454,
+      "starvCells": [
+        {
+          "logMlo": 11.6,
+          "want": 76,
+          "got": 68
+        }
+      ],
+      "simLogM_median": 10.933777643606469,
+      "realLogM_median": 10.937949657440186
+    },
+    {
+      "zlo": 0.275,
+      "snap": "743r",
+      "nTarget": 3919,
+      "nDrawn": 3922,
+      "starvation": -0.0007655014034191332,
+      "nAvail": 982376,
+      "starvCells": [],
+      "simLogM_median": 11.16721195839985,
+      "realLogM_median": 11.168149948120117
+    },
+    {
+      "zlo": 0.325,
+      "snap": "743r",
+      "nTarget": 1315,
+      "nDrawn": 1314,
+      "starvation": 0.0007604562737643095,
+      "nAvail": 983690,
+      "starvCells": [
+        {
+          "logMlo": 8.5,
+          "want": 2,
+          "got": 0
+        }
+      ],
+      "simLogM_median": 11.369734997721737,
+      "realLogM_median": 11.370150089263916
+    },
+    {
+      "zlo": 0.375,
+      "snap": "692",
+      "nTarget": 533,
+      "nDrawn": 529,
+      "starvation": 0.007504690431519689,
+      "nAvail": 939423,
+      "starvCells": [
+        {
+          "logMlo": 11.7,
+          "want": 56,
+          "got": 51
+        }
+      ],
+      "simLogM_median": 11.546792256313418,
+      "realLogM_median": 11.545499801635742
+    },
+    {
+      "zlo": 0.425,
+      "snap": "692",
+      "nTarget": 154,
+      "nDrawn": 155,
+      "starvation": -0.006493506493506551,
+      "nAvail": 939578,
+      "starvCells": [],
+      "simLogM_median": 11.673623336344221,
+      "realLogM_median": 11.671899795532227
+    },
+    {
+      "zlo": 0.475,
+      "snap": "692",
+      "nTarget": 25,
+      "nDrawn": 27,
+      "starvation": -0.08000000000000007,
+      "nAvail": 939605,
+      "starvCells": [],
+      "simLogM_median": 11.725017900247021,
+      "realLogM_median": 11.781599998474121
+    }
+  ],
+  "note": "absolute: (z,M*) match + P3 starvation-by-cell; needs realmass=zou + correct align"
+}

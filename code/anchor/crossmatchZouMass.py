@@ -4,18 +4,24 @@ anchor from the Zou et al. 2022 DESI DR9 photo-z + stellar-mass catalog
 (china-vo paperdata; DOI 10.12149/101090). ~320M galaxies, log M* sigma ~0.2 dex,
 full z<1, both hemispheres.
 
-Stream-crossmatch: discover the RA-range shards, and for each shard download ->
-read ra/dec/photoz/mass -> nearest-match the anchor galaxies in that RA range
-(within 1") -> keep -> DELETE the shard. Peak disk ~ one shard.
+Stream-crossmatch: for each RA-range shard, download -> read ra/dec/photoz/mass ->
+nearest-match the anchor galaxies in that RA range (within 1") -> keep -> DELETE the
+shard. Peak disk ~ one shard (~3 GB).
 
-RUN ON VERA (astropy + bandwidth; ~78 GB total transfer, deleted as it goes).
-Resumable: shards already in the done-list are skipped.
-Needs: astropy, scipy, pandas, numpy, requests. Anchor file: data/anchorRADec.csv
-(dr8_id,ra,dec) — export it from sample.parquet[ok_index] before running.
+NETWORK NOTE (verified on Vera 2026-06-15): the china-vo directory LISTING is a dead
+JS/cookie portal (HTTP 200, empty body) -> cannot scrape it. Direct shard GETs work and
+need a browser User-Agent (default Python-urllib is what the portal rejects). Naming is
+fixed: desidr9_galaxy_cspcat_ra{LLL}_{HHH}.fits, 10-deg bins, 3-digit zero-pad -> 36
+shards (ra000_010 .. ra350_360). Malformed names return Content-Length 0 (not 404).
+So the shard list is GENERATED, not discovered, and downloads carry a UA + are validated.
+
+RUN ON VERA from the workspace root: python -u code/crossmatchZouMass.py
+Resumable via zouDone.txt. Needs astropy, scipy, pandas, numpy. Anchor: data/anchorRADec.csv.
 """
 import os
 import re
 import sys
+import shutil
 import urllib.request
 import numpy as np
 import pandas as pd
@@ -23,15 +29,17 @@ from astropy.io import fits
 from scipy.spatial import cKDTree
 
 BASE = "https://paperdata.china-vo.org/zouhu/pz_cluster/photoz_desidr9/"
+UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/120 Safari/537.36"
 TMP = "zou_shard.fits"
 OUT = "data/anchorMassZou.parquet"
 DONE = "data/zouDone.txt"
 MATCH_AS = 1.0
+SHARDS = [f"desidr9_galaxy_cspcat_ra{i:03d}_{i+10:03d}.fits" for i in range(0, 360, 10)]
 RA_CANDS = ["ra", "RA", "raj2000", "RAJ2000"]
 DEC_CANDS = ["dec", "DEC", "dej2000", "DEJ2000", "decl"]
-Z_CANDS = ["photoz", "photo_z", "z_phot", "zphot", "zphot_best", "z_best", "zp"]
-M_CANDS = ["logmass", "logmass_best", "mass", "mass_best", "mass_median",
-           "logm", "mstar", "logmstar", "stellar_mass", "logms"]
+Z_CANDS = ["photoz", "photo_z", "z_phot", "zphot", "zphot_best", "z_best", "zp", "redshift"]
+M_CANDS = ["logmass", "logmass_best", "mass", "mass_best", "mass_median", "logm",
+           "mstar", "logmstar", "stellar_mass", "logms", "smass", "logsm", "sm"]
 
 
 def pick(cols, cands):
@@ -47,19 +55,27 @@ def unit_vecs(ra, dec):
     return np.column_stack([np.cos(d) * np.cos(r), np.cos(d) * np.sin(r), np.sin(d)])
 
 
+def download(url, dest):
+    """Streamed download with a browser UA; returns bytes written. 0 = bad/empty name."""
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    with urllib.request.urlopen(req, timeout=600) as r, open(dest, "wb") as f:
+        shutil.copyfileobj(r, f, length=4 * 1024 * 1024)
+    return os.path.getsize(dest)
+
+
+def isFits(path):
+    with open(path, "rb") as f:
+        return f.read(6) == b"SIMPLE"
+
+
 def main():
     anc = pd.read_csv("data/anchorRADec.csv")
-    listing = urllib.request.urlopen(BASE, timeout=120).read().decode("latin1")
-    shards = sorted(set(re.findall(r"desidr9_galaxy_cspcat_ra\d+_\d+\.fits", listing)))
-    print(f"discovered {len(shards)} shards; anchor n={len(anc)}")
-    if not shards:
-        sys.exit("no shards parsed from listing - check BASE / page format")
-
+    print(f"anchor n={len(anc)}; {len(SHARDS)} generated shards (ra000_010..ra350_360)")
     done = set(open(DONE).read().split()) if os.path.exists(DONE) else set()
     results = [pd.read_parquet(OUT)] if os.path.exists(OUT) else []
     cmap = None
 
-    for sh in shards:
+    for sh in SHARDS:
         if sh in done:
             continue
         lo, hi = map(int, re.findall(r"ra(\d+)_(\d+)", sh)[0])
@@ -67,8 +83,14 @@ def main():
         if len(sub) == 0:
             done.add(sh); open(DONE, "a").write(sh + "\n"); continue
 
-        print(f"{sh}: anchor-in-range {len(sub)} ... downloading")
-        urllib.request.urlretrieve(BASE + sh, TMP)
+        print(f"{sh}: anchor-in-range {len(sub)} ... downloading", flush=True)
+        nbytes = download(BASE + sh, TMP)
+        if nbytes == 0 or not isFits(TMP):
+            print(f"  !! {sh}: bytes={nbytes}, not valid FITS -- skipping (bad name?)")
+            os.remove(TMP) if os.path.exists(TMP) else None
+            done.add(sh); open(DONE, "a").write(sh + "\n"); continue
+        print(f"  downloaded {nbytes/1e9:.2f} GB", flush=True)
+
         with fits.open(TMP, memmap=True) as hd:
             cols = hd[1].columns.names
             if cmap is None:
@@ -85,7 +107,6 @@ def main():
             tm = np.asarray(t[cmap["m"]], float)
 
         tree = cKDTree(unit_vecs(tra, tdec))
-        rad = 2 * np.sin(np.radians(MATCH_AS / 3600.0) / 2)
         dist, idx = tree.query(unit_vecs(sub.ra.values, sub.dec.values), k=1)
         sep_as = np.degrees(2 * np.arcsin(np.clip(dist / 2, 0, 1))) * 3600.0
         ok = sep_as <= MATCH_AS
@@ -97,7 +118,7 @@ def main():
         os.remove(TMP)
         done.add(sh); open(DONE, "a").write(sh + "\n")
         got = pd.concat(results, ignore_index=True).drop_duplicates("dr8_id")
-        print(f"  matched {ok.sum()}/{len(sub)}  cumulative {len(got)}")
+        print(f"  matched {int(ok.sum())}/{len(sub)}  cumulative {len(got)}", flush=True)
 
     got = pd.concat(results, ignore_index=True).drop_duplicates("dr8_id")
     print(f"DONE: {len(got)}/{len(anc)} anchor galaxies have Zou masses")

@@ -1,0 +1,102 @@
+{
+  "nDrawn": 49999,
+  "nTargetTotal": 50000,
+  "scale": 1.5724259387382855,
+  "dedupChainReuse": 0,
+  "uniquePhysicalGalaxies": 49999,
+  "perBin": [
+    {
+      "zlo": 0.075,
+      "snap": "771",
+      "nTarget": 10681,
+      "nDrawn": 10681,
+      "starvation": 0.0,
+      "nAvail": 981329,
+      "simLogM_median": 9.515073502515465,
+      "realLogM_median": 9.863138615776155
+    },
+    {
+      "zlo": 0.125,
+      "snap": "771",
+      "nTarget": 11755,
+      "nDrawn": 11755,
+      "starvation": 0.0,
+      "nAvail": 993084,
+      "simLogM_median": 9.524663909622513,
+      "realLogM_median": 10.193559608321838
+    },
+    {
+      "zlo": 0.175,
+      "snap": "743",
+      "nTarget": 11777,
+      "nDrawn": 11777,
+      "starvation": 0.0,
+      "nAvail": 968624,
+      "simLogM_median": 9.495375935045873,
+      "realLogM_median": 10.47316423961187
+    },
+    {
+      "zlo": 0.225,
+      "snap": "743",
+      "nTarget": 9820,
+      "nDrawn": 9820,
+      "starvation": 0.0,
+      "nAvail": 978444,
+      "simLogM_median": 9.507504664106683,
+      "realLogM_median": 10.689029988571797
+    },
+    {
+      "zlo": 0.275,
+      "snap": "743r",
+      "nTarget": 3918,
+      "nDrawn": 3918,
+      "starvation": 0.0,
+      "nAvail": 982362,
+      "simLogM_median": 9.502980761950642,
+      "realLogM_median": 10.970850099911985
+    },
+    {
+      "zlo": 0.325,
+      "snap": "743r",
+      "nTarget": 1326,
+      "nDrawn": 1326,
+      "starvation": 0.0,
+      "nAvail": 983688,
+      "simLogM_median": 9.490336488279176,
+      "realLogM_median": 11.216960571162248
+    },
+    {
+      "zlo": 0.375,
+      "snap": "692",
+      "nTarget": 539,
+      "nDrawn": 539,
+      "starvation": 0.0,
+      "nAvail": 939422,
+      "simLogM_median": 9.519001015855412,
+      "realLogM_median": 11.376522404328053
+    },
+    {
+      "zlo": 0.425,
+      "snap": "692",
+      "nTarget": 156,
+      "nDrawn": 156,
+      "starvation": 0.0,
+      "nAvail": 939578,
+      "simLogM_median": 9.433064137087072,
+      "realLogM_median": 11.296600561337787
+    },
+    {
+      "zlo": 0.475,
+      "snap": "692",
+      "nTarget": 27,
+      "nDrawn": 27,
+      "starvation": 0.0,
+      "nAvail": 939605,
+      "simLogM_median": 9.493452163442266,
+      "realLogM_median": 11.165310488666565
+    }
+  ],
+  "massConvention": "sim=aperture h=0.6774 logMsun; real=colour-mass elpetro scale (NOT aligned -> median comparison is cross-scale, indicative only; absolute (z,M*) match + P3-by-cell await Zou DR9 alignment)",
+  "matching": "rank-matched primary (representative within-z draw, count-matched); within-z absolute mass diff handled by importance-weighted AUC_cond at analysis",
+  "note": "pre-selection candidate sample; r<19 selection + refill loop is S3"
+}
