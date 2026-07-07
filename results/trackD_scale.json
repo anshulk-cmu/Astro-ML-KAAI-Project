@@ -1,0 +1,29 @@
+{
+  "base_dim": 768,
+  "pa_err_base_raw": 2.51699061446372,
+  "base_sae_health": {
+    "fvu": 0.031392212957143784,
+    "alive": 0.9309896230697632
+  },
+  "distributed_loop_base": {
+    "baseline": 2.51699061446372,
+    "K15": {
+      "ablate": 6.2936887405593085,
+      "control": 2.5138632171504995
+    },
+    "K50": {
+      "ablate": 9.768037567307763,
+      "control": 2.5148013314514865
+    },
+    "K200": {
+      "ablate": 17.46752344688647,
+      "control": 2.4979046619249514
+    }
+  },
+  "cross_scale_match": {
+    "n_large_active": 2700,
+    "frac_matched_ge_0p5": 0.22296296296296297,
+    "frac_matched_ge_0p3": 0.42074074074074075,
+    "median_best_corr": 0.2268771082162857
+  }
+}
