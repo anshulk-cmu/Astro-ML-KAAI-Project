@@ -8,6 +8,7 @@ prototype_out/
 *.safetensors
 vera/*.tar.gz
 .claude/
+Recordings/
 
 # Secrets / keys
 *.pem
@@ -42,3 +43,4 @@ problem.md
 report_sections
 papers/
 paper-suggestions.md
+relatedWork.md
