@@ -1,0 +1,35 @@
+{
+  "covariates": [
+    "ebv",
+    "psfsize_g",
+    "psfsize_r",
+    "psfsize_i",
+    "psfsize_z",
+    "psfdepth_g",
+    "psfdepth_r",
+    "psfdepth_i",
+    "psfdepth_z"
+  ],
+  "cosRA": {
+    "r2_from_Eimg": 0.41464900744314126,
+    "r2_from_covariates": 0.2835602908648238,
+    "r2_residual_from_Eimg": 0.24139194146907894,
+    "explained_frac": 0.41784030074597533
+  },
+  "sinRA": {
+    "r2_from_Eimg": 0.1744632673263694,
+    "r2_from_covariates": 0.09210685667812968,
+    "r2_residual_from_Eimg": 0.08387578400217643,
+    "explained_frac": 0.5192352792220178
+  },
+  "cond_in_Eimg": {
+    "ebv": 0.3029355578384174,
+    "psfdepth_r": 0.4405145848868649,
+    "psfsize_r": 0.6852774279246676
+  },
+  "align_cosRA_dir": {
+    "ebv": 0.41911691427230835,
+    "psfdepth_r": 0.05242159590125084,
+    "psfsize_r": 0.21139244735240936
+  }
+}

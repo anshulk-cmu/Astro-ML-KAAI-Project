@@ -1,0 +1,73 @@
+{
+  "n_elong": 15893,
+  "baseline_median_err_deg": 2.0266658091947662,
+  "sign_convention": "scipy rotate(+phi) shifts the array-frame angle by -phi, and catalog PA is same-handed with the array frame (both verified, runLog 2026-07-01) -> a physical rotation by +phi must move the readout by -phi. expected_shift_deg carries that minus sign; applied_fold_deg is the raw applied rotation folded to (-90,90].",
+  "angles": {
+    "30.0": {
+      "applied_fold_deg": 30.0,
+      "expected_shift_deg": -30.0,
+      "median_recovered_shift_deg": -29.926376342773438,
+      "median_abs_error_deg": 2.4923017024993896,
+      "error_ci": [
+        2.4503267288208006,
+        2.5351213216781616
+      ]
+    },
+    "60.0": {
+      "applied_fold_deg": 60.0,
+      "expected_shift_deg": -60.0,
+      "median_recovered_shift_deg": -59.979248046875,
+      "median_abs_error_deg": 2.6240696907043457,
+      "error_ci": [
+        2.578218698501587,
+        2.6745451211929323
+      ]
+    },
+    "90.0": {
+      "applied_fold_deg": 90.0,
+      "expected_shift_deg": 90.0,
+      "median_recovered_shift_deg": -50.63923263549805,
+      "median_abs_error_deg": 2.442730188369751,
+      "error_ci": [
+        2.404237240552902,
+        2.4864051699638368
+      ]
+    },
+    "120.0": {
+      "applied_fold_deg": -60.0,
+      "expected_shift_deg": 60.0,
+      "median_recovered_shift_deg": 59.94278335571289,
+      "median_abs_error_deg": 2.6856164932250977,
+      "error_ci": [
+        2.638349288702011,
+        2.739866864681244
+      ]
+    },
+    "150.0": {
+      "applied_fold_deg": -30.0,
+      "expected_shift_deg": 30.0,
+      "median_recovered_shift_deg": 29.91802978515625,
+      "median_abs_error_deg": 2.5134241580963135,
+      "error_ci": [
+        2.471688359975815,
+        2.5557375848293304
+      ]
+    },
+    "180.0": {
+      "applied_fold_deg": 0.0,
+      "expected_shift_deg": -0.0,
+      "median_recovered_shift_deg": -0.005552943330258131,
+      "median_abs_error_deg": 1.9439430236816406,
+      "error_ci": [
+        1.9111086130142212,
+        1.9853512048721313
+      ]
+    }
+  },
+  "slope_vs_applied": -0.9989615631103517,
+  "intercept_vs_applied": -0.010072838421912197,
+  "max_abs_fit_residual_deg": 0.05254338895902322,
+  "slope_excluded_angles": [
+    90.0
+  ]
+}

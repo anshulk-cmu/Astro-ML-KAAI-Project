@@ -1,0 +1,18 @@
+{
+  "pca_scan": {
+    "n_pcs_scanned": 50,
+    "best_single_pc_corr": 0.7831845945244501,
+    "best_pc_pair": [
+      10,
+      15
+    ],
+    "best_pc_pair_ring_r2": 0.40624060223557823
+  },
+  "sae_check": {
+    "n_features": 4096,
+    "embedding": "E_full (Phase 1 dictionary)",
+    "best_single_feature_corr_c2": 0.5006019548208746,
+    "best_single_feature_corr_s2": 0.4972341633250399,
+    "n_features_corr_gt_0p3_either": 15
+  }
+}
