@@ -12,7 +12,7 @@ import glob
 
 ROOT = r"d:/AstroML-Project"
 SECT = os.path.join(ROOT, "report_sections")
-OUT = os.path.join(ROOT, "AION1_GEOMETRY_REPORT.md")
+OUT = os.path.join(ROOT, "Technical-Report.md")
 WIDTH = 90
 
 files = sorted(glob.glob(os.path.join(SECT, "[0-9][0-9]_*.md")))
