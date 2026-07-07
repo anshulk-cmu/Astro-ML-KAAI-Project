@@ -1,0 +1,40 @@
+{
+  "n": 15893,
+  "smoke": false,
+  "baseline_median_err_deg": 2.0266657602314666,
+  "sign_convention": "np.flip on the column axis maps the array-frame angle to its negative (mod 180); catalog PA = array angle - 90 same-handed (verified runLog 2026-07-01) and the 90-deg offset cancels mod 180 -> expected readout -PA, fixed points PA in {0,90}. A residual frame offset c-90 would appear as a constant -2(c-90) shift (reflections conjugate the offset; rotations cancel it) -> estimated below as offset_est_deg. Composition: rotate(+30) after the flip shifts the readout by an additional -30.",
+  "flip": {
+    "median_err_vs_minus_readout_deg": 2.3814697265625,
+    "err_ci": [
+      2.3367185592651367,
+      2.4256824493408202
+    ],
+    "median_err_vs_minus_true_deg": 1.9865564967517457,
+    "err_true_ci": [
+      1.9561411538912044,
+      2.0278825764297217
+    ],
+    "offset_est_deg": -0.094146728515625,
+    "median_err_offset_corrected_deg": 2.3797149658203125,
+    "disp_slope": 0.9825972403353057,
+    "disp_intercept": 0.07410399054042134,
+    "disp_median_abs_resid": 3.050300303960607,
+    "disp_p95_abs_resid": 10.800431074937102,
+    "n_slope": 14088,
+    "slope_excluded": "|predicted displacement| > 80 (mod-180 wrap boundary)",
+    "fixedpoint_median_absdisp_deg": 6.028572082519531,
+    "n_fixedpoint": 1736,
+    "antinode_median_absdisp_deg": 83.93081665039062,
+    "n_antinode": 1805
+  },
+  "flip_rot30": {
+    "expected": "-(unflipped readout) - 30 deg",
+    "median_err_vs_expected_deg": 2.592926025390625,
+    "err_ci": [
+      2.5408321380615235,
+      2.6342615127563476
+    ],
+    "median_err_vs_true_deg": 2.0082273524826633,
+    "median_err_offset_corrected_deg": 2.589874267578125
+  }
+}
