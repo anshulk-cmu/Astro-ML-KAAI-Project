@@ -1,6 +1,8 @@
 {
   "n": 15893,
   "smoke": false,
+  "n_heldout": 3179,
+  "population_note": "plain fields summarize ALL elongated galaxies, which include the probe's 80% training rows; the *_heldout fields use only the 20% test split the probe never saw and are the leakage-free summaries",
   "baseline_median_err_deg": 2.0266657602314666,
   "sign_convention": "np.flip on the column axis maps the array-frame angle to its negative (mod 180); catalog PA = array angle - 90 same-handed (verified runLog 2026-07-01) and the 90-deg offset cancels mod 180 -> expected readout -PA, fixed points PA in {0,90}. A residual frame offset c-90 would appear as a constant -2(c-90) shift (reflections conjugate the offset; rotations cancel it) -> estimated below as offset_est_deg. Composition: rotate(+30) after the flip shifts the readout by an additional -30.",
   "flip": {
@@ -25,7 +27,16 @@
     "fixedpoint_median_absdisp_deg": 6.028572082519531,
     "n_fixedpoint": 1736,
     "antinode_median_absdisp_deg": 83.93081665039062,
-    "n_antinode": 1805
+    "n_antinode": 1805,
+    "median_err_vs_minus_readout_deg_heldout": 2.4953765869140625,
+    "err_ci_heldout": [
+      2.3647632598876953,
+      2.611073875427246
+    ],
+    "median_err_vs_minus_true_deg_heldout": 1.9644647830037911,
+    "disp_slope_heldout": 0.9753405551138747,
+    "disp_intercept_heldout": 0.26092727515750463,
+    "n_slope_heldout": 2793
   },
   "flip_rot30": {
     "expected": "-(unflipped readout) - 30 deg",
@@ -35,6 +46,11 @@
       2.6342615127563476
     ],
     "median_err_vs_true_deg": 2.0082273524826633,
-    "median_err_offset_corrected_deg": 2.589874267578125
+    "median_err_offset_corrected_deg": 2.589874267578125,
+    "median_err_vs_expected_deg_heldout": 2.734161376953125,
+    "err_ci_heldout": [
+      2.598471260070801,
+      2.851725959777832
+    ]
   }
 }

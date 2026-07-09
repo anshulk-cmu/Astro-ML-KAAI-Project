@@ -1,7 +1,8 @@
 """Figure 16 - Heterogeneity: intrinsic dimension stratified by g-r colour.
 
-Panel A: g-r histogram with the GMM cut and the two component means; passive
-(red, g-r>cut) vs star-forming (blue, g-r<cut).
+Panel A: g-r histogram with the GMM posterior decision boundary (the split
+predict() actually uses) and the two component means; displayed counts are the
+analysis populations from stratifiedId.json, not a recomputed threshold split.
 Panel B: TwoNN intrinsic dimension (MLE +/- CI) for passive vs SF, with the
 Delta-ID that excludes zero.
 Faithful note: absolute IDs (~15-17) are small-scale (1st/2nd-NN) and
@@ -14,15 +15,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 S = pc.load_json("stratifiedId")
-cut = S["cut"]
+cut = S["cut"]                            # GMM posterior decision boundary (what predict() uses)
 m_sf, m_pass = sorted(S["gmm_means"])     # 0.78 (SF), 1.24 (passive)
 IDp = S["ID_passive"]; IDs = S["ID_sf"]; dID = S["delta_ID"]
+n_pass = IDp["n"]                         # displayed counts = the analysis populations from the JSON
+n_sf = IDs["n"]
 
 df, _ = pc.load_df()
 gr = pc.labels(df)["g-r"][0]
 gr = gr[np.isfinite(gr)]
-n_pass = int((gr > cut).sum())
-n_sf = int((gr < cut).sum())
 
 fig, (axA, axB) = plt.subplots(1, 2, figsize=(14, 5.6))
 
@@ -36,7 +37,7 @@ axA.bar(centers, counts, width=np.diff(edges), color=bar_colors, alpha=0.55,
         edgecolor="none", align="center", zorder=2)
 
 axA.axvline(cut, color="black", ls="--", lw=1.6, zorder=4,
-            label=f"GMM cut = {cut:.3f}")
+            label=f"GMM decision boundary = {cut:.3f}")
 axA.axvline(m_sf, color="#1f3f99", ls=":", lw=1.6, zorder=4,
             label=f"SF mean = {m_sf:.2f}")
 axA.axvline(m_pass, color="#992020", ls=":", lw=1.6, zorder=4,

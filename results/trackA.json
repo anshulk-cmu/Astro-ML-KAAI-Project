@@ -106,6 +106,7 @@
     "n_excluded_by_cut": 0,
     "identical_to_headline": true
   },
+  "fixedprobe_note": "pa_vs_* blocks refit a probe inside each stratum; the *_fixedprobe blocks evaluate the single global probe on each stratum's held-out rows only and are the invariance evidence",
   "pa_vs_brightness": {
     "bright": {
       "n": 5293,
@@ -123,6 +124,23 @@
       "loop_radius": 0.9923815131187439
     }
   },
+  "pa_vs_brightness_fixedprobe": {
+    "bright": {
+      "n": 1042,
+      "med_err_deg": 2.0534536096824163,
+      "loop_radius": 0.9881778359413147
+    },
+    "mid": {
+      "n": 1044,
+      "med_err_deg": 1.9258484047938529,
+      "loop_radius": 0.9950869083404541
+    },
+    "faint": {
+      "n": 1093,
+      "med_err_deg": 2.061922355491332,
+      "loop_radius": 0.9816893935203552
+    }
+  },
   "pa_vs_morphology": {
     "smooth": {
       "n": 9124,
@@ -133,6 +151,18 @@
       "n": 864,
       "med_err_deg": 2.466493070160434,
       "loop_radius": 0.986382007598877
+    }
+  },
+  "pa_vs_morphology_fixedprobe": {
+    "smooth": {
+      "n": 1817,
+      "med_err_deg": 1.97030757880417,
+      "loop_radius": 0.9840829968452454
+    },
+    "featured": {
+      "n": 176,
+      "med_err_deg": 2.470826758711786,
+      "loop_radius": 0.9602677822113037
     }
   },
   "inclination_Eimg": {

@@ -35,9 +35,14 @@ for _ in range(200):
     s[rng.choice(fi, int(spiral.sum()), replace=False)] = True
     nulls.append(abs(float(v_parent @ direction(W, s, featured & ~s))))
 p95 = float(np.percentile(nulls, 95))
-out = dict(cos_parent_child=cos_pc, null_p95=p95, significant=bool(cos_pc > p95),
-           interpretation="Park et al. linear hierarchy: a child (spiral) parent-component above the shuffle null "
-                          "supports child = featured-direction + spiral-specific orthogonal part. Exploratory.")
+out = dict(cos_parent_child=cos_pc, null_p95=p95, above_null=bool(cos_pc > p95),
+           method_note="project-specific analogue inspired by Park et al., NOT their theorem: whitened-Euclidean "
+                       "class-mean contrasts on a pooled encoder embedding, whereas the source result is defined "
+                       "under a causal inner product from LM unembedding duality and is left open for internal "
+                       "layers; the permutation test asks whether the child contrast's parent-component exceeds a "
+                       "size-matched random-subset null (an alignment test, not the theorem's orthogonality claim)",
+           interpretation="exploratory null: the spiral contrast has no parent-alignment above the size-matched "
+                          "null (0.072 vs p95 0.084), so no linear featured->spiral hierarchy is detected here")
 log(f"cos(parent=featured, child=spiral)={cos_pc:.3f} null_p95={p95:.3f} significant={cos_pc > p95}")
 save_json("geometryOfConcepts", out)
 log("DONE")

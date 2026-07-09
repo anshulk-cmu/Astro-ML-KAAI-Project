@@ -2,6 +2,8 @@
   "n_elong": 15893,
   "baseline_median_err_deg": 2.0266658091947662,
   "sign_convention": "scipy rotate(+phi) shifts the array-frame angle by -phi, and catalog PA is same-handed with the array frame (both verified, runLog 2026-07-01) -> a physical rotation by +phi must move the readout by -phi. expected_shift_deg carries that minus sign; applied_fold_deg is the raw applied rotation folded to (-90,90].",
+  "population_note": "plain fields summarize ALL elongated galaxies, which include the probe's 80% training rows; the *_heldout fields use only the 20% test split the probe never saw and are the leakage-free summaries",
+  "n_heldout": 3179,
   "angles": {
     "30.0": {
       "applied_fold_deg": 30.0,
@@ -11,6 +13,12 @@
       "error_ci": [
         2.4503267288208006,
         2.5351213216781616
+      ],
+      "median_recovered_shift_deg_heldout": -29.876827239990234,
+      "median_abs_error_deg_heldout": 2.6193981170654297,
+      "error_ci_heldout": [
+        2.531402850151062,
+        2.737298494577408
       ]
     },
     "60.0": {
@@ -21,6 +29,12 @@
       "error_ci": [
         2.578218698501587,
         2.6745451211929323
+      ],
+      "median_recovered_shift_deg_heldout": -59.94132614135742,
+      "median_abs_error_deg_heldout": 2.691039800643921,
+      "error_ci_heldout": [
+        2.5798808515071867,
+        2.815817266702652
       ]
     },
     "90.0": {
@@ -31,6 +45,12 @@
       "error_ci": [
         2.404237240552902,
         2.4864051699638368
+      ],
+      "median_recovered_shift_deg_heldout": -78.63417053222656,
+      "median_abs_error_deg_heldout": 2.6220481395721436,
+      "error_ci_heldout": [
+        2.5049239873886107,
+        2.7214813828468323
       ]
     },
     "120.0": {
@@ -41,6 +61,12 @@
       "error_ci": [
         2.638349288702011,
         2.739866864681244
+      ],
+      "median_recovered_shift_deg_heldout": 60.00078201293945,
+      "median_abs_error_deg_heldout": 2.7580950260162354,
+      "error_ci_heldout": [
+        2.63048050403595,
+        2.8826228022575378
       ]
     },
     "150.0": {
@@ -51,6 +77,12 @@
       "error_ci": [
         2.471688359975815,
         2.5557375848293304
+      ],
+      "median_recovered_shift_deg_heldout": 29.946062088012695,
+      "median_abs_error_deg_heldout": 2.5727083683013916,
+      "error_ci_heldout": [
+        2.4749712109565736,
+        2.6812151193618776
       ]
     },
     "180.0": {
@@ -61,6 +93,12 @@
       "error_ci": [
         1.9111086130142212,
         1.9853512048721313
+      ],
+      "median_recovered_shift_deg_heldout": 0.08108799904584885,
+      "median_abs_error_deg_heldout": 1.985607624053955,
+      "error_ci_heldout": [
+        1.9111173152923584,
+        2.0914502501487733
       ]
     }
   },
@@ -69,5 +107,8 @@
   "max_abs_fit_residual_deg": 0.05254338895902322,
   "slope_excluded_angles": [
     90.0
-  ]
+  ],
+  "slope_vs_applied_heldout": -0.9990236854553223,
+  "intercept_vs_applied_heldout": 0.041955743730067295,
+  "max_abs_fit_residual_deg_heldout": 0.06660421937704086
 }

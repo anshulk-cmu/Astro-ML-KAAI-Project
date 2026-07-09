@@ -33,7 +33,8 @@ tops = [e for e in J["clusters"] if f"cluster{e['cluster']}" in P][:2]
 for k, e in enumerate(tops):
     ax = fig.add_subplot(gsB[0, k])
     d = P[f"cluster{e['cluster']}"]
-    col, lab = (d[:, 5], "g-r") if (e["r2_gr"] or 0) > (e["r2_featured"] or 0) else (d[:, 4], "z")
+    # colour by whichever of the two STORED labels (g-r col 5, z col 4) fits better
+    col, lab = (d[:, 5], "g-r") if (e["r2_gr"] or 0) >= (e["r2_z"] or 0) else (d[:, 4], "z")
     fin = np.isfinite(col)
     ax.scatter(d[fin, 0], d[fin, 1], c=col[fin], s=3, alpha=0.5, cmap="coolwarm")
     ax.set_title(f"#{e['cluster']} (m={e['members']})\nS={e['S']:.2f} M={e['M']:.2f}, colour={lab}", fontsize=8.5)
@@ -51,7 +52,7 @@ axC.axhline(45, ls=":", color="0.6", lw=1); axC.text(2, 46, "chance", color="0.5
 axC.set_xlabel("K features ablated from the SAE reconstruction")
 axC.set_ylabel("PA recovery error (deg)")
 axC.set_ylim(0, 50)
-axC.set_title("The loop is causally in the dictionary but FRACTURED:\nremoving loop-correlated features degrades it monotonically,\nyet no single cluster carries it", fontsize=9.5)
+axC.set_title("The loop's information is FRACTURED across the dictionary:\nremoving loop-correlated features degrades recovery monotonically\n(information-removal test; energy-matched controls flat)", fontsize=9.5)
 axC.legend(fontsize=8)
 
 # D) physics-vs-instrument feature census

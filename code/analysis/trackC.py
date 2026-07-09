@@ -91,6 +91,12 @@ def main():
     hz = z >= 0.15                                 # resolution-sensitivity convention
     Lhz = {"age": np.where(hz, age, np.nan), "metal": np.where(hz, metal, np.nan)}
     out["age_metallicity"]["z_ge_0p15"] = angle_with_ci(Zi, Lhz, "age", "metal")
+    out["age_metallicity"]["interpretation_note"] = (
+        "low age/metal decodability shows WEAK RECOVERY of the Firefly estimates from E_img; "
+        "Firefly label noise (fitted ages reach ~15 Gyr), aperture/selection effects, dust and "
+        "probe capacity are NOT separated here, so 'inherited age-metallicity degeneracy' is an "
+        "interpretation pending a label-noise or spectrum-side analysis; the near-zero excess "
+        "angle only rules out EXTRA linear entanglement between the two weak directions")
 
     # ---- 4. linear cross-response (DERIVED, kept for intuition only)
     wz, bz = fit_full(Zi, z)
@@ -104,7 +110,8 @@ def main():
         delta = float((DZ / nz) * (vz @ wk))
         out["z_steer_response_DERIVED"][k] = dict(delta=delta, delta_per_sigma=float(delta / (fv.std() + 1e-9)))
 
-    # ---- 5. manifold translation (the GENUINE nonlinear causal test) + CI + nulls
+    # ---- 5. manifold translation (embedding-level diagnostic; the input-space
+    # interventions live in Track A) + CI + nulls
     rng = np.random.default_rng(SEED)
     finz = np.isfinite(z)
     nn = NearestNeighbors(n_neighbors=21, algorithm="brute").fit(Zi[finz])
@@ -115,11 +122,16 @@ def main():
     pool = np.where(finz & (z > 0.10) & (z < 0.16))[0]
     samp = rng.choice(pool, min(1500, len(pool)), replace=False)
     vr = rng.standard_normal(Zi.shape[1]); vr *= np.linalg.norm(d_emb) / np.linalg.norm(vr)
+    rng_x = np.random.default_rng(SEED + 1)        # extra null dirs on a separate stream
+    scale_to = lambda u: u * np.linalg.norm(d_emb) / np.linalg.norm(u)
+    vrs = [vr] + [scale_to(rng_x.standard_normal(Zi.shape[1])) for _ in range(4)]
     grid = [-0.06, -0.03, 0.0, 0.03, 0.06, 0.1]
     nbrz = {"emb": [], "rand": []}                 # per-dz, per-query neighbour-mean z
+    nbrz.update({f"rand{j}": [] for j in range(1, 5)})
     feat_shift = {}
     for dz in grid:
-        for vec, key in [(d_emb, "emb"), (vr, "rand")]:
+        vecs = [(d_emb, "emb"), (vrs[0], "rand")] + [(vrs[j], f"rand{j}") for j in range(1, 5)]
+        for vec, key in vecs:
             nbr = nn.kneighbors(Zi[samp] + (dz / dz_ref) * vec, return_distance=False)[:, 1:]
             nbrz[key].append(zref[nbr].mean(1))
         if dz in (0.0, 0.1):                       # morphology preservation + its nulls
@@ -136,12 +148,17 @@ def main():
     nq = nbrz["emb"].shape[1]
     slope = slope_of(nbrz["emb"], np.arange(nq))
     boots = [slope_of(nbrz["emb"], rng.integers(0, nq, nq)) for _ in range(200)]
+    rand_all = [slope_of(nbrz[k], np.arange(nq)) for k in ["rand"] + [f"rand{j}" for j in range(1, 5)]]
     out["translation"] = dict(
         neighbor_z_slope=slope, slope_ci=ci(boots), dz_ref=dz_ref, n_sample=int(nq),
-        rand_slope=slope_of(nbrz["rand"], np.arange(nq)),
+        rand_slope=rand_all[0], rand_slopes_all=rand_all,
         featured_shift_at_0p1=feat_shift["emb_0.1"],
         null_knn_floor_dz0=feat_shift["emb_0.0"],
-        null_random_dir_0p1=feat_shift["rand_0.1"])
+        null_random_dir_0p1=feat_shift["rand_0.1"],
+        causal_note=("embedding-level translation diagnostic, NOT an input-space intervention: "
+                     "the shift vector carries every low-vs-high-z bin difference (selection, "
+                     "colour, resolution, population mix); slope CI resamples queries only, not "
+                     "the shift vector, bins, or neighbour index"))
 
     # ---- 6. selection vs evolution (Matt's diagnostic)
     magr = c("mag_r_desi")

@@ -2,7 +2,7 @@
 
 Source: results/metric.json  {E_full,E_img}:{metric}:{rdr, nn_over_mean}.
 Panel A: relative distance ratio RDR = (Dmax-Dmin)/Dmin per metric (log y; higher = more contrast).
-Panel B: nearest-neighbour-over-mean ratio per metric (lower = more concentrated).
+Panel B: nearest-neighbour-over-mean ratio per metric (higher = more concentrated).
 Both grouped E_full vs E_img. 2k subsample, z-scored embeddings, k=15.
 """
 import sys
@@ -17,7 +17,7 @@ m = pc.load_json("metric")
 metrics = ["euclidean", "cosine", "isomap", "fermat_p2", "diffusion"]
 nice = ["Euclidean", "Cosine", "Isomap", "Fermat (p=2)", "Diffusion"]
 embs = ["E_full", "E_img"]
-emb_nice = {"E_full": "E_full (img+spectra)", "E_img": "E_img (image-only)"}
+emb_nice = {"E_full": "E_full (image+g/r/z flux+redshift)", "E_img": "E_img (image-only)"}
 emb_col = {"E_full": "#1f6fb4", "E_img": "#d2691e"}
 
 rdr = {e: np.array([m[e][mm]["rdr"] for mm in metrics]) for e in embs}
@@ -55,7 +55,7 @@ for i, e in enumerate(embs):
                  ha="center", va="bottom", fontsize=8.5, zorder=4)
 axB.set_xticks(x)
 axB.set_xticklabels(nice, rotation=18, ha="right")
-axB.set_ylabel("NN distance / mean distance   (lower = more concentrated)")
+axB.set_ylabel("NN distance / mean distance   (higher = more concentrated)")
 axB.set_title("B. Nearest-neighbour / mean ratio")
 axB.set_ylim(0, 0.52)
 axB.legend(loc="upper right", fontsize=9.5)
@@ -65,8 +65,9 @@ fig.suptitle("Pairwise-distance concentration across metrics  (2k subsample, z-s
              fontsize=14, y=1.04)
 
 note = ("Read: raw Euclidean distances are the most concentrated (lowest RDR, highest NN/mean). "
-        "Intrinsic metrics (isomap / Fermat / diffusion) give several-fold more contrast,\n"
-        "motivating Fermat (p=2) as the primary downstream metric. E_full and E_img behave almost identically.")
+        "Intrinsic metrics give more contrast under these diagnostics.\n"
+        "RDR is extreme-value-sensitive, so metric choice also requires stability and topology checks. "
+        "E_full and E_img behave almost identically.")
 fig.text(0.5, -0.06, note, ha="center", va="top", fontsize=9.5, color="#333333")
 
 print(pc.save(fig, "03_metric_concentration.png"))

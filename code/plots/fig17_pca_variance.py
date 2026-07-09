@@ -1,8 +1,8 @@
-"""Fig 17 - Linear PCA cumulative explained variance (the linear null for ID).
+"""Fig 17 - Linear PCA cumulative explained variance (linear-spread diagnostic).
 
 Recompute PCA on z-scored embeddings and show cumulative explained-variance vs #PCs
-for E_img and E_full. Linear PCA needs ~40-45 dims for 95% variance, whereas the
-nonlinear ID is ~10-12 -> the embedding geometry is nonlinear. Baseline, not headline.
+for E_img and E_full. The 95%-variance count is tail-sensitive and does not by
+itself prove nonlinear geometry. Baseline, not headline.
 """
 import sys
 sys.path.insert(0, "code/plots")
@@ -14,7 +14,8 @@ import plotcommon as pc
 NPC = 200
 embeds = {
     "E_img": dict(path="data/E_img.npy", color="#d62728", label="E_img (image only)"),
-    "E_full": dict(path="data/E_full.npy", color="#1f77b4", label="E_full (image + spectra)"),
+    "E_full": dict(path="data/E_full.npy", color="#1f77b4",
+                   label="E_full (image+g/r/z flux+redshift)"),
 }
 
 thresholds = [0.50, 0.90, 0.95, 0.99]
@@ -59,7 +60,7 @@ for key in ["E_img", "E_full"]:
 
 ax.set_xlabel("number of principal components")
 ax.set_ylabel("cumulative explained variance  [%]  (z-scored embeddings)")
-ax.set_title("Linear PCA cumulative explained variance  -  the linear null for intrinsic dimension")
+ax.set_title("Linear PCA cumulative explained variance  -  linear-spread diagnostic")
 ax.set_xlim(1, NPC)
 ax.set_ylim(0, 101)
 ax.legend(loc="lower right", fontsize=10)
@@ -69,9 +70,9 @@ san = pc.load_json("sanity")
 n95_lo = min(results['E_img']['needed'][0.95], results['E_full']['needed'][0.95])
 n95_hi = max(results['E_img']['needed'][0.95], results['E_full']['needed'][0.95])
 foot = (
-    "Faithful note (this is a BASELINE, not the headline): on z-scored embeddings linear PCA needs "
-    f"~{n95_lo}-{n95_hi} dims for 95% variance (computed here), "
-    "whereas the nonlinear intrinsic dimension is only ~10-12 - i.e. the geometry is nonlinear.\n"
+    "This is a baseline, not proof of nonlinearity: z-scored PCA needs "
+    f"~{n95_lo}-{n95_hi} dims for 95% variance, but that tail can include noise and weak directions. "
+    "The PCA participation ratio (~11-12) overlaps the large-scale neighbour estimates.\n"
     f"z-scoring spreads variance across more dims than the raw embeddings: sanity.json stores raw 95% at "
     f"E_full {san['E_full']['pcs_for_variance']['var95']} / E_img {san['E_img']['pcs_for_variance']['var95']} PCs. "
     "The values plotted here are recomputed on z-scored data, as specified."

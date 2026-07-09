@@ -46,9 +46,21 @@ full = {"redshift": c("redshift"), "g_r": g_r, "r_z": r_z,
         "smooth": c("smooth-or-featured_smooth_fraction"), "featured": featured,
         "merger": c("merging_merger_fraction")}
 branched = {"spiral": c("has-spiral-arms_yes_fraction"), "bar": c("bar_strong_fraction")}
-sparse = {"mass": c("elpetro_mass_log"), "sSFR": c("total_ssfr_median"), "sersic": c("sersic_n")}
+mass = c("elpetro_mass_log")
+ssfr = c("total_ssfr_median")
+sersic = c("sersic_n")
+sparse = {
+    "mass": np.where(np.isfinite(mass) & (mass > 5), mass, np.nan),
+    "sSFR": np.where(np.isfinite(ssfr) & (ssfr > -90), ssfr, np.nan),
+    "sersic": np.where(np.isfinite(sersic) & (sersic > 0), sersic, np.nan),
+}
 
-out = {"E_img": {}, "modality": {}, "sparse_E_full": {}, "sparse_E_img": {}, "disentangle": {}, "knn_purity": {}}
+out = {
+    "E_img": {}, "modality": {}, "sparse_E_full": {}, "sparse_E_img": {},
+    "disentangle": {}, "knn_purity": {},
+    "angle_note": ("theta - arccos(label correlation) is a descriptive idealized contrast, "
+                   "not a calibrated statistical null in the z-scored, correlated Ridge space"),
+}
 
 log("== leakage-free probes on E_img (full-N) ==")
 for n, y in {**full, **{k: np.where(branch, v, np.nan) for k, v in branched.items()}}.items():
@@ -85,9 +97,17 @@ lab = np.where(c("smooth-or-featured_smooth_fraction") > 0.7, 1, np.where(featur
 for cls, nm in [(1, "smooth"), (0, "featured")]:
     sel = np.where(lab == cls)[0]
     nb = lab[idx[sel]]
-    pur = (nb == cls).sum(1) / np.maximum((nb != -1).sum(1), 1)
-    out["knn_purity"][nm] = dict(n=int(len(sel)), purity=float(pur.mean()))
-    log(f"{nm}: n={len(sel)} kNN-purity={pur.mean():.3f}")
+    den = (nb != -1).sum(1)
+    has = den > 0
+    pur = (nb[has] == cls).sum(1) / den[has]
+    out["knn_purity"][nm] = dict(
+        n=int(len(sel)),
+        n_with_confident_neighbor=int(has.sum()),
+        mean_confident_neighbors=float(den.mean()),
+        purity_among_confident_neighbors=float(pur.mean()),
+    )
+    log(f"{nm}: n={len(sel)} confident-neighbor purity={pur.mean():.3f} "
+        f"mean confident neighbours={den.mean():.1f}/20")
 
 save_json("probes", out)
 log("DONE")

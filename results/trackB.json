@@ -214,6 +214,7 @@
       "n_b": 3730
     }
   },
+  "angles_note": "the label-correlation contrast (excess) is a DESCRIPTIVE contrast, not a calibrated null: arccos(corr) equals the probe angle only in an idealized whitened linear model, and the embedding covariance is anisotropic",
   "random_pair_angle": {
     "median": 89.8825677459,
     "p5": 87.38463398212848,
@@ -254,24 +255,32 @@
     "ratio_noise_corrected": 1.2201420587303686,
     "matched_straight_line_null_mean": 1.0383232737713708,
     "matched_straight_line_null_std": 0.0006894514167208231,
-    "null_note": "true straight line with the real along-chord centroid spacings and real per-centroid sampling noise (within-bin var/n_bin per dim), 20 seeds"
+    "null_note": "true straight line with the real along-chord centroid spacings and real per-centroid sampling noise (within-bin var/n_bin per dim), 20 seeds",
+    "null_scope_note": "the null spread covers centroid noise draws only (no direction-fit, bin-choice, or galaxy-resampling uncertainty) -- do not quote the gap as a sigma count; the noise correction also leaves the chord uncorrected"
   },
   "geodesic_vs_euclidean_sersic": {
     "label": "sersic",
     "n_sampled": 2000,
-    "n_query": 1406,
-    "mean_dist_euclidean": 1.2925697141245274,
-    "mean_dist_geodesic": 1.3790592641833779,
-    "frac_geodesic_better": 0.43243243243243246
+    "n_query": 1401,
+    "mean_dist_euclidean": 1.2950805601064017,
+    "mean_dist_geodesic": 1.3804956486408189,
+    "frac_geodesic_better": 0.4282655246252677,
+    "n_wins": 600,
+    "sign_test_p": 8.692085596169814e-08,
+    "paired_mean_diff": 0.08541508853441711
   },
   "geodesic_vs_euclidean_votes": {
     "label": "vote_vector",
     "n_sampled": 2000,
-    "n_query": 1237,
-    "mean_dist_euclidean": 0.29239287077391796,
-    "mean_dist_geodesic": 0.31542912651034616,
-    "frac_geodesic_better": 0.36782538399353276
+    "n_query": 1233,
+    "mean_dist_euclidean": 0.2922690943777664,
+    "mean_dist_geodesic": 0.31507328896481795,
+    "frac_geodesic_better": 0.3682076236820762,
+    "n_wins": 454,
+    "sign_test_p": 1.680774870394706e-20,
+    "paired_mean_diff": 0.02280419458705155
   },
+  "geodesic_note": "'geodesic' here = Euclidean neighbours in the top-10 diffusion-map coordinates -- a diffusion-distance PROXY, not shortest-path geodesic distance; quote as 'the 10-D diffusion-coordinate proxy'",
   "preferred_axis": {
     "angle_seq_vs_sersic_direction": 91.05340674324945
   },
@@ -299,6 +308,7 @@
       0.023293128237128258,
       0.020816830918192863
     ],
-    "pc1_aligned_with_bar": 0.004658075515180826
+    "pc1_aligned_with_bar": 0.004658075515180826,
+    "dim_note": "descriptive spectrum only: PC1+PC2 capturing ~half the residual variance does not establish a 2-D branch (no matched-noise dimension estimate was run)"
   }
 }

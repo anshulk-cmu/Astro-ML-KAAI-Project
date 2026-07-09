@@ -1,4 +1,4 @@
-"""Galaxy montage along two discovered manifold axes (real DESI cutouts).
+"""Galaxy montage along one known label and one selected diffusion coordinate.
 
 Row 1: sampled at evenly spaced percentiles of g-r colour (blue -> red).
 Row 2: sampled at evenly spaced percentiles of diffusion coord 1 (morphology),
@@ -89,11 +89,11 @@ for j, idx in enumerate(row_morph):
 axes[0, 0].set_ylabel("colour (g-r)", fontsize=11)
 axes[1, 0].set_ylabel("morphology\n(diffusion coord 1)", fontsize=11)
 
-fig.suptitle("Galaxies sampled along two discovered manifold axes "
-             "(g-r colour; diffusion coordinate 1)", fontsize=13)
+fig.suptitle("Galaxies sampled along a known colour label and a diffusion coordinate "
+             "(g-r; stored diffusion column 1)", fontsize=13)
 fig.text(0.5, -0.02,
          "Galaxies sampled at evenly spaced percentiles (5-95) along each axis "
-         "(representative, not curated); RGB = z/r/g with arcsinh stretch.\n"
+         "(the morphology row uses the local mean smooth label to avoid vote outliers); RGB = z/r/g with arcsinh stretch.\n"
          "Row 1 left->right: bluer -> redder.  Row 2 left->right: spans the "
          "featured<->smooth transition (titled with smooth vote fraction; "
          "diffusion coord 1 also co-varies with redshift).",

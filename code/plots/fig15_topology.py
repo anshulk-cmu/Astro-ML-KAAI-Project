@@ -1,9 +1,9 @@
-"""Figure 15 - Topology of the AION-1 galaxy-embedding manifold.
+"""Figure 15 - Topology resolution diagnostics for the AION-1 embedding.
 
 Panel A (beta0): cutting the longest MST edges peels off single outliers; the
-giant component stays ~48k => one connected continuum (beta0 = 1).
-Panel B (beta1): max persistence per metric vs significance threshold; ~0 loops
-recur across subsamples or survive a metric change => beta1 = 0.
+giant component stays ~48k in the chosen sparse graph.
+Panel B (H1): max persistence and paired-subsample counts relative to the old
+descriptive 0.1 line. No formal beta1 verdict.
 """
 import sys
 sys.path.insert(0, "code/plots")
@@ -56,9 +56,9 @@ axA.set_title("A. $\\beta_0$: longest-MST-edge cuts peel off single outliers")
 axA.grid(axis="y", visible=False)
 axA.text(0.5, -0.20,
          "Fragments are drawn enlarged (true size = 1) to be visible. The giant "
-         "component stays ~48k:\none connected continuum, not a red/blue "
-         "$\\beta_0$=2 split.  Measured: $\\beta_0$ = "
-         f"{b0['knn_components']}.",
+         "component stays ~48k in the symmetric 15-NN graph. This argues against a "
+         "balanced hard split at this graph scale;\nit is not an exact full-metric "
+         "persistent $\\beta_0$ theorem.",
          transform=axA.transAxes, ha="center", va="top", fontsize=8.7,
          color="#333333")
 
@@ -72,32 +72,31 @@ sigthr = 0.1
 bars = axB.bar(xb, maxp, width=0.55, color=[mcolors[m] for m in metrics],
                edgecolor="black", linewidth=0.6, zorder=2)
 axB.axhline(sigthr, color="#cc3333", ls="--", lw=1.4, zorder=3,
-            label=f"significance threshold = {sigthr:g}")
+            label=f"old descriptive reference = {sigthr:g}")
 
 for xi, m in zip(xb, metrics):
     mp = b1[m]["max_persistence"]
-    slm = b1[m]["sig_loops_mean"]
-    rng = b1[m]["sig_loops_range"]
+    nsub = b1[m]["subsamples_with_any_over_0p1"]
     nbars = b1[m]["mean_bars"]
     axB.text(xi, mp + 0.004, f"{mp:.3f}", ha="center", va="bottom", fontsize=10)
     axB.text(xi, 0.012,
-             f"~{nbars:.0f} short\nnoise bars\n\nrecurring loops:\n"
-             f"{slm:g}/10\n(range {rng[0]}-{rng[1]})",
+             f"~{nbars:.0f} bars\n\nsubsamples with\nany > 0.1:\n"
+             f"{nsub}/10",
              ha="center", va="bottom", fontsize=8.3, color="#222222")
 
 axB.set_xticks(xb)
 axB.set_xticklabels([m.capitalize() for m in metrics], fontsize=10)
 axB.set_ylabel("max loop persistence  (diameter-normalized)")
 axB.set_ylim(0, max(maxp) * 1.35)
-axB.set_title("B. $\\beta_1$: longest loop vs significance threshold")
+axB.set_title("B. H1 candidates: longest lifetime vs descriptive reference")
 axB.legend(loc="upper right", fontsize=9)
 axB.grid(axis="x", visible=False)
 axB.text(0.5, -0.20,
-         "Thousands of short noise bars per subsample, but ~0 loops recur across "
-         "subsamples\nor survive a metric change.  Measured: $\\beta_1$ = 0.",
+         "The same ten galaxy subsets are used for all metrics. Candidate lifetimes are "
+         "metric-dependent.\nNo formal confidence band is claimed, so $\\beta_1$ remains unresolved.",
          transform=axB.transAxes, ha="center", va="top", fontsize=8.7,
          color="#333333")
 
-fig.suptitle("Topology of the AION-1 manifold: one connected component "
-             "($\\beta_0$=1), no robust loops ($\\beta_1$=0)", fontsize=14)
+fig.suptitle("Topology resolution diagnostics: connected sparse graph, "
+             "metric-dependent unresolved H1 candidates", fontsize=14)
 print(pc.save(fig, "15_topology.png"))

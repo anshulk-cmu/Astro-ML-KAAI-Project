@@ -15,9 +15,12 @@ def zscore(E):
 
 def stats(D):
     off = D[np.triu_indices_from(D, k=1)]
-    nn = np.partition(D + np.eye(len(D)) * 1e18, 1, axis=1)[:, 1]
+    nn = np.partition(D + np.eye(len(D)) * 1e18, 0, axis=1)[:, 0]
     return dict(rdr=float((off.max() - off.min()) / off.min()),
                 nn_over_mean=float(nn.mean() / off.mean()),
+                distance_cv=float(off.std() / off.mean()),
+                p95_over_p5=float(np.percentile(off, 95) / np.percentile(off, 5)),
+                neighbor_order=1,
                 inf=int(np.isinf(off).sum()))
 
 

@@ -1,6 +1,6 @@
 """06 — diffusion embedding (coords 1x2) coloured by the cross-matched SUBSET labels.
 
-mass, sSFR, sersic come from the PROVABGS / NSA cross-match, available for only a
+mass, sSFR, sersic come from the GZ-DESI external-catalog / NSA cross-match, available for only a
 few thousand of the 48,398 galaxies. All points are shown as grey context; the
 finite-label subset is overplotted in colour.
 """
@@ -49,7 +49,7 @@ fig.suptitle(
 )
 fig.text(
     0.5, -0.02,
-    "Grey = all 48,398 galaxies (context). Coloured points = the PROVABGS / NSA "
+    "Grey = all 48,398 galaxies (context). Coloured points = the GZ-DESI external-catalog / NSA "
     "cross-matched subset (a few thousand each), NOT the full sample. "
     "Shared axis limits = 0.5-99.5 percentiles (keeps ~99% of points); colour scales clipped to 2-98 percentiles.",
     ha="center", va="top", fontsize=9, color="0.35",

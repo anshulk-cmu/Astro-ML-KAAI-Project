@@ -59,37 +59,34 @@ axA.text(0.5, -0.30,
          transform=axA.transAxes, ha="center", va="top", fontsize=8.5,
          color="#333333")
 
-# --- Panel B: Ollivier-Ricci -------------------------------------------------
-mean = o["mean"]; p5 = o["p5"]; p95 = o["p95"]; fneg = o["frac_negative"]
-yerr = np.array([[mean - p5], [p95 - mean]])  # asymmetric whisker p5..p95
+# --- Panel B: Ollivier-Ricci sensitivity ------------------------------------
+eu = C["ollivier"]["euclidean_k_sensitivity"]
+ors = [("Euclidean\nk=8", eu["8"], "#6baed6"),
+       ("Euclidean\nk=10", eu["10"], "#1f77b4"),
+       ("Euclidean\nk=15", eu["15"], "#08519c"),
+       ("Fermat p=2\nk=10", C["ollivier"]["fermat_p2_k10"], "#9467bd")]
+xb = np.arange(len(ors))
+for x0, (lab, r, col) in zip(xb, ors):
+    mean, p5, p95 = r["mean"], r["p5"], r["p95"]
+    axB.errorbar([x0], [mean], yerr=np.array([[mean - p5], [p95 - mean]]),
+                 fmt="o", ms=9, color=col, ecolor=col, elinewidth=2,
+                 capsize=7, capthick=1.8, zorder=3)
+    axB.text(x0, p95 + 0.015, f"mean {mean:.3f}\nneg {100*r['frac_negative']:.1f}%",
+             ha="center", va="bottom", fontsize=8, color=col)
 
-axB.axhline(0.0, color="#cc3333", ls="-", lw=1.4, zorder=1,
-            label="sign boundary (curvature = 0)")
-axB.errorbar([0], [mean], yerr=yerr, fmt="o", ms=11, color="#1f77b4",
-             ecolor="#1f77b4", elinewidth=2.2, capsize=10, capthick=2.2,
-             zorder=3, label="mean with p5-p95 whisker")
-
-axB.annotate(f"mean = {mean:.3f}", (0, mean), xytext=(0.10, mean),
-             fontsize=10, va="center", color="#1f77b4")
-axB.annotate(f"p95 = {p95:.3f}", (0, p95), xytext=(0.10, p95),
-             fontsize=9, va="center", color="#555555")
-axB.annotate(f"p5 = {p5:.3f}", (0, p5), xytext=(0.10, p5),
-             fontsize=9, va="center", color="#555555")
-
-axB.text(0.0, -0.06,
-         f"frac. negative edges = {fneg*100:.1f}%\n(negative-curvature 'bridges')",
-         ha="center", va="top", fontsize=9.5, color="#cc3333")
-
-axB.set_xlim(-0.6, 0.9)
-axB.set_ylim(min(p5, 0) - 0.10, p95 * 1.15)
-axB.set_xticks([])
+axB.axhline(0.0, color="#cc3333", ls="-", lw=1.2, zorder=1,
+            label="sign boundary")
+axB.set_xlim(-0.6, len(ors) - 0.4)
+axB.set_ylim(-0.12, max(r["p95"] for _, r, _ in ors) * 1.35)
+axB.set_xticks(xb)
+axB.set_xticklabels([x[0] for x in ors], fontsize=8.5)
 axB.set_ylabel("Ollivier-Ricci edge curvature")
-axB.set_title("B. Ollivier-Ricci curvature (2k subsample, $k$=10)")
+axB.set_title("B. Ollivier-Ricci sensitivity (same 2k sample, exact EMD)")
 axB.legend(loc="upper right", fontsize=8.5)
 axB.grid(axis="x", visible=False)
 axB.text(0.5, -0.18,
-         "Faithful read: edges are mostly locally positive (clustered),\n"
-         "with ~4% negative-curvature bridge edges between clusters.",
+         "Sign and negative-edge fraction must be read across graph scale and metric.\n"
+         "This is one fixed 2k sample, not a population confidence interval.",
          transform=axB.transAxes, ha="center", va="top", fontsize=8.5,
          color="#333333")
 

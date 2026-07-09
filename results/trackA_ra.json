@@ -11,25 +11,26 @@
     "psfdepth_z"
   ],
   "cosRA": {
-    "r2_from_Eimg": 0.41464900744314126,
-    "r2_from_covariates": 0.2835602908648238,
-    "r2_residual_from_Eimg": 0.24139194146907894,
-    "explained_frac": 0.41784030074597533
+    "r2_from_Eimg": 0.4146489919766265,
+    "r2_from_covariates": 0.2835602908650735,
+    "r2_residual_from_Eimg": 0.24139194954951826,
+    "r2_drop_frac": 0.4178402595438473
   },
   "sinRA": {
-    "r2_from_Eimg": 0.1744632673263694,
-    "r2_from_covariates": 0.09210685667812968,
-    "r2_residual_from_Eimg": 0.08387578400217643,
-    "explained_frac": 0.5192352792220178
+    "r2_from_Eimg": 0.17446326292456293,
+    "r2_from_covariates": 0.09210685667827978,
+    "r2_residual_from_Eimg": 0.08387579370736653,
+    "r2_drop_frac": 0.5192352114632064
   },
+  "drop_note": "r2_drop_frac compares R2 on targets with different variances (raw vs condition-residualized RA); it is a crude drop measure, NOT a mediation fraction of the RA signal explained by observing conditions",
   "cond_in_Eimg": {
-    "ebv": 0.3029355578384174,
-    "psfdepth_r": 0.4405145848868649,
-    "psfsize_r": 0.6852774279246676
+    "ebv": 0.30293559061325637,
+    "psfdepth_r": 0.4405145883174054,
+    "psfsize_r": 0.6852774274777458
   },
   "align_cosRA_dir": {
-    "ebv": 0.41911691427230835,
-    "psfdepth_r": 0.05242159590125084,
-    "psfsize_r": 0.21139244735240936
+    "ebv": 0.4192736744880676,
+    "psfdepth_r": 0.052466511726379395,
+    "psfsize_r": 0.21141469478607178
   }
 }

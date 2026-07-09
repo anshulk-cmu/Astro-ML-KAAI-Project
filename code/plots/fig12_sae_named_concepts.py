@@ -6,7 +6,6 @@ import plotcommon as pc
 
 sae = pc.load_json('sae')
 nc = sae['named_concepts']
-thr95 = sae['concepts']['align_null_thr95']
 
 names = list(nc.keys())
 n = np.array([nc[k]['n'] for k in names], dtype=float)
@@ -22,7 +21,7 @@ h = 0.38
 
 fig, ax = plt.subplots(figsize=(11, 6))
 b1 = ax.barh(y + h / 2, n, height=h, color='#aac4e0',
-             edgecolor='#5a82ad', label='significantly aligned (n)')
+             edgecolor='#5a82ad', label='FDR-aligned (q <= 0.05)')
 b2 = ax.barh(y - h / 2, n_stable, height=h, color='#2a6db0',
              edgecolor='#19456f', label='seed-stable subset (n_stable)')
 
@@ -39,8 +38,8 @@ ax.set_xlim(0, max(n) * 1.32)
 ax.legend(loc='lower right')
 
 caveat = (
-    "'aligned' = |Spearman| exceeds a label-shuffle null (thr95 = "
-    f"{thr95:.3f}); naming is each feature's top-correlated label (CORRELATIONAL).\n"
+    "Average-tie Spearman ranks; Bonferroni over six labels per feature, then BH q<=0.05 "
+    "across active features. Naming uses the top-correlated label (CORRELATIONAL).\n"
     "Redshift is spread over many weak features (low max |rho|), not one strong feature.")
 fig.text(0.012, -0.02, caveat, fontsize=8.6, color='#555', va='top')
 

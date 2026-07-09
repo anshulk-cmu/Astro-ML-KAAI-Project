@@ -1,11 +1,12 @@
 import numpy as np
 import torch
 import torch.nn as nn
+from scipy.stats import rankdata, t as student_t
 from common import load, save_json, save_npy, log
 
 DEV = "cuda"
 K, R_LIST, SEEDS = 32, [4, 8], [0, 1, 2, 3, 4]
-KFRONT = [4, 8, 16, 24, 32, 48, 64, 96, 128]
+KFRONT = [4, 8, 12, 16, 24, 32, 48, 64, 96, 128]
 EPOCHS, BATCH, DEAD_AFTER, KAUX, AUXC = 80, 8192, 12, 512, 1.0 / 32
 
 
@@ -64,23 +65,41 @@ def train(X, m, k, seed):
         return dict(fvu=fvu, alive=alive), z.cpu().numpy(), model.W_dec.detach().cpu().numpy().T
 
 
-def rank(A):
-    r = A.argsort(0).argsort(0).astype(np.float64)
-    return (r - r.mean(0)) / (r.std(0) + 1e-12)
+def rank(A, chunk=256):
+    """Average-tie ranks, column-chunked to bound memory for sparse activations."""
+    out = np.empty(A.shape, np.float32)
+    for s in range(0, A.shape[1], chunk):
+        r = rankdata(A[:, s:s + chunk], axis=0, method="average")
+        r = (r - r.mean(0)) / (r.std(0) + 1e-12)
+        out[:, s:s + r.shape[1]] = r.astype(np.float32)
+    return out
 
 
-def score(acts, Y, n_null=20):
+def bh_qvalues(p):
+    p = np.asarray(p, float)
+    order = np.argsort(p)
+    ranked = p[order] * len(p) / np.arange(1, len(p) + 1)
+    ranked = np.minimum.accumulate(ranked[::-1])[::-1]
+    q = np.empty_like(ranked)
+    q[order] = np.clip(ranked, 0, 1)
+    return q
+
+
+def score(acts, Y):
     fin = np.isfinite(Y).all(1)
     acts, Y = acts[fin], Y[fin]
     Ra, Ry = rank(acts), rank(Y)
     sp = (Ra.T @ Ry) / len(Y)                          # feature x label Spearman
     align, best_label = np.abs(sp).max(1), np.abs(sp).argmax(1)   # strength + the label each feature names
-    rng = np.random.default_rng(0)                     # label-shuffle null (activations are zero-inflated)
-    null = np.concatenate([np.abs((Ra.T @ Ry[rng.permutation(len(Y))]) / len(Y)).max(1) for _ in range(n_null)])
+    rr = np.clip(np.abs(sp), 0, 1 - 1e-15)
+    tstat = rr * np.sqrt((len(Y) - 2) / np.maximum(1 - rr ** 2, 1e-15))
+    p_label = 2 * student_t.sf(tstat, df=len(Y) - 2)
+    p_feature = np.minimum(1.0, p_label.min(1) * Y.shape[1])  # Bonferroni over labels
+    q_feature = bh_qvalues(p_feature)                         # BH over dictionary features
     P = np.c_[np.ones(len(Y)), (Y - Y.mean(0)) / (Y.std(0) + 1e-9)]
     beta, *_ = np.linalg.lstsq(P, acts, rcond=None)
     nov = ((acts - P @ beta) ** 2).sum(0) / np.maximum(((acts - acts.mean(0)) ** 2).sum(0), 1e-9)
-    return align, nov, float(np.percentile(null, 95)), float(np.percentile(null, 99)), best_label
+    return align, nov, best_label, p_feature, q_feature
 
 
 def recurrence(decs):                                  # best decoder-cosine of each seed-0 feature in each other seed
@@ -110,12 +129,15 @@ for R in R_LIST:
                 acts0 = acts
 
 LABELS = ["redshift", "g-r", "r-z", "smooth", "featured", "merger"]
-log("== concept scoring (R=4): alignment vs null + recurrence + human-readable naming ==")
-align, nov, thr95, thr99, best_label = score(acts0, labs)
+log("== concept scoring (R=4): tie-aware Spearman + Bonferroni labels + BH features ==")
+align, nov, best_label, p_feature, q_feature = score(acts0, labs)
 best = recurrence(decs4)
 active = acts0.std(0) > 1e-6
 recfrac = (best >= 0.6).mean(1)                        # fraction of other seeds with a >=0.6-cosine match
-aligned, stable = align > thr95, recfrac >= 0.5
+q_active = np.ones_like(q_feature)
+q_active[active] = bh_qvalues(p_feature[active])
+q_feature = q_active
+aligned, stable = q_feature <= 0.05, recfrac >= 0.5
 named = {}                                             # name each aligned feature by its top physical label
 for li, ln in enumerate(LABELS):
     fl = aligned & active & (best_label == li)
@@ -124,18 +146,25 @@ for li, ln in enumerate(LABELS):
 out["named_concepts"] = named
 out["concepts"] = dict(
     n_features=int(len(align)), n_active=int(active.sum()),
-    align_null_thr95=thr95, align_null_thr99=thr99, max_align=float(align.max()),
-    aligned_sig=int((aligned & active).sum()), aligned_strong=int(((align > thr99) & active).sum()),
+    multiple_testing="per-feature min p Bonferroni across 6 labels; BH q<=0.05 across active dictionary",
+    rank_method="average ties (true Spearman ranks)",
+    max_align=float(align.max()),
+    aligned_fdr=int((aligned & active).sum()),
+    aligned_effect_gt_0p1=int((aligned & active & (align > 0.1)).sum()),
     aligned_and_stable=int((aligned & stable & active).sum()),
     median_best_cosine=float(np.median(best[active].max(1))),
     frac_active_stable=float(stable[active].mean()),
-    alien_candidates=int((stable & active & (nov > 0.7) & ~aligned).sum()))
-for nm in ("sae_align", "sae_novelty", "sae_recurrence", "sae_best_label", "sae_acts0"):
+    stable_unexplained_not_label_aligned=int((stable & active & (nov > 0.7) & ~aligned).sum()),
+    candidate_note="descriptive candidates only; novelty threshold has no confirmatory p-value")
+for nm in ("sae_align", "sae_novelty", "sae_recurrence", "sae_best_label",
+           "sae_pvalue", "sae_qvalue", "sae_acts0"):
     save_npy(nm, {"sae_align": align, "sae_novelty": nov, "sae_recurrence": recfrac,
-                  "sae_best_label": best_label, "sae_acts0": acts0}[nm])
+                  "sae_best_label": best_label, "sae_pvalue": p_feature,
+                  "sae_qvalue": q_feature, "sae_acts0": acts0}[nm])
 log("named concepts: " + ", ".join(f"{k}={v['n']}({v['n_stable']} stable, max {v['top_align']:.2f})" for k, v in named.items()))
-log(f"null thr95={thr95:.3f} max_align={align.max():.2f} | aligned_sig={int((aligned & active).sum())} "
-    f"aligned&stable={int((aligned & stable & active).sum())} alien={int((stable & active & (nov > 0.7) & ~aligned).sum())}")
+log(f"max_align={align.max():.2f} | FDR-aligned={int((aligned & active).sum())} "
+    f"aligned&stable={int((aligned & stable & active).sum())} "
+    f"stable-unexplained={int((stable & active & (nov > 0.7) & ~aligned).sum())}")
 
 log("== L0-vs-FVU frontier (R=4, seed 0) ==")
 for kk in KFRONT:

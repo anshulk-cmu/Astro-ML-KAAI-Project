@@ -105,6 +105,9 @@ def main():
         img_vs_true=dict(med_err_deg=float(np.median(err_img_vs_true)), ci=boot_med(err_img_vs_true)),
         shape_vs_true=dict(med_err_deg=float(np.median(err_shape_vs_true)), ci=boot_med(err_shape_vs_true)),
         img_vs_shape=dict(med_err_deg=float(np.median(err_img_vs_shape)), ci=boot_med(err_img_vs_shape)),
+        claim_note=("both readouts come from SEPARATELY target-trained probes; their agreement shows "
+                    "both modalities decode PA consistently, NOT that the two raw modalities occupy "
+                    "one shared oriented 2-D subspace (no cross-probe/Procrustes test was run)"),
     )
     with open(f"{RES}/trackA_crossmodal.json", "w") as f:
         json.dump(out, f, indent=2, default=float)

@@ -83,6 +83,9 @@ def main():
                 ("seq", "redshift"), ("seq", "sersic")]:
         out["angles"][f"{a}-{b}"] = angle_with_ci(Zi, labels, a, b,
                                                    mask_a=masks.get(a), mask_b=masks.get(b))
+    out["angles_note"] = ("the label-correlation contrast (excess) is a DESCRIPTIVE contrast, not a "
+                          "calibrated null: arccos(corr) equals the probe angle only in an idealized "
+                          "whitened linear model, and the embedding covariance is anisotropic")
     rng = np.random.default_rng(SEED)
     rd = [angle(*(lambda u: (u[0] / np.linalg.norm(u[0]), u[1] / np.linalg.norm(u[1])))(
           rng.standard_normal((2, Zi.shape[1])))) for _ in range(200)]
@@ -140,7 +143,10 @@ def main():
         ratio_noise_corrected=float(seg_corr.sum() / chord),
         matched_straight_line_null_mean=null_mean, matched_straight_line_null_std=null_std,
         null_note="true straight line with the real along-chord centroid spacings and "
-                  "real per-centroid sampling noise (within-bin var/n_bin per dim), 20 seeds")
+                  "real per-centroid sampling noise (within-bin var/n_bin per dim), 20 seeds",
+        null_scope_note="the null spread covers centroid noise draws only (no direction-fit, "
+                        "bin-choice, or galaxy-resampling uncertainty) -- do not quote the gap as "
+                        "a sigma count; the noise correction also leaves the chord uncorrected")
 
     # 5. geodesic (diffusion-coordinate) vs Euclidean: which tracks morphological
     # similarity better? Two independent similarity targets: sersic (fine-grained
@@ -148,6 +154,7 @@ def main():
     # diffusion coordinates emphasise large-scale/slow-mixing structure and might
     # not track a fine local property even if they track a global one.
     def geo_vs_euclid(sim_fn, query_idx, nnE, nnG, label):
+        from scipy.stats import binomtest
         dE_l, dG_l, win = [], [], 0
         for i in query_idx:
             nbrE = nnE.kneighbors(Zi[i:i + 1], return_distance=False)[0, 1:]
@@ -159,7 +166,9 @@ def main():
         dE_a, dG_a = np.array(dE_l), np.array(dG_l)
         return dict(label=label, n_sampled=int(len(query_idx)), n_query=int(len(dE_a)),
                     mean_dist_euclidean=float(dE_a.mean()),
-                    mean_dist_geodesic=float(dG_a.mean()), frac_geodesic_better=float(win / len(dE_a)))
+                    mean_dist_geodesic=float(dG_a.mean()), frac_geodesic_better=float(win / len(dE_a)),
+                    n_wins=int(win), sign_test_p=float(binomtest(int(win), len(dE_a)).pvalue),
+                    paired_mean_diff=float((dG_a - dE_a).mean()))
 
     fin = np.isfinite(sersic)
     rng2 = np.random.default_rng(SEED)
@@ -180,6 +189,9 @@ def main():
         nbr = nbr[votevec_fin[nbr]]
         return (float(np.mean(np.linalg.norm(votevec[nbr] - votevec[i], axis=1))) if len(nbr) else np.nan), len(nbr)
     out["geodesic_vs_euclidean_votes"] = geo_vs_euclid(vote_sim, qsamp2, nnE, nnG, "vote_vector")
+    out["geodesic_note"] = ("'geodesic' here = Euclidean neighbours in the top-10 diffusion-map "
+                            "coordinates -- a diffusion-distance PROXY, not shortest-path geodesic "
+                            "distance; quote as 'the 10-D diffusion-coordinate proxy'")
 
     # 7. preferred-axis check: independent sersic direction vs the vote-based sequence
     v_sersic = direction(Zi, sersic)
@@ -207,7 +219,9 @@ def main():
     evr = pca_res.explained_variance_ratio_
     out["fork_dimensionality"] = dict(
         n_disk=int(fe.sum()), explained_variance_ratio_top10=evr.tolist(),
-        pc1_aligned_with_bar=float(abs(pca_res.components_[0] @ v["bar"])))
+        pc1_aligned_with_bar=float(abs(pca_res.components_[0] @ v["bar"])),
+        dim_note="descriptive spectrum only: PC1+PC2 capturing ~half the residual variance does "
+                 "not establish a 2-D branch (no matched-noise dimension estimate was run)")
 
     np.save(f"{RES}/trackB_fork.npy",
             np.column_stack([ps, Zi @ v["bar"], featured, bar, smooth, edgeon]))

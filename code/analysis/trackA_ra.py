@@ -62,7 +62,10 @@ def main():
         r_resid = r2_probe(Zi, resid)                        # E_img predicts RA BEYOND conditions
         out[nm] = dict(r2_from_Eimg=r_emb, r2_from_covariates=r_cov,
                        r2_residual_from_Eimg=r_resid,
-                       explained_frac=float(1 - r_resid / r_emb) if r_emb > 0 else None)
+                       r2_drop_frac=float(1 - r_resid / r_emb) if r_emb > 0 else None)
+    out["drop_note"] = ("r2_drop_frac compares R2 on targets with different variances (raw vs "
+                        "condition-residualized RA); it is a crude drop measure, NOT a mediation "
+                        "fraction of the RA signal explained by observing conditions")
 
     # does E_img encode the observing conditions, and does the RA direction align with them?
     out["cond_in_Eimg"] = {c: r2_probe(Zi, m[c].to_numpy(float)) for c in ["ebv", "psfdepth_r", "psfsize_r"]}
@@ -77,7 +80,7 @@ def main():
         o = out[nm]
         print(f"{nm}: E_img R2={o['r2_from_Eimg']:.2f} | from covariates R2={o['r2_from_covariates']:.2f} | "
               f"residual-after-covariates R2={o['r2_residual_from_Eimg']:.2f} "
-              f"({100*(o['explained_frac'] or 0):.0f}% explained by conditions)")
+              f"(R2 drop {100*(o['r2_drop_frac'] or 0):.0f}%; not a mediation fraction)")
     print(f"observing conditions in E_img: ebv R2={out['cond_in_Eimg']['ebv']:.2f}, "
           f"depth_r R2={out['cond_in_Eimg']['psfdepth_r']:.2f}, psfsize_r R2={out['cond_in_Eimg']['psfsize_r']:.2f}")
     print(f"|cos(RA-dir, condition-dir)|: {out['align_cosRA_dir']}")

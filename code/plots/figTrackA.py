@@ -10,9 +10,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
-loop = np.load("results/trackA_loop.npy")          # cols: paDeg, cos_hat, sin_hat
+loop = np.load("results/trackA_loop.npy")          # cols: paDeg, cos_hat, sin_hat, is_heldout
 J = json.load(open("results/trackA.json"))
-pa, ch, sh = loop[:, 0], loop[:, 1], loop[:, 2]
+te = loop[:, 3] > 0.5 if loop.shape[1] > 3 else np.ones(len(loop), bool)
+pa, ch, sh = loop[te, 0], loop[te, 1], loop[te, 2]  # held-out rows only (probe never saw them)
 
 rng = np.random.default_rng(0)                      # thin for a legible scatter
 if len(pa) > 6000:
@@ -26,7 +27,7 @@ axA = fig.add_subplot(gs[0])
 sc = axA.scatter(ch, sh, c=pa, cmap="twilight", s=5, alpha=0.55, vmin=0, vmax=180)
 axA.set_aspect("equal"); axA.axhline(0, color="0.85", lw=.6); axA.axvline(0, color="0.85", lw=.6)
 axA.set_xlabel(r"predicted $\cos 2\theta$"); axA.set_ylabel(r"predicted $\sin 2\theta$")
-axA.set_title("Position angle traces a closed loop\n(E_img, elongated galaxies)", fontsize=10)
+axA.set_title("Position angle traces a closed loop\n(E_img, held-out elongated galaxies)", fontsize=10)
 cb = fig.colorbar(sc, ax=axA, fraction=0.046, pad=0.04); cb.set_label("PA (deg)")
 
 # B) circular error sharpens with elongation

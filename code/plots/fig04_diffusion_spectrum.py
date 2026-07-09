@@ -13,7 +13,7 @@ import plotcommon as pc
 
 d = pc.load_json("diffusionMap")
 embs = ["E_full", "E_img"]
-emb_nice = {"E_full": "E_full (img+spectra)", "E_img": "E_img (image-only)"}
+emb_nice = {"E_full": "E_full (image+g/r/z flux+redshift)", "E_img": "E_img (image-only)"}
 style = {"E_full": ("#1f6fb4", "o", "-"), "E_img": ("#d2691e", "s", "--")}
 
 fig, (axA, axB) = plt.subplots(1, 2, figsize=(14, 5.6))
@@ -32,7 +32,7 @@ axA.text(0.4, 1.001, "k=0 trivial\n(constant) mode", fontsize=8.5, color="grey",
          ha="left", va="center")
 axA.set_xlabel("eigenvalue index  k")
 axA.set_ylabel(r"diffusion eigenvalue  $\lambda_k$")
-axA.set_title("A. Eigenvalue spectrum — gradual decay, no large gap")
+axA.set_title("A. Eigenvalue spectrum — gradual decay with modest gaps")
 axA.set_xlim(-0.8, 29.8)
 axA.legend(loc="upper right", fontsize=9.5)
 axA.grid(alpha=0.25)
@@ -48,18 +48,19 @@ for e in embs:
     maxgap = max(maxgap, gaps.max())
 axB.set_xlabel(r"gap index  k   (between $\lambda_k$ and $\lambda_{k+1}$)")
 axB.set_ylabel(r"consecutive gap  $\lambda_k - \lambda_{k+1}$")
-axB.set_title("B. Consecutive gaps — all small / comparable")
+axB.set_title("B. Consecutive gaps — pattern differs by embedding")
 axB.set_xlim(-0.8, 28.8)
 axB.set_ylim(0, maxgap * 1.25)
 axB.legend(loc="upper right", fontsize=9.5)
 axB.grid(alpha=0.25)
 
-fig.suptitle("Diffusion-operator eigenvalue spectrum and gaps  (k=15 graph)",
+primary_k = d["E_full"].get("primary_k", 64)
+fig.suptitle(f"Diffusion-operator eigenvalue spectrum and gaps  (primary k={primary_k} graph)",
              fontsize=14, y=1.03)
 
-note = ("Note: no single dominant spectral gap appears — the spectrum decays smoothly. "
-        "This is consistent with one connected continuum rather than discrete clusters\n"
-        "(the same conclusion the topology arm reaches).")
+note = ("Across k=32/48/64/96, E_full's largest nontrivial gap stays after mode 1 while E_img's stays after mode 5. "
+        "All graphs remain connected.\n"
+        "Because the locations disagree and harmonics are present, the spectrum is descriptive rather than a single ID/topology estimate.")
 fig.text(0.5, -0.04, note, ha="center", va="top", fontsize=9.5, color="#333333")
 
 print(pc.save(fig, "04_diffusion_spectrum.png"))

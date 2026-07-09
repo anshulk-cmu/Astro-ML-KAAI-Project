@@ -1,31 +1,34 @@
 {
   "gmm_means": [
-    0.7821265459060669,
-    1.242492914199829
+    0.7821283340454102,
+    1.242491602897644
   ],
-  "cut": 1.0123097896575928,
+  "cut": 1.0245970641171933,
+  "cut_midpoint_of_means": 1.0123100280761719,
+  "cut_note": "cut is the GMM posterior decision boundary that predict() actually uses; the midpoint of means is kept for provenance only and labels no population",
   "ID_passive": {
     "n": 22614,
-    "mle": 17.189788818359375,
+    "mle": 17.18979092923998,
     "ci": [
-      17.00650405883789,
-      17.43440818786621
+      17.00650490582748,
+      17.434408378917606
     ]
   },
   "ID_sf": {
     "n": 25782,
-    "mle": 15.53421401977539,
+    "mle": 15.534214991942651,
     "ci": [
-      15.394052505493164,
-      15.729187965393066
+      15.394052437681701,
+      15.729188698631551
     ]
   },
   "delta_ID": {
-    "mean": 1.661881923675537,
+    "mean": 1.6618822206674038,
     "ci": [
-      1.3833469152450562,
-      1.9613759517669678
+      1.3833466520182636,
+      1.9613768552662654
     ],
     "excludes_zero": true
-  }
+  },
+  "uncertainty_note": "CIs are conditional bootstraps of the precomputed TwoNN neighbour ratios on the fixed kNN graph; they do not resample galaxies, refit the GMM, or recompute neighbours, so split and graph uncertainty are not included"
 }

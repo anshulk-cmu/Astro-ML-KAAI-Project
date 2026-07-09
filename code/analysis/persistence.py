@@ -1,29 +1,26 @@
-"""Persistence diagrams for the beta_1 check, under Euclidean / Fermat / diffusion metrics.
+"""Persistence diagrams for the H1 resolution check.
 
-Reproduces topology.py's betti1 exactly (same seed, same 10 x 2000 subsamples, same draw order,
-same three metrics, same diameter normalisation) but KEEPS the H1 birth-death diagram instead of
-discarding it. For each metric it also estimates a Fasy/Chazal bootstrap 95% confidence band c_n on
-the worst-case (max-persistence) subsample, so the noise band is statistical, not just the fixed 0.1
-threshold. Saves the worst-case diagram per metric (.npy) and a summary (.json). Plotting is separate.
+Uses the same ten paired 2,000-galaxy subsamples for Euclidean, Fermat, and the
+alpha=1 self-tuned diffusion metric. Keeps every replicate's maximum persistence
+and the worst-case diagram. The old 20-draw, top-300-bar bootstrap was not a
+calibrated Fasy confidence set, so it is removed rather than presented as one.
+The fixed 0.1 line is retained only as a descriptive reference.
 """
 import json
 import os
 import time
 import numpy as np
 import ripser
-from persim import bottleneck
 from scipy.spatial.distance import cdist
-from scipy.sparse import diags
+from scipy.sparse import csr_matrix, diags
 from scipy.sparse.csgraph import shortest_path
 from scipy.sparse.linalg import eigsh
-from sklearn.neighbors import kneighbors_graph
+from sklearn.neighbors import kneighbors_graph, NearestNeighbors
 
 ROOT = r"d:/AstroML-Project"
 RES = os.path.join(ROOT, "results")
 N_SUB, N_REP, K, SEED = 2000, 10, 15, 0
 THRESH = 0.1            # the fixed significance threshold used in topology.py
-B_BOOT = 20            # bootstrap resamples for the confidence band
-TOPK_BOTTLE = 300      # cap bars by persistence for the bottleneck (near-diagonal bars are negligible)
 METRICS = ["euclidean", "fermat", "diffusion"]
 _t0 = time.time()
 
@@ -44,13 +41,22 @@ def geodesic(S, k, power):
 
 
 def diffusion_dist(S, k):
-    G = kneighbors_graph(S, k, mode="distance"); G = G.maximum(G.T)
-    eps = np.median(G.data) ** 2
-    W = G.copy(); W.data = np.exp(-(G.data ** 2) / eps)
-    Di = diags(1.0 / np.sqrt(np.asarray(W.sum(1)).ravel()))
-    vals, vecs = eigsh((Di @ W @ Di).tocsr(), k=40, which="LM")
+    dist, idx = NearestNeighbors(n_neighbors=k + 1).fit(S).kneighbors(S)
+    dist, idx = dist[:, 1:], idx[:, 1:]
+    sigma = dist[:, 6] + 1e-9
+    w = np.exp(-(dist ** 2) / (sigma[:, None] * sigma[idx]))
+    n = len(S)
+    W0 = csr_matrix((w.ravel(), (np.repeat(np.arange(n), k), idx.ravel())),
+                    shape=(n, n))
+    W = W0.maximum(W0.T)
+    q = np.asarray(W.sum(1)).ravel()
+    K1 = diags(1.0 / q) @ W @ diags(1.0 / q)
+    deg = np.asarray(K1.sum(1)).ravel()
+    Di = diags(1.0 / np.sqrt(deg))
+    vals, vecs = eigsh((Di @ K1 @ Di).tocsr(), k=40, which="LA")
     o = np.argsort(vals)[::-1]
-    psi = vecs[:, o][:, 1:] * vals[o][1:]
+    psi = np.asarray(Di @ vecs[:, o])
+    psi = psi[:, 1:] * vals[o][1:]
     return cdist(psi, psi)
 
 
@@ -69,50 +75,27 @@ def h1(D):
     return dg if len(dg) else np.zeros((0, 2))
 
 
-def topk(dg, k=TOPK_BOTTLE):
-    if len(dg) <= k:
-        return dg
-    p = dg[:, 1] - dg[:, 0]
-    return dg[np.argsort(p)[::-1][:k]]
-
-
-def bootstrap_cn(S, ref_dg, nm, rng):
-    """Fasy/Chazal bootstrap: resample the cloud with replacement, recompute the diagram,
-    take the 95th percentile of the bottleneck distance to the reference diagram = c_n.
-    A feature is significant if its distance to the diagonal exceeds c_n, i.e. persistence > 2 c_n."""
-    ref = topk(ref_dg)
-    n = len(S)
-    ds = []
-    for b in range(B_BOOT):
-        Sb = S[rng.integers(0, n, n)]
-        dgb = topk(h1(distmat(Sb, nm)))
-        ds.append(float(bottleneck(ref, dgb)))
-    return float(np.percentile(ds, 95)), ds
-
-
 E = zscore(np.load(os.path.join(ROOT, "data", "E_full.npy")))
 log(f"loaded E_full z-scored {E.shape}")
 
-# reproduce topology.py's exact subsample order: euclidean x10, then fermat x10, then diffusion x10
+# One paired subsample list for all metrics.
 rng = np.random.default_rng(SEED)
-subs = {nm: [rng.choice(len(E), N_SUB, replace=False) for _ in range(N_REP)] for nm in METRICS}
+subs = [rng.choice(len(E), N_SUB, replace=False) for _ in range(N_REP)]
 
 out = {}
 for nm in METRICS:
     maxp, sig, nbars = [], [], []
-    best_p, best_dg, best_idx, best_S = -1.0, None, -1, None
+    best_p, best_dg, best_idx = -1.0, None, -1
     for r in range(N_REP):
-        S = E[subs[nm][r]]
+        S = E[subs[r]]
         dg = h1(distmat(S, nm))
         p = (dg[:, 1] - dg[:, 0]) if len(dg) else np.array([0.0])
         maxp.append(float(p.max())); sig.append(int((p > THRESH).sum())); nbars.append(int(len(dg)))
         if float(p.max()) > best_p:
-            best_p, best_dg, best_idx, best_S = float(p.max()), dg, r, S
+            best_p, best_dg, best_idx = float(p.max()), dg, r
     np.save(os.path.join(RES, f"persistenceDiag_{nm}.npy"), best_dg.astype(np.float32))
     log(f"{nm}: max_pers={max(maxp):.3f} sig(>0.1)={np.mean(sig):.1f} range={[min(sig),max(sig)]} "
         f"mean_bars={np.mean(nbars):.0f} worst_rep={best_idx} -> diagram saved ({len(best_dg)} bars)")
-    cn, ds = bootstrap_cn(best_S, best_dg, nm, rng)
-    log(f"{nm}: bootstrap c_n(95%)={cn:.4f} -> band persistence={2*cn:.4f} (over B={B_BOOT})")
     out[nm] = dict(
         max_persistence=float(max(maxp)),
         per_rep_max=[float(x) for x in maxp],
@@ -121,11 +104,20 @@ for nm in METRICS:
         mean_bars=float(np.mean(nbars)),
         worst_rep=int(best_idx),
         n_bars_worst=int(len(best_dg)),
-        bootstrap_cn=float(cn),
-        band_persistence=float(2 * cn),
+        subsamples_with_any_over_0p1=int(np.sum(np.asarray(sig) > 0)),
         bottleneck_to_empty=float(best_p / 2.0),
         threshold=THRESH,
+        verdict=("descriptive H1 candidates present" if np.any(np.asarray(sig) > 0)
+                 else "no candidate exceeds the descriptive 0.1 line"),
     )
+
+out["_design"] = dict(
+    paired_subsamples_across_metrics=True,
+    seed=SEED, n_rep=N_REP, n_sub=N_SUB,
+    diffusion="alpha=1 self-tuned, matching diffusionMap.py",
+    inference=("no formal confidence band is claimed; the previous B=20 truncated "
+               "bootstrap was removed as uncalibrated"),
+)
 
 with open(os.path.join(RES, "persistence.json"), "w") as f:
     json.dump(out, f, indent=2)

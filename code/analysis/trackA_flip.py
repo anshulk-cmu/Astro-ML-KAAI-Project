@@ -151,7 +151,12 @@ def main():
 
     rng = np.random.default_rng(SEED)
     boot_med = lambda e: ci([np.median(e[rng.integers(0, len(e), len(e))]) for _ in range(200)])
-    out = {"n": int(len(idx)), "smoke": bool(args.smoke),
+    rng_ho = np.random.default_rng(SEED + 1)   # separate stream: keeps all-population numbers identical
+    boot_ho = lambda e: ci([np.median(e[rng_ho.integers(0, len(e), len(e))]) for _ in range(200)])
+    out = {"n": int(len(idx)), "smoke": bool(args.smoke), "n_heldout": int(len(te)),
+           "population_note": ("plain fields summarize ALL elongated galaxies, which include the probe's "
+                               "80% training rows; the *_heldout fields use only the 20% test split the "
+                               "probe never saw and are the leakage-free summaries"),
            "baseline_median_err_deg": float(np.median(base_err)),
            "sign_convention": ("np.flip on the column axis maps the array-frame angle to its negative "
                                "(mod 180); catalog PA = array angle - 90 same-handed (verified runLog "
@@ -175,6 +180,9 @@ def main():
     near = lambda t, c: np.abs(wrap2(t - c)) < 5.0
     fp = near(pa[idx], 0.0) | near(pa[idx], 90.0)         # fixed points
     an = near(pa[idx], 45.0) | near(pa[idx], 135.0)       # antinodes
+    te_mask = np.zeros(len(idx), bool); te_mask[te] = True
+    keep_ho = keep & te_mask
+    slope_ho, icpt_ho = np.polyfit(d_pred[keep_ho], d_rec[keep_ho], 1)
     out["flip"] = dict(
         median_err_vs_minus_readout_deg=float(np.median(err0)), err_ci=boot_med(err0),
         median_err_vs_minus_true_deg=float(np.median(errt)), err_true_ci=boot_med(errt),
@@ -185,7 +193,11 @@ def main():
         disp_p95_abs_resid=float(np.percentile(np.abs(resid), 95)),
         n_slope=int(keep.sum()), slope_excluded="|predicted displacement| > 80 (mod-180 wrap boundary)",
         fixedpoint_median_absdisp_deg=float(np.median(np.abs(d_rec[fp]))), n_fixedpoint=int(fp.sum()),
-        antinode_median_absdisp_deg=float(np.median(np.abs(d_rec[an]))), n_antinode=int(an.sum()))
+        antinode_median_absdisp_deg=float(np.median(np.abs(d_rec[an]))), n_antinode=int(an.sum()),
+        median_err_vs_minus_readout_deg_heldout=float(np.median(err0[te])), err_ci_heldout=boot_ho(err0[te]),
+        median_err_vs_minus_true_deg_heldout=float(np.median(errt[te])),
+        disp_slope_heldout=float(slope_ho), disp_intercept_heldout=float(icpt_ho),
+        n_slope_heldout=int(keep_ho.sum()))
 
     # --- flip then rotate 30: readout must be -PA - 30 (group composition) ---
     h2 = hats["flip_rot30"]
@@ -195,7 +207,8 @@ def main():
         expected="-(unflipped readout) - 30 deg",
         median_err_vs_expected_deg=float(np.median(errc0)), err_ci=boot_med(errc0),
         median_err_vs_true_deg=float(np.median(errct)),
-        median_err_offset_corrected_deg=float(np.median(circ_err(h2, -pa0_hat - 30.0 + offset))))
+        median_err_offset_corrected_deg=float(np.median(circ_err(h2, -pa0_hat - 30.0 + offset))),
+        median_err_vs_expected_deg_heldout=float(np.median(errc0[te])), err_ci_heldout=boot_ho(errc0[te]))
 
     if not args.smoke:
         np.save(f"{RES}/trackA_flip_disp.npy",

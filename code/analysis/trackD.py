@@ -162,23 +162,34 @@ def mixture(F, eps=EPS, n_phi=360, n_c=61):
 
 
 def spearman_gpu(A, y, col_chunk=512):
-    """|rank correlation| of each column of A vs y (finite mask; column-chunked).
-    Binary/discrete y (<=2 distinct values) uses centred y directly (rank-biserial:
-    Pearson of feature ranks vs the group indicator) -- arbitrary tie-broken ranks
-    on a binary label are invalid."""
+    """|tie-aware Spearman| of each column of A vs y (average-tie ranks, the valid
+    choice for zero-inflated activations; binary y uses the centred indicator =
+    rank-biserial). Ranks on CPU (scipy, column-chunked), correlation on GPU."""
+    from scipy.stats import rankdata
     fin = np.isfinite(y)
     a, yy = A[fin], y[fin]
     if len(np.unique(yy)) <= 2:
         ry = torch.from_numpy(yy.astype(np.float32)).to(DEV)
     else:
-        ry = torch.from_numpy(yy).to(DEV).argsort(0).argsort(0).float()
+        ry = torch.from_numpy(rankdata(yy).astype(np.float32)).to(DEV)
     ry = (ry - ry.mean()) / (ry.std() + 1e-9)
     out = np.zeros(A.shape[1], np.float32)
     for s in range(0, A.shape[1], col_chunk):
-        ra = torch.from_numpy(a[:, s:s + col_chunk]).to(DEV).argsort(0).argsort(0).float()
+        r = rankdata(a[:, s:s + col_chunk], axis=0, method="average").astype(np.float32)
+        ra = torch.from_numpy(r).to(DEV)
         ra = (ra - ra.mean(0)) / (ra.std(0) + 1e-9)
         out[s:s + ra.shape[1]] = ((ra * ry[:, None]).mean(0)).abs().cpu().numpy()
     return out
+
+
+def bh_qvalues(p):
+    p = np.asarray(p, float)
+    order = np.argsort(p)
+    ranked = p[order] * len(p) / np.arange(1, len(p) + 1)
+    ranked = np.minimum.accumulate(ranked[::-1])[::-1]
+    q = np.empty_like(ranked)
+    q[order] = np.clip(ranked, 0, 1)
+    return q
 
 
 def circ_fit_2d(P2, theta2):
@@ -258,6 +269,7 @@ def main():
         proj = (Rt @ V).cpu().numpy()                     # (n_act, <=4)
         npc = proj.shape[1]
         best = dict(score=-1)
+        pair_scores = []
         for (i, j) in PAIRS:
             if j >= npc:
                 continue
@@ -265,6 +277,7 @@ def main():
             S_idx = separability(F)
             M_idx = mixture(F)
             score = (1 - M_idx) * S_idx
+            pair_scores.append(dict(pair=[i, j], S=S_idx, M=M_idx, score=score))
             if score > best["score"]:
                 best = dict(score=score, pair=(i, j), S=S_idx, M=M_idx, F=F)
         if best["score"] < 0:
@@ -286,6 +299,7 @@ def main():
             return float(1 - resid.var() / y[act_idx][fin].var())
         entry = dict(cluster=ci, members=len(R), n_active=int(active.sum()),
                      pair=list(best["pair"]), S=best["S"], M=best["M"], score=best["score"],
+                     pair_scores=pair_scores, score_mean_pairs=float(np.mean([p["score"] for p in pair_scores])),
                      loop_plane_angles=[float(x) for x in pa_ang],
                      loop_fit_err_deg=loop_err,
                      r2_gr=r2_of(g_r), r2_z=r2_of(z_lab), r2_featured=r2_of(featured),
@@ -301,7 +315,19 @@ def main():
         keep.add(f"cluster{min(lr, key=lambda e: e['loop_fit_err_deg'])['cluster']}")
     proj_store = {k: v for k, v in proj_store.items() if k in keep}
     out["n_tested"] = len(results)
-    out["clusters"] = results[:40]
+    out["clusters"] = results                                        # ALL tested clusters persisted
+    out["method_note"] = ("Engels S/M ported to a TopK dictionary: global top-32 selection precedes "
+                          "the cluster restriction (a cluster feature outside a sample's global top-32 "
+                          "is absent), and ranking uses the BEST PC pair (the paper aggregates over "
+                          "plane pairs; per-pair values + the mean are stored in pair_scores). The "
+                          "paper's calibration values are references, not matched thresholds.")
+    # random-plane null for loop_plane_angles: first principal angle of random 2-planes
+    rngp = np.random.default_rng(SEED)
+    rp = [principal_angles(P_loop, np.linalg.qr(rngp.standard_normal((Z.shape[1], 2)))[0])[0]
+          for _ in range(1000)]
+    out["loop_plane_random_null"] = dict(median=float(np.median(rp)),
+                                         p5=float(np.percentile(rp, 5)),
+                                         p95=float(np.percentile(rp, 95)), n=1000)
     print(f"[{time.time()-t0:.0f}s] tested {len(results)} clusters; top-5 by (1-M)xS:", flush=True)
     for e in results[:5]:
         print(f"  #{e['cluster']} m={e['members']} act={e['n_active']} S={e['S']:.3f} M={e['M']:.3f} "
@@ -316,30 +342,34 @@ def main():
             "north": (df["footprint"] == "north").astype(float).to_numpy() if "footprint" in df else np.full(len(df), np.nan),
             "iblank": (c("psfdepth_i") <= 0).astype(float)}
     activeF = acts.std(0) > 1e-6
-    corr = {k: spearman_gpu(acts, v) for k, v in {**phys, **inst}.items()}
-    # per-label-type nulls: shuffle a continuous label AND a binary label separately
     rng = np.random.default_rng(SEED)
-    def null_thr(y, n_shuf=20):
-        fin = np.isfinite(y); yv = y[fin]; aF = acts[fin]
-        vals = [spearman_gpu(aF, yv[rng.permutation(len(yv))]) for _ in range(n_shuf)]
-        return float(np.percentile(np.concatenate(vals), 95))
-    thr_cont = null_thr(z_lab)
-    thr_bin = null_thr(inst["north"])
-    thr_of = {k: (thr_bin if len(np.unique(v[np.isfinite(v)])) <= 2 else thr_cont)
-              for k, v in {**phys, **inst}.items()}
+    alllab = {**phys, **inst}
+    corr = {k: spearman_gpu(acts, v) for k, v in alllab.items()}
+    # per-feature p (t-approx per label) -> Bonferroni over the 11 labels -> BH across active features
+    from scipy.stats import t as student_t
+    ns = {k: int(np.isfinite(v).sum()) for k, v in alllab.items()}
+    def pvals(k):
+        r = np.clip(corr[k], 0, 1 - 1e-15)
+        ts = r * np.sqrt((ns[k] - 2) / np.maximum(1 - r ** 2, 1e-15))
+        return 2 * student_t.sf(ts, df=ns[k] - 2)
+    p_all = np.stack([pvals(k) for k in alllab], 0)
+    p_feat = np.minimum(1.0, p_all.min(0) * len(alllab))
+    q_feat = np.ones_like(p_feat)
+    q_feat[activeF] = bh_qvalues(p_feat[activeF])
+    aligned = (q_feat <= 0.05) & activeF
     Pmat = np.stack([corr[k] for k in phys], 0)
     Imat = np.stack([corr[k] for k in inst], 0)
     p_top, p_val = Pmat.argmax(0), Pmat.max(0)
     i_top, i_val = Imat.argmax(0), Imat.max(0)
     p_names, i_names = list(phys), list(inst)
-    p_sig = np.array([p_val[f] > thr_of[p_names[p_top[f]]] for f in range(len(p_val))]) & activeF
-    i_sig = np.array([i_val[f] > thr_of[i_names[i_top[f]]] for f in range(len(i_val))]) & activeF
-    inst_first = i_sig & (i_val > p_val)                 # instrument beats best physics label
-    phys_first = p_sig & ~inst_first
+    inst_first = aligned & (i_val > p_val)               # instrument beats best physics label
+    phys_first = aligned & ~inst_first
     out["instrument_flagging"] = dict(
-        thr_continuous=thr_cont, thr_binary=thr_bin, n_active_features=int(activeF.sum()),
+        multiple_testing="per-feature min p Bonferroni across 11 labels; BH q<=0.05 across active features",
+        rank_method="average ties (true Spearman ranks)",
+        n_active_features=int(activeF.sum()), n_aligned_fdr=int(aligned.sum()),
         n_physics_first=int(phys_first.sum()), n_instrument_first=int(inst_first.sum()),
-        n_unaligned=int((activeF & ~p_sig & ~i_sig).sum()),
+        n_unaligned=int((activeF & ~aligned).sum()),
         median_best_phys_corr=float(np.median(p_val[activeF])),
         median_best_inst_corr=float(np.median(i_val[activeF])),
         instrument_breakdown={k: int((inst_first & (i_top == i_names.index(k))).sum()) for k in inst},
@@ -362,7 +392,32 @@ def main():
         return float(np.median(np.abs(np.degrees(d))) / 2)
     loop_ranked = sorted([e for e in results if e["loop_fit_err_deg"] is not None],
                          key=lambda e: e["loop_fit_err_deg"])
-    out["ablation"] = {"baseline_err_deg": pa_err_of(Z)}
+    pool = np.where(activeF)[0]
+    energy = (acts ** 2).sum(0)
+
+    def matched_controls(Rk, n_ctrl=5):
+        """random feature sets matched to Rk's activation-energy decile histogram."""
+        pool_ = np.setdiff1d(pool, Rk)
+        le = np.log10(energy + 1e-12)
+        qs = np.quantile(le[pool_], np.linspace(0, 1, 11))
+        bin_of = lambda v: np.clip(np.digitize(v, qs) - 1, 0, 9)
+        bt, bp = bin_of(le[Rk]), bin_of(le[pool_])
+        ctrls = []
+        for _ in range(n_ctrl):
+            pick = []
+            for b in range(10):
+                need = int((bt == b).sum())
+                if need:
+                    src = pool_[bp == b]
+                    pick.append(rng.choice(src if len(src) >= need else pool_, need, replace=False))
+            ctrls.append(np.concatenate(pick))
+        return ctrls
+
+    out["ablation"] = {"baseline_err_deg": pa_err_of(Z),
+                       "ablation_note": ("information-removal test: subtracting SAE terms and REFITTING "
+                                         "the probe asks whether PA stays decodable, not whether a fixed "
+                                         "readout causally depends on those features; controls are "
+                                         "activation-energy decile-matched")}
     if loop_ranked:
         bestloop = loop_ranked[0]
         R = clusters[bestloop["cluster"]]
@@ -370,34 +425,35 @@ def main():
         out["ablation"]["best_loop_cluster"] = bestloop["cluster"]
         out["ablation"]["cluster_size"] = len(R)
         out["ablation"]["ablated_err_deg"] = pa_err_of(Zabl.astype(np.float32))
-        ctrl = []
-        pool = np.where(activeF)[0]
-        for s in range(5):
-            Rr = rng.choice(np.setdiff1d(pool, R), len(R), replace=False)
-            ctrl.append(pa_err_of((Z - acts[:, Rr] @ D[:, Rr].T).astype(np.float32)))
+        ctrl = [pa_err_of((Z - acts[:, Rr] @ D[:, Rr].T).astype(np.float32))
+                for Rr in matched_controls(np.asarray(R))]
         out["ablation"]["random_controls_err_deg"] = ctrl
         print(f"[{time.time()-t0:.0f}s] ablation: baseline {out['ablation']['baseline_err_deg']:.1f} -> "
               f"ablate loop-cluster #{bestloop['cluster']} ({len(R)} feats): "
-              f"{out['ablation']['ablated_err_deg']:.1f} deg | random controls "
+              f"{out['ablation']['ablated_err_deg']:.1f} deg | matched controls "
               f"{[round(x,1) for x in ctrl]}", flush=True)
 
-    # distributed-loop test: ablate the K MOST loop-correlated features (union of
-    # |corr| with cos2PA and sin2PA on elongated galaxies), vs matched random sets
-    c2 = spearman_gpu(acts[elong], np.cos(2 * pa[elong]))
-    s2 = spearman_gpu(acts[elong], np.sin(2 * pa[elong]))
+    # distributed-loop test: ablate the K MOST loop-correlated features. Selection uses
+    # ONLY the probe's training rows (no test-label leakage); controls energy-matched, n=5.
+    tr_ab, _ = train_test_split(np.where(elong)[0], test_size=0.2, random_state=SEED)
+    trm = np.zeros(len(Z), bool); trm[tr_ab] = True
+    c2 = spearman_gpu(acts[trm], np.cos(2 * pa[trm]))
+    s2 = spearman_gpu(acts[trm], np.sin(2 * pa[trm]))
     loop_corr = np.maximum(c2, s2)
     order = np.argsort(-loop_corr)
     out["distributed_loop_ablation"] = {"baseline": out["ablation"]["baseline_err_deg"],
+                                        "selection": "train rows only (probe's 80% split)",
                                         "top_feature_loopcorrs": [float(x) for x in loop_corr[order[:10]]]}
-    pool = np.where(activeF)[0]
     for K in (15, 50, 200):
         Rk = order[:K]
         errK = pa_err_of((Z - acts[:, Rk] @ D[:, Rk].T).astype(np.float32))
-        Rr = rng.choice(np.setdiff1d(pool, Rk), K, replace=False)
-        errR = pa_err_of((Z - acts[:, Rr] @ D[:, Rr].T).astype(np.float32))
-        out["distributed_loop_ablation"][f"K{K}"] = dict(ablate_top_loopcorr=errK, random_control=errR)
+        errRs = [pa_err_of((Z - acts[:, Rr] @ D[:, Rr].T).astype(np.float32))
+                 for Rr in matched_controls(Rk)]
+        out["distributed_loop_ablation"][f"K{K}"] = dict(
+            ablate_top_loopcorr=errK, random_controls=errRs,
+            random_control=float(np.mean(errRs)))
         print(f"  distributed-loop: ablate top-{K} loop-corr feats -> {errK:.1f} deg "
-              f"(random-{K} control {errR:.1f})", flush=True)
+              f"(matched controls mean {np.mean(errRs):.1f}, {[round(x,1) for x in errRs]})", flush=True)
 
     # 8. cross-seed stability of the top-10 clusters
     stab = {}

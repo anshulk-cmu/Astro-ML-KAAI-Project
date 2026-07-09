@@ -9,6 +9,7 @@ KMAX = 512
 KGRID = [10, 14, 20, 28, 40, 56, 80, 113, 160, 226]                  # local-MLE neighbourhood sweep
 SCALES = [1, 2, 4, 8, 16, 24, 32, 48, 64, 96, 128, 192, 256]        # Gride scale curve (orders n, 2n)
 SEED = 0
+N_BOOT = 200
 
 
 def zscore(E):
@@ -29,21 +30,33 @@ def twonn(d):
                 linear=lin, n=N)
 
 
+def boot_ci(values, estimator, seed=SEED, n_boot=N_BOOT):
+    rng = np.random.default_rng(seed)
+    n = len(values)
+    vals = [estimator(values[rng.integers(0, n, n)]) for _ in range(n_boot)]
+    return [float(np.percentile(vals, 2.5)), float(np.percentile(vals, 97.5))]
+
+
 def local_mle(d, K):
     sl = (np.log(d[:, K - 1:K]) - np.log(np.maximum(d[:, :K - 1], 1e-12))).sum(1)
     m = (K - 2) / np.maximum(sl, 1e-12)
-    return float(1.0 / np.mean(1.0 / m))
+    estimator = lambda v: float(1.0 / np.mean(1.0 / v))
+    return estimator(m), boot_ci(m, estimator, seed=SEED + K)
 
 
 def gride(d):
-    out = {}
+    out, cis = {}, {}
     for n1 in SCALES:
         n2 = 2 * n1
         if n2 > d.shape[1]:
             break
         mu = d[:, n2 - 1] / np.maximum(d[:, n1 - 1], 1e-12)
-        out[str(n1)] = float((digamma(n2) - digamma(n1)) / np.log(mu[mu > 1]).mean())
-    return out
+        logmu = np.log(mu[mu > 1])
+        scale = float(digamma(n2) - digamma(n1))
+        estimator = lambda v: float(scale / v.mean())
+        out[str(n1)] = estimator(logmu)
+        cis[str(n1)] = boot_ci(logmu, estimator, seed=SEED + n1)
+    return out, cis
 
 
 def pca_pr(X):
@@ -54,8 +67,18 @@ def pca_pr(X):
 
 def estimate(X):
     d, _ = knn(X, KMAX)
-    return dict(twonn=twonn(d), gride=gride(d),
-                local_mle={str(K): local_mle(d, K) for K in KGRID}, pca_pr=pca_pr(X))
+    g, gci = gride(d)
+    lm = {str(K): local_mle(d, K) for K in KGRID}
+    return dict(
+        twonn=twonn(d),
+        gride=g,
+        gride_ci=gci,
+        local_mle={k: v[0] for k, v in lm.items()},
+        local_mle_ci={k: v[1] for k, v in lm.items()},
+        pca_pr=pca_pr(X),
+        uncertainty_note=("Gride/local-MLE intervals are conditional row bootstraps of the "
+                          "fixed neighbour-distance graph; they do not refit neighbours"),
+    )
 
 
 ef, ei, ok, df = load()
@@ -71,6 +94,14 @@ for name, (X, truth) in datasets(len(ef), SEED).items():
 log("== AION ==")
 for name, E in [("E_full", ef), ("E_img", ei)]:
     r = estimate(zscore(E))
+    gk, lk = str(SCALES[-1]), str(KGRID[-1])
+    r["headline_scale_summary"] = {
+        "gride_largest_tested_scale": dict(n1=SCALES[-1], estimate=r["gride"][gk],
+                                             ci=r["gride_ci"][gk]),
+        "local_mle_largest_tested_scale": dict(K=KGRID[-1], estimate=r["local_mle"][lk],
+                                                ci=r["local_mle_ci"][lk]),
+        "wording": "largest tested scales; both curves are still declining, so not a proven plateau",
+    }
     out["aion"][name] = r
     log(f"{name} twonn={r['twonn']['mle']:.2f} CI={[round(c, 2) for c in r['twonn']['ci_post']]} "
         f"gride={ {k: round(v, 2) for k, v in r['gride'].items()} } pca_pr={r['pca_pr']:.1f}")

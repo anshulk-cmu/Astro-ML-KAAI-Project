@@ -55,16 +55,22 @@ def main():
 
     # (a) the loop in the RAW base embedding (scale comparison of Track A's headline)
     out["pa_err_base_raw"] = pa_err_of(Zb, pa, elong)
+    out["pa_err_large_raw_same_probe"] = pa_err_of(zscore(np.load(f"{DATA}/E_img.npy")), pa, elong)
+    out["baseline_note"] = ("scale comparison must use pa_err_large_raw_same_probe (identical fixed "
+                            "Ridge alpha=100 probe), NOT Track A's 2.03 RidgeCV headline")
     print(f"[{time.time()-t0:.0f}s] base raw-embedding PA loop err = {out['pa_err_base_raw']:.1f} deg "
-          f"(large: 2.0)", flush=True)
+          f"(large, same probe: {out['pa_err_large_raw_same_probe']:.1f})", flush=True)
 
-    # SAE at base scale (identical protocol), seed 0 (+ health)
+    # SAE at base scale (identical protocol), seed 0 (+ health); weights persisted
     mdl, fvu, alive = train(Zb, 4 * Zb.shape[1], 32, 0)
     out["base_sae_health"] = dict(fvu=fvu, alive=alive)
     Wd = mdl.W_dec.detach().cpu().numpy()
+    np.savez(f"{RES}/trackD_sae/base_s0.npz",
+             W_enc=mdl.W_enc.detach().cpu().numpy(), W_dec=Wd,
+             b_enc=mdl.b_enc.detach().cpu().numpy(), b_pre=mdl.b_pre.detach().cpu().numpy())
     acts_b = topk_acts(Zb, mdl.W_enc.detach().cpu().numpy(),
                        mdl.b_enc.detach().cpu().numpy(), mdl.b_pre.detach().cpu().numpy())
-    print(f"[{time.time()-t0:.0f}s] base SAE: FVU={fvu:.3f} alive={alive:.3f}", flush=True)
+    print(f"[{time.time()-t0:.0f}s] base SAE: FVU={fvu:.3f} alive={alive:.3f} (weights saved)", flush=True)
 
     # (b) distributed-loop ablation at base scale
     c2 = spearman_gpu(acts_b[elong], np.cos(2 * pa[elong]))
@@ -81,28 +87,48 @@ def main():
         out["distributed_loop_base"][f"K{K}"] = dict(ablate=errK, control=errR)
         print(f"  base distributed-loop K={K}: {errK:.1f} deg (control {errR:.1f})", flush=True)
 
-    # (c) cross-scale dictionary match by ACTIVATION correlation (large eimg seed 0)
-    wl = np.load(f"{RES}/trackD_sae/eimg_s0.npz")
+    # (c) cross-scale dictionary match by ACTIVATION correlation: base seed 0 vs ALL
+    # five large seeds, plus a row-shuffled chance baseline per seed
     Zl = zscore(np.load(f"{DATA}/E_img.npy"))
-    acts_l = topk_acts(Zl, wl["W_enc"], wl["b_enc"], wl["b_pre"])
-    Al = torch.from_numpy(acts_l).to(DEV); Ab = torch.from_numpy(acts_b).to(DEV)
-    Al = (Al - Al.mean(0)) / (Al.std(0) + 1e-9)
+    Ab = torch.from_numpy(acts_b).to(DEV)
     Ab = (Ab - Ab.mean(0)) / (Ab.std(0) + 1e-9)
-    best = torch.zeros(Al.shape[1], device=DEV)
-    for s in range(0, Ab.shape[1], 512):                       # chunk base features
-        C = (Al.t() @ Ab[:, s:s + 512]) / Al.shape[0]          # (m_l, chunk)
-        best = torch.maximum(best, C.abs().max(1).values)
-    bestn = best.cpu().numpy()
-    act_l = acts_l.std(0) > 1e-6
-    out["cross_scale_match"] = dict(
-        n_large_active=int(act_l.sum()),
-        frac_matched_ge_0p5=float((bestn[act_l] >= 0.5).mean()),
-        frac_matched_ge_0p3=float((bestn[act_l] >= 0.3).mean()),
-        median_best_corr=float(np.median(bestn[act_l])))
+    rngp = torch.Generator(device=DEV).manual_seed(SEED)
+
+    def match_stats(Al, act_l, shuffle=False):
+        A2 = Ab[torch.randperm(Ab.shape[0], generator=rngp, device=DEV)] if shuffle else Ab
+        best = torch.zeros(Al.shape[1], device=DEV)
+        for s in range(0, A2.shape[1], 512):
+            C = (Al.t() @ A2[:, s:s + 512]) / Al.shape[0]
+            best = torch.maximum(best, C.abs().max(1).values)
+        b = best.cpu().numpy()[act_l]
+        return dict(frac_ge_0p5=float((b >= 0.5).mean()), frac_ge_0p3=float((b >= 0.3).mean()),
+                    median_best_corr=float(np.median(b)))
+
+    out["cross_scale_match_per_seed"] = {}
+    for sd in range(5):
+        wl = np.load(f"{RES}/trackD_sae/eimg_s{sd}.npz")
+        acts_l = topk_acts(Zl, wl["W_enc"], wl["b_enc"], wl["b_pre"])
+        Al = torch.from_numpy(acts_l).to(DEV)
+        Al = (Al - Al.mean(0)) / (Al.std(0) + 1e-9)
+        act_l = acts_l.std(0) > 1e-6
+        out["cross_scale_match_per_seed"][f"s{sd}"] = dict(
+            n_large_active=int(act_l.sum()),
+            observed=match_stats(Al, act_l),
+            shuffled_baseline=match_stats(Al, act_l, shuffle=True))
+        del Al, acts_l
+    obs = [v["observed"] for v in out["cross_scale_match_per_seed"].values()]
+    shf = [v["shuffled_baseline"] for v in out["cross_scale_match_per_seed"].values()]
+    out["cross_scale_match"] = dict(                       # seed-0 stats kept as the headline key
+        n_large_active=out["cross_scale_match_per_seed"]["s0"]["n_large_active"],
+        frac_matched_ge_0p5=obs[0]["frac_ge_0p5"], frac_matched_ge_0p3=obs[0]["frac_ge_0p3"],
+        median_best_corr=obs[0]["median_best_corr"],
+        seed_range_frac_ge_0p5=[min(o["frac_ge_0p5"] for o in obs), max(o["frac_ge_0p5"] for o in obs)],
+        shuffled_median_best_corr=[min(s["median_best_corr"] for s in shf), max(s["median_best_corr"] for s in shf)],
+        shuffled_frac_ge_0p5=[min(s["frac_ge_0p5"] for s in shf), max(s["frac_ge_0p5"] for s in shf)])
     cm = out["cross_scale_match"]
-    print(f"[{time.time()-t0:.0f}s] cross-scale (activation-corr match): of {cm['n_large_active']} active "
-          f"large-features, {100*cm['frac_matched_ge_0p5']:.0f}% recur at base (>=0.5), "
-          f"{100*cm['frac_matched_ge_0p3']:.0f}% at >=0.3; median best-corr {cm['median_best_corr']:.2f}", flush=True)
+    print(f"[{time.time()-t0:.0f}s] cross-scale: seed0 {100*cm['frac_matched_ge_0p5']:.0f}% >=0.5 "
+          f"(seeds range {[round(100*x) for x in cm['seed_range_frac_ge_0p5']]}%), median "
+          f"{cm['median_best_corr']:.2f}; shuffled median {cm['shuffled_median_best_corr']}", flush=True)
 
     with open(f"{RES}/trackD_scale.json", "w") as f:
         json.dump(out, f, indent=2, default=float)

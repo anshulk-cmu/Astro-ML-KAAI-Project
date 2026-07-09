@@ -135,8 +135,13 @@ def main():
                                   "runLog 2026-07-01) -> a physical rotation by +phi must move the "
                                   "readout by -phi. expected_shift_deg carries that minus sign; "
                                   "applied_fold_deg is the raw applied rotation folded to (-90,90]."),
+              "population_note": ("plain fields summarize ALL elongated galaxies, which include the "
+                                  "probe's 80% training rows; the *_heldout fields use only the 20% "
+                                  "test split the probe never saw and are the leakage-free summaries"),
+              "n_heldout": int(len(te)),
               "angles": {}}
     rng = np.random.default_rng(SEED)
+    rng_ho = np.random.default_rng(SEED + 1)   # separate stream: keeps all-population numbers identical
 
     for ang in ANGLES:
         ck = f"{CKPT}/rot_{int(ang)}.npy"
@@ -156,15 +161,21 @@ def main():
         expected = 90.0 if applied_fold == 90.0 else -applied_fold
         resid = circ_shift_deg(np.radians(shift), np.radians(expected))  # circular err vs expectation
         boot = [np.median(np.abs(resid)[rng.integers(0, len(resid), len(resid))]) for _ in range(200)]
+        resid_ho = resid[te]
+        boot_ho = [np.median(np.abs(resid_ho)[rng_ho.integers(0, len(resid_ho), len(resid_ho))]) for _ in range(200)]
         results["angles"][str(ang)] = dict(
             applied_fold_deg=float(applied_fold),
             expected_shift_deg=float(expected),
             median_recovered_shift_deg=float(np.median(shift)),
             median_abs_error_deg=float(np.median(np.abs(resid))),
-            error_ci=ci(boot))
+            error_ci=ci(boot),
+            median_recovered_shift_deg_heldout=float(np.median(shift[te])),
+            median_abs_error_deg_heldout=float(np.median(np.abs(resid_ho))),
+            error_ci_heldout=ci(boot_ho))
         print(f"  applied={ang:.0f} (fold {applied_fold:+.0f}, expected shift {expected:+.0f}) -> "
-              f"recovered median={np.median(shift):+.1f} deg, "
-              f"circular err vs expected={np.median(np.abs(resid)):.2f} deg", flush=True)
+              f"recovered median={np.median(shift):+.1f} deg (heldout {np.median(shift[te]):+.1f}), "
+              f"circular err vs expected={np.median(np.abs(resid)):.2f} deg "
+              f"(heldout {np.median(np.abs(resid_ho)):.2f})", flush=True)
 
     # slope of recovered shift vs APPLIED rotation (-1.0 = perfectly faithful in the verified
     # sign convention). |fold|=90 excluded: at the mod-180 antipode the SIGNED median is
@@ -178,6 +189,11 @@ def main():
     results["intercept_vs_applied"] = float(intercept)
     results["max_abs_fit_residual_deg"] = float(np.abs(rec_arr - (slope * exp_arr + intercept)).max())
     results["slope_excluded_angles"] = [90.0]
+    rec_ho = np.array([results["angles"][str(a)]["median_recovered_shift_deg_heldout"] for a in keep])
+    slope_ho, icpt_ho = np.polyfit(exp_arr, rec_ho, 1)
+    results["slope_vs_applied_heldout"] = float(slope_ho)
+    results["intercept_vs_applied_heldout"] = float(icpt_ho)
+    results["max_abs_fit_residual_deg_heldout"] = float(np.abs(rec_ho - (slope_ho * exp_arr + icpt_ho)).max())
 
     with open(f"{RES}/trackA_causal.json", "w") as f:
         json.dump(results, f, indent=2, default=float)

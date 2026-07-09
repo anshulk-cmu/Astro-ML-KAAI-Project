@@ -102,11 +102,35 @@ def main():
     r_cut["identical_to_headline"] = bool((cut == elong).all())
     out["pa_loop_snrcut"] = r_cut
 
-    # 4. invariance to brightness and morphology (loop radius + error by stratum)
+    # 4. invariance to brightness and morphology: per-stratum refits (within-stratum
+    # decodability) AND one fixed global probe evaluated on each stratum's held-out
+    # rows only (the leakage-free invariance evidence)
+    from sklearn.linear_model import RidgeCV
+    from sklearn.model_selection import train_test_split
+    from trackUtils import ALPHAS
+    idxg = np.where(elong & np.isfinite(pa))[0]
+    trg, teg = train_test_split(idxg, test_size=0.2, random_state=SEED)
+    c2, s2 = np.cos(2 * pa), np.sin(2 * pa)
+    gmc = RidgeCV(alphas=ALPHAS).fit(Zi[trg], c2[trg])
+    gms = RidgeCV(alphas=ALPHAS).fit(Zi[trg], s2[trg])
+    temask = np.zeros(len(m), bool); temask[teg] = True
+
+    def fixed_eval(msk):
+        mm = msk & temask
+        if mm.sum() < 100:
+            return None
+        pc, ps = gmc.predict(Zi[mm]), gms.predict(Zi[mm])
+        d = np.angle(np.exp(1j * (np.arctan2(ps, pc) - np.arctan2(s2[mm], c2[mm]))))
+        return dict(n=int(mm.sum()), med_err_deg=float(np.median(np.degrees(np.abs(d)) / 2.0)),
+                    loop_radius=float(np.median(np.hypot(pc, ps))))
+
+    out["fixedprobe_note"] = ("pa_vs_* blocks refit a probe inside each stratum; the *_fixedprobe "
+                              "blocks evaluate the single global probe on each stratum's held-out "
+                              "rows only and are the invariance evidence")
     magr = m["mag_r_desi"].to_numpy(float)
     feat = m["smooth-or-featured_featured-or-disk_fraction"].to_numpy(float)
     smooth = m["smooth-or-featured_smooth_fraction"].to_numpy(float)
-    out["pa_vs_brightness"] = {}
+    out["pa_vs_brightness"], out["pa_vs_brightness_fixedprobe"] = {}, {}
     fin_mag = np.isfinite(magr) & elong
     if fin_mag.sum() > 1000:
         terts = np.nanpercentile(magr[fin_mag], [33.3, 66.7])
@@ -118,7 +142,8 @@ def main():
             lr = loop_radius(Zi, pa, k=2, mask=msk)
             out["pa_vs_brightness"][nm] = {"n": r["n"], "med_err_deg": r["med_err_deg"],
                                            "loop_radius": lr["radius"] if lr else None}
-    out["pa_vs_morphology"] = {}
+            out["pa_vs_brightness_fixedprobe"][nm] = fixed_eval(msk)
+    out["pa_vs_morphology"], out["pa_vs_morphology_fixedprobe"] = {}, {}
     for nm, b in [("smooth", smooth > 0.7), ("featured", feat > 0.7)]:
         msk = elong & b
         if msk.sum() > 500:
@@ -126,6 +151,7 @@ def main():
             lr = loop_radius(Zi, pa, k=2, mask=msk)
             out["pa_vs_morphology"][nm] = {"n": r["n"], "med_err_deg": r["med_err_deg"],
                                            "loop_radius": lr["radius"] if lr else None}
+            out["pa_vs_morphology_fixedprobe"][nm] = fixed_eval(msk)
 
     # 5. inclination as an arc (secondary)
     out["inclination_Eimg"] = probe(Zi, m["inclDeg"].to_numpy(float), elong)
@@ -150,12 +176,16 @@ def main():
           f"R2 {out['ra_control_Eimg']['r2_cos']:+.2f}")
     print(f"  inclination R2 {out['inclination_Eimg']['r2']:+.2f} CI{out['inclination_Eimg']['ci']} | "
           f"edge-on vote R2 {out['edgeon_vote_Eimg']['r2']:+.2f}")
-    print("brightness invariance (loop radius + error by tertile):")
+    print("brightness invariance (refit | fixed global probe, held-out):")
     for nm, v in out["pa_vs_brightness"].items():
-        print(f"  {nm:6s} n={v['n']:5d} err={v['med_err_deg']:.1f} radius={v['loop_radius']:.2f}")
-    print("morphology invariance:")
+        f_ = out["pa_vs_brightness_fixedprobe"][nm]
+        print(f"  {nm:6s} refit n={v['n']:5d} err={v['med_err_deg']:.1f} radius={v['loop_radius']:.2f} | "
+              f"fixed n={f_['n']:4d} err={f_['med_err_deg']:.2f} radius={f_['loop_radius']:.3f}")
+    print("morphology invariance (refit | fixed global probe, held-out):")
     for nm, v in out["pa_vs_morphology"].items():
-        print(f"  {nm:9s} n={v['n']:5d} err={v['med_err_deg']:.1f} radius={v['loop_radius']:.2f}")
+        f_ = out["pa_vs_morphology_fixedprobe"][nm]
+        print(f"  {nm:9s} refit n={v['n']:5d} err={v['med_err_deg']:.1f} radius={v['loop_radius']:.2f} | "
+              f"fixed n={f_['n']:4d} err={f_['med_err_deg']:.2f} radius={f_['loop_radius']:.3f}")
     print(f"wrote {RES}/trackA.json + {RES}/trackA_loop.npy")
 
 

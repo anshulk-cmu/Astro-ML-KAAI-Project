@@ -21,63 +21,71 @@
     "mean_bars": 2174.8,
     "worst_rep": 7,
     "n_bars_worst": 2208,
-    "bootstrap_cn": 0.05470012277364731,
-    "band_persistence": 0.10940024554729462,
+    "subsamples_with_any_over_0p1": 1,
     "bottleneck_to_empty": 0.052422523498535156,
-    "threshold": 0.1
+    "threshold": 0.1,
+    "verdict": "descriptive H1 candidates present"
   },
   "fermat": {
-    "max_persistence": 0.1376045048236847,
+    "max_persistence": 0.1833493858575821,
     "per_rep_max": [
-      0.1376045048236847,
-      0.12851250171661377,
-      0.09763205051422119,
-      0.06287702172994614,
-      0.07246249914169312,
-      0.07911604642868042,
-      0.09114059805870056,
-      0.06506514549255371,
-      0.09086181223392487,
-      0.08381162583827972
+      0.07368181645870209,
+      0.12498588860034943,
+      0.05443570017814636,
+      0.0798301100730896,
+      0.1833493858575821,
+      0.0642911046743393,
+      0.10086134076118469,
+      0.1064138114452362,
+      0.05913449078798294,
+      0.1023014634847641
     ],
-    "sig_loops_mean": 0.2,
+    "sig_loops_mean": 0.6,
     "sig_loops_range": [
       0,
-      1
+      2
     ],
-    "mean_bars": 2516.5,
-    "worst_rep": 0,
-    "n_bars_worst": 2556,
-    "bootstrap_cn": 0.09860247820615768,
-    "band_persistence": 0.19720495641231536,
-    "bottleneck_to_empty": 0.06880225241184235,
-    "threshold": 0.1
+    "mean_bars": 2530.9,
+    "worst_rep": 4,
+    "n_bars_worst": 2523,
+    "subsamples_with_any_over_0p1": 5,
+    "bottleneck_to_empty": 0.09167469292879105,
+    "threshold": 0.1,
+    "verdict": "descriptive H1 candidates present"
   },
   "diffusion": {
-    "max_persistence": 0.08114156126976013,
+    "max_persistence": 0.19656306505203247,
     "per_rep_max": [
-      0.05544926971197128,
-      0.033724792301654816,
-      0.06325006484985352,
-      0.025802887976169586,
-      0.03729889541864395,
-      0.02212906815111637,
-      0.02972685545682907,
-      0.04270480200648308,
-      0.08114156126976013,
-      0.025793742388486862
+      0.10142873227596283,
+      0.12542887032032013,
+      0.1578853577375412,
+      0.11403070390224457,
+      0.11579054594039917,
+      0.10257944464683533,
+      0.11297839879989624,
+      0.10777834057807922,
+      0.15227316319942474,
+      0.19656306505203247
     ],
-    "sig_loops_mean": 0.0,
+    "sig_loops_mean": 3.1,
     "sig_loops_range": [
-      0,
-      0
+      1,
+      7
     ],
-    "mean_bars": 1094.1,
-    "worst_rep": 8,
-    "n_bars_worst": 1099,
-    "bootstrap_cn": 0.040570780634880066,
-    "band_persistence": 0.08114156126976013,
-    "bottleneck_to_empty": 0.040570780634880066,
-    "threshold": 0.1
+    "mean_bars": 1134.2,
+    "worst_rep": 9,
+    "n_bars_worst": 1070,
+    "subsamples_with_any_over_0p1": 10,
+    "bottleneck_to_empty": 0.09828153252601624,
+    "threshold": 0.1,
+    "verdict": "descriptive H1 candidates present"
+  },
+  "_design": {
+    "paired_subsamples_across_metrics": true,
+    "seed": 0,
+    "n_rep": 10,
+    "n_sub": 2000,
+    "diffusion": "alpha=1 self-tuned, matching diffusionMap.py",
+    "inference": "no formal confidence band is claimed; the previous B=20 truncated bootstrap was removed as uncalibrated"
   }
 }

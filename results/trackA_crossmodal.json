@@ -2,24 +2,25 @@
   "n_elong_with_shapes": 15893,
   "n_test": 3179,
   "img_vs_true": {
-    "med_err_deg": 2.026707430660021,
+    "med_err_deg": 2.0266658091947662,
     "ci": [
-      1.945375782672296,
-      2.1045117640017073
+      1.9454188726211046,
+      2.1045739400674948
     ]
   },
   "shape_vs_true": {
-    "med_err_deg": 2.8327937603635567,
+    "med_err_deg": 2.832916703768617,
     "ci": [
-      2.7166971905778805,
-      2.9601848967826303
+      2.7167266564408465,
+      2.960156893007033
     ]
   },
   "img_vs_shape": {
-    "med_err_deg": 3.552435874938965,
+    "med_err_deg": 3.5521798133850098,
     "ci": [
-      3.4144413352012633,
-      3.723792850971222
+      3.414537453651428,
+      3.723714005947113
     ]
-  }
+  },
+  "claim_note": "both readouts come from SEPARATELY target-trained probes; their agreement shows both modalities decode PA consistently, NOT that the two raw modalities occupy one shared oriented 2-D subspace (no cross-probe/Procrustes test was run)"
 }

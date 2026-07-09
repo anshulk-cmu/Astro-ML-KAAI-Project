@@ -1,8 +1,10 @@
 """
 Shared utilities for Tracks A/B/C: z-score, RidgeCV probes, concept directions,
-angles, and BOOTSTRAP CONFIDENCE INTERVALS, all resampled at the population level
-(one bootstrap draw of galaxy indices refits every quantity coherently, matching
-Phase 1's probes.py boot_ci discipline -- every headline number gets a CI).
+angles, and bootstrap confidence intervals. Bootstrap design: angle_with_ci
+resamples each direction's own population INDEPENDENTLY per replicate (and the
+label-null population separately), so shared sampling covariance between the two
+directions is not propagated; probe/circ_recover CIs resample fixed held-out
+predictions (test-set sampling variation only, not train/split/alpha variation).
 """
 import numpy as np
 from sklearn.linear_model import RidgeCV, Ridge
@@ -76,17 +78,21 @@ def angle_with_ci(X, labels, key_a, key_b, mask_a=None, mask_b=None, n_boot=N_BO
     because the OTHER concept (e.g. bar) has sparser catalog coverage. Each
     bootstrap replicate independently resamples (with replacement) from each
     direction's own eligible population; the label-null angle uses the population
-    where BOTH labels are finite (the only well-defined choice for a correlation)."""
+    where BOTH labels are finite AND both masks hold (point estimate and bootstrap
+    on the same population). CAVEAT: arccos(corr) equals the probe angle only in an
+    idealized whitened linear model; the embedding covariance is anisotropic and
+    Ridge shrinkage rotates directions, so the 'excess' is a DESCRIPTIVE contrast,
+    not a calibrated null for disentanglement/independence/hierarchy claims."""
     ya, yb = labels[key_a], labels[key_b]
     oka = np.isfinite(ya) if mask_a is None else (np.isfinite(ya) & mask_a)
     okb = np.isfinite(yb) if mask_b is None else (np.isfinite(yb) & mask_b)
     idx_a, idx_b = np.where(oka)[0], np.where(okb)[0]
     ea = angle(direction(X, ya, oka), direction(X, yb, okb))
-    na = label_null_angle(ya, yb)
-    rng = np.random.default_rng(seed)
-    eb, nb = np.empty(n_boot), np.empty(n_boot)
     okab = oka & okb
     idx_ab = np.where(okab)[0]
+    na = label_null_angle(ya[idx_ab], yb[idx_ab])   # same masked population as its bootstrap
+    rng = np.random.default_rng(seed)
+    eb, nb = np.empty(n_boot), np.empty(n_boot)
     for j in range(n_boot):
         ba = rng.choice(idx_a, len(idx_a), replace=True)
         bb = rng.choice(idx_b, len(idx_b), replace=True)
@@ -121,5 +127,6 @@ def circ_recover(X, theta_rad, k, mask, seed=SEED, full_proj=False, n_boot=N_BOO
                frac_within_20=float((err < 20).mean()))
     if full_proj:
         res["_proj"] = np.column_stack([np.degrees(theta_rad[idx]) % (360.0 / k),
-                                        mc.predict(X[idx]), ms.predict(X[idx])])
+                                        mc.predict(X[idx]), ms.predict(X[idx]),
+                                        np.isin(idx, te).astype(float)])   # col 3: 1 = held-out row
     return res
