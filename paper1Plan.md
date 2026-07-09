@@ -21,13 +21,16 @@ spectra break it).
 
 ## 2. Why this clears the main-track bar
 
-1. **Ground truth.** Unlike LLM interpretability, every probed concept has an exact,
-   independently measured physical value (catalog angles, spectroscopic ages). Claims are
-   checked against truth, not plausibility.
+1. **Ground truth.** Unlike LLM interpretability, every probed concept has an
+   independently measured physical value (catalog angles, spectroscopic ages). The
+   applied image transformations (rotation/flip) are exact interventions; the catalog
+   labels carry their own measurement/model error (photo-z, Tractor shape fits, CNN vote
+   fractions, SED/spectral fits) and are treated as measured references, not exact truth.
 2. **Causal, not correlational.** Symmetries are verified by physically transforming real
    inputs and re-encoding (rotation done: readout tracks rotation with |slope|=0.999,
-   residuals ≤0.05°; mirror flip completes the group).
-3. **Generality by design.** One fixed battery, seven representations (scale, training
+   median-fit residuals ≤0.05°, per-galaxy errors ~2-3°; mirror flip done 2026-07-07:
+   reflection 2.38°/1.99°, composition 2.59° — O(2) complete).
+3. **Generality by design.** One fixed battery, eight representations (scale, training
    paradigm, domain, floor), four data regimes (two instruments, two modalities, two
    depths) — with *pre-registered per-paradigm predictions*, so the comparison is
    hypothesis testing, not a leaderboard.
@@ -46,28 +49,34 @@ spectra break it).
    but diverge in *geometry* according to training objective — convergence-on-what,
    answered with ground truth.
 
-## 3. Contributions (the claims list, as it will appear)
+## 3. Contributions (the claims list, as it will appear — items tagged [prediction] are
+## pre-registered but UNRUN as of 2026-07-09 and must not be read as current results)
 
-C1. A physically grounded probe battery (8 tests, all with nulls + bootstrap CIs) for
-    scientific representations; released with code and public data.
+C1. A physically grounded probe battery (8 tests, with nulls + bootstrap CIs as the
+    design standard) for scientific representations; released with code and public data.
 C2. Topology matching: the model builds the correct label-space topology in three
-    distinct cases — position angle → mod-180 circle (RP¹), RA → circle (S¹),
-    Dec/inclination → bounded arcs — and the structure is invisible to PCA/global
-    topology (must be probed for).
+    distinct cases — position angle → mod-180 circle (RP¹) learned from images,
+    RA → circle (S¹) via the native catalog coordinate codecs (an information-preserving
+    codec-geometry result, weaker than the image-learned loop), Dec/inclination →
+    bounded arcs — and the structure is invisible to PCA/global topology (must be
+    probed for).
 C3. Interventional symmetry verification: the complete O(2) group (rotations + mirror)
     acts on the internal angle coordinate exactly as physics requires, including the
     180°-rotation fixed point.
-C4. Cross-modal and cross-instrument consistency: image-derived and catalog-derived
-    angles land on the same loop (3.6°); results replicate on a second instrument
-    (BASS/MzLS north).
+C4. Cross-modal consistency: image-derived and catalog-derived angle readouts agree
+    (3.6°; two separately target-trained probes — consistency, not a shared-subspace
+    proof). [prediction] Cross-instrument: results replicate on BASS/MzLS north.
 C5. Modality-resolved degeneracy inheritance: the image pathway barely encodes stellar
     age (R²=0.07) and only weakly metallicity (0.25) — the classic degeneracy expressed
-    as missing information — while carrying no extra entanglement beyond the true
+    as missing information — with no consistent extra entanglement beyond the label
     correlation (age–metal angle 93.7° vs 91.5° truth; excess consistent with zero
-    across three robustness variants); the spectrum pathway (same model, same galaxies)
-    breaks the degeneracy. The model represents each modality's physical limits.
-C6. Emergence across models: the battery run on 7 representations shows the training
-    objective — not the data — determines which physics survives (predictions below).
+    under both CI constructions for the headline and mass-weighted variants; the
+    z≥0.15 variant is marginally positive under the basic interval only, so the honest
+    summary is "no consistent excess", not "all variants zero"). [prediction] The
+    spectrum pathway (same model, same galaxies) breaks the degeneracy.
+C6. [prediction] Emergence across models: the battery run on 8 representations tests
+    whether the training objective — not the data — determines which physics survives
+    (frozen per-paradigm predictions below).
 C7. Honest negatives, kept: geodesic distance does not beat Euclidean for morphological
     similarity; the fork's dominant residual axis is not the bar; unsupervised search
     recovers only part of the loop (R² 0.41 vs 0.97 supervised).
@@ -77,13 +86,13 @@ C7. Honest negatives, kept: geodesic distance does not beat Euclidean for morpho
 | # | Test | Status |
 |---|------|--------|
 | T1 | Topology matching (RP¹ / S¹ / interval) | DONE (PA 2.0°, RA 2.9°, Dec/incl arcs) |
-| T2 | Causal symmetry: rotation + mirror flip (O(2)) | rotation DONE; **flip = new, ~1 day** |
+| T2 | Causal symmetry: rotation + mirror flip (O(2)) | DONE (rotation slope −0.999; flip 2.38°/1.99°; composition 2.59° — 2026-07-07) |
 | T3 | Invariance (brightness, morphology, SNR/quality) | DONE (loop radius ~0.99 everywhere) |
 | T4 | Cross-modal + cross-instrument consistency | image/shape DONE (3.6°); **north = new, free** |
 | T5 | Morphology hierarchy (fork, branch, bar independence) | DONE (+11.9° CI[9.6,15.1]; fan 1.70×) |
 | T6 | Degeneracy inheritance, modality-resolved | image side DONE; **spectrum side = new** |
 | T7 | Unsupervised discoverability (PCA/SAE) | DONE (0.41 vs 0.97) |
-| T8 | Feature reducibility (Engels test on 335+59 dictionary) | **new (Track D), ~3 days** |
+| T8 | Feature reducibility (Engels test, retrained dictionary w/ saved decoders) | image side DONE (2026-07-02/04); **spectrum side = new**. Note: the old 335+59 counts are retired — corrected tie-aware/FDR scoring gives 380 aligned-and-stable + 3 stable-unexplained (2026-07-09) |
 
 ### 4.1 Controls & robustness (added 2026-07-04, pre-run — closes the reviewer-facing design gaps)
 
@@ -135,7 +144,7 @@ orientation; augmentation-invariant and label-supervised objectives must discard
 |---|---|---|---|
 | GZ-DESI anchor, south (DECam) | 35,919 | headline | ✓ on disk |
 | GZ-DESI anchor, north (BASS/MzLS) | 12,371 | cross-instrument replication | ✓ on disk |
-| Faint Legacy extension (r 19–21) | **150,000** catalog+shapes+cutouts | depth/SNR robustness (loop vs magnitude to the noise floor) | ✓ catalog on disk; cutouts landing (AWS fleet final shards) |
+| Faint Legacy extension (r 19–21) | **150,000** catalog+shapes; **136,407** good cutouts (90.9%) | depth/SNR robustness (loop vs magnitude to the noise floor) | ✓ complete on disk (fleet done + torn down 2026-07-04) |
 | DESI/SDSS/BOSS spectra for anchor | **20,986 spectra / 17,643 galaxies** (3× plan; ~3.3k dual-instrument) | spectrum-pathway tests (T4/T6) + free cross-instrument spectra sample | ✓ on disk (100% of manifest) |
 | DESI age expansion (FastSpecFit iron v3.0) | **13,044 anchor + 7,061 faint** ages (+mass/SFR/Dn4000, all with ivars) | tightens T6's age side | ✓ on disk. **Caveat: metallicity-at-scale does not exist in any public DESI product** (ZZSUN unpopulated) — the joint age–metal test keeps Firefly's n=5,512 |
 | WISE W1/W2 + AGN proxy | 47,566 | Track D AGN label | ✓ on disk |
@@ -146,7 +155,7 @@ HSC (different telescope end-to-end) is explicitly OUT of this paper — journal
 
 F1 (hero): the loop — cos2θ/sin2θ colored by true PA, with controls (shuffle, PCA, linear).
 F2: causal symmetry — recovered vs applied rotation (slope line) + mirror-flip panel.
-F3: the grid — battery × 7 models heatmap with pre-registered predictions marked ✓/✗.
+F3: the grid — battery × 8 models heatmap with pre-registered predictions marked ✓/✗.
 F4: the fork — handle/prongs scatter + branch fan + bar-independence CIs.
 F5: modality-resolved degeneracy — image vs spectrum pathway, decodability + angle
     (co-headline with F1 in abstract/intro — the reach-beyond-astronomy result, §2.5).
@@ -177,7 +186,9 @@ F7: discoverability + reducibility — supervised vs unsupervised recovery; irre
 - W11: buffer + submit. ML4PS 4-pager distilled in parallel (early Sept).
 
 Compute: everything runs on the local GPU (measured 17 img/s ⇒ ~100 min per 100k per
-model) except the faint-extension cutout fetch (Vera, existing playbook). No cloud spend.
+model); aion-xlarge runs bf16 locally (AWS GPU is the sanctioned fallback if needed).
+CORRECTION (2026-07-09): "no cloud spend" was wrong — the faint-extension cutouts were
+fetched with the resurrected AWS fleet (~$3 total, torn down 2026-07-04), not Vera.
 
 ## 10. Asks for Matt (next week)
 
