@@ -915,7 +915,8 @@
       ],
       "n_a": 2084,
       "n_b": 2084
-    }
+    },
+    "interpretation_note": "low age/metal decodability shows WEAK RECOVERY of the Firefly estimates from E_img; Firefly label noise (fitted ages reach ~15 Gyr), aperture/selection effects, dust and probe capacity are NOT separated here, so 'inherited age-metallicity degeneracy' is an interpretation pending a label-noise or spectrum-side analysis; the near-zero excess angle only rules out EXTRA linear entanglement between the two weak directions"
   },
   "z_steer_response_DERIVED": {
     "_note": "linear steer + linear readout is algebraically the angle battery restated (response ~ cos(angle) x norms); NOT independent causal evidence",
@@ -961,9 +962,17 @@
     "dz_ref": 0.09589366792926787,
     "n_sample": 1500,
     "rand_slope": 0.010733675439185627,
+    "rand_slopes_all": [
+      0.010733675439185627,
+      -0.01731246709674261,
+      0.013242907738145045,
+      0.019237480123650022,
+      -0.0017933217669001958
+    ],
     "featured_shift_at_0p1": 0.07916322260393452,
     "null_knn_floor_dz0": 0.073157022699217,
-    "null_random_dir_0p1": 0.07308016986151536
+    "null_random_dir_0p1": 0.07308016986151536,
+    "causal_note": "embedding-level translation diagnostic, NOT an input-space intervention: the shift vector carries every low-vs-high-z bin difference (selection, colour, resolution, population mix); slope CI resamples queries only, not the shift vector, bins, or neighbour index"
   },
   "selection": {
     "z_decode_by_magr_tertile": {
