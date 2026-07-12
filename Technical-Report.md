@@ -1,8 +1,3 @@
----
-layout: default
-permalink: /
----
-
 # Technical Report: what AION-1 learned about galaxies, measured
 
 Three reading rules. First, every quantitative claim is tagged **[measured]** (a number an artifact contains) or **[interpreted]** (our reading of it); the overview and per-part summary paragraphs restate numbers that are tagged and sourced in their home sections and carry no tags of their own. Second, every numbered section ends with an **Artifacts** line naming the script, the results file, and the figure behind it, so any number can be traced in one step. Third, corrected results are presented in their corrected form only; Appendix A lists every correction, what the earlier value was, and what caught it. Numbers in this report were re-read from the artifacts on 2026-07-09, after a full adversarial review and correction pass of all Phase 1 and Track code, and then machine-audited against those artifacts.
