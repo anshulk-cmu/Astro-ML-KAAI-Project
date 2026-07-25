@@ -13,6 +13,7 @@ paper1/
   readme.md                     this file
   config.py                     paths, seeds, constants: one source of truth
   runAll.py                     run any subset, or verify every result's provenance
+  auditReport.py                check every number in the report against its artifact
   lib/                          shared machinery, one implementation of each idea
     data.py                     aligned loading of substrates, labels, covariates
     probes.py                   ridge probes, held-out R2, intervals, concept directions

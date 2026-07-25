@@ -1,11 +1,17 @@
 {
-  "utc": "2026-07-25T21:16:59Z",
+  "utc": "2026-07-25T22:13:16Z",
   "runs": [
     {
-      "key": "d0",
-      "module": "d0DatasetAudit",
+      "key": "d2",
+      "module": "d2Equivariance",
       "ok": true,
-      "seconds": 2.6
+      "seconds": 93.5
+    },
+    {
+      "key": "d2",
+      "module": "d2EquivarianceFigures",
+      "ok": true,
+      "seconds": 1.0
     }
   ]
 }

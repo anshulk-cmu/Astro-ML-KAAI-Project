@@ -20,7 +20,7 @@ This report is written diagnostic by diagnostic, as each one is run. It is the r
 
 ## Substrate discipline
 
-All headline probes run on **E_img**, the image-token-only embedding: nothing but pixels goes in, so anything read out of it was learned from the image. **E_full** (image plus scalar g, r, z flux plus the catalog redshift token) is used only for the leakage ablation in Diagnostic 6. Without that separation, "the model knows redshift" is ambiguous between *learned* and *was told*.
+All headline probes run on **E_img**, the image-token-only embedding: nothing but pixels goes in, so anything read out of it was learned from the image. **E_full** (image plus scalar g, r, z flux plus the catalog redshift token) never carries a headline number anywhere in this report. It is the subject of the leakage ablation in Diagnostic 6, and it appears once elsewhere, as an explicitly labelled robustness line in Section 4.4. Without that separation, "the model knows redshift" is ambiguous between *learned* and *was told*.
 
 ---
 
@@ -31,7 +31,7 @@ Tier and status for all nine diagnostics.
 | # | Diagnostic | Pillar | Tier | Status | Headline |
 |---|---|---|---|---|---|
 | 1 | Angle readout characterization | I | descriptive | **run 2026-07-25** | 2.027 deg [1.946, 2.116], loop radius 0.9886, n=3,179 held out; chance 45; error scales as ellipticity^-0.97 |
-| 2 | O(2) equivariance | I | **input-space causal** | not yet run here | |
+| 2 | O(2) equivariance | I | **input-space causal** | **run 2026-07-25** | slope -0.99896 [-0.99960, -0.99825] against applied rotation, held-out interval covering -1; half turn returns to -0.006 deg; reflection nodes and antinodes reproduced with a 2.8-3.0 deg residual; physical readouts do not move |
 | 3 | Chirality | I | **input-space causal** | not yet run here | |
 | 4 | Nuisance decodability and leakage | II | descriptive | not yet run here | |
 | 5 | Degradation response | II | **input-space causal** | not yet run here | |
@@ -100,7 +100,7 @@ AION-1 large is used with its public weights and is **never fine-tuned**, in any
 | substrate | contents | role |
 |---|---|---|
 | **E_img** | image tokens only | the substrate for every headline probe |
-| **E_full** | image plus scalar g, r, z flux plus the catalog redshift token | leakage ablation only |
+| **E_full** | image plus scalar g, r, z flux plus the catalog redshift token | the leakage ablation of Diagnostic 6, and labelled robustness lines; never a headline |
 
 Anything read out of E_img was learned from pixels, because nothing else went in. E_full ingests quantities the model may simply be repeating back, so it bounds leakage and is never a competing measurement. E_full is not the model's full input set: it excludes spectra, the i-band scalar flux and the infrared photometry.
 
@@ -150,11 +150,11 @@ Every results file records the git revision and dirty flag, a UTC timestamp, wal
 
 ---
 
-# Pillar I — Observation geometry
+# Pillar I: Observation geometry
 
 Orientation is the ideal test case. It wraps at 180 degrees, so the faithful representation is a closed loop rather than a number line, which is a non-trivial topological requirement. The transformations acting on it are exact operations on pixels with exactly known consequences. That combination makes this pillar the strongest evidence in the suite and sets the standard the other two are measured against.
 
-## 4. Diagnostic 1 — Angle readout characterization · *descriptive*
+## 4. Diagnostic 1: Angle readout characterization · *descriptive*
 
 **Science question.** Does the model store a quantity that wraps on a closed loop rather than a line, and does the fidelity of that storage track the observable's own measurability?
 
@@ -203,7 +203,7 @@ One probe pair is fit on a random 80 percent of the elongated population (12,714
 
 E_full ingests scalar photometry and the catalog redshift but no shape information, and it is reported here only as a robustness line, not as a competing measurement. [measured]
 
-### 4.5 Stress axis 1 — elongation grading
+### 4.5 Stress axis 1: elongation grading
 
 One probe, fit once as above, evaluated on every galaxy with a defined position angle that the probe never saw, binned by catalog ellipticity. Bins extend well below the working cut into the regime where the axis is genuinely ill-defined. `sigma_PA` is the catalog's own propagated uncertainty (Section 4.8); the KS p-value tests the catalog angles in that bin against a uniform distribution, guarding against a repeat of the placeholder-label problem.
 
@@ -225,7 +225,7 @@ The ordering is monotone across the full range: Spearman rank correlation betwee
 
 **Error scaling (extension beyond the scoping document).** Multiplying each bin's median error by its median ellipticity gives 0.774, 0.929, 0.919, 0.903, 0.858, 0.835, 0.889, 0.875, 0.904 across the bins below ellipticity 0.6: an approximately constant product of about 0.88 degrees across a twentyfold range in elongation. Fitting log median error against log ellipticity over those bins gives a slope of **-0.974**, against **-1.109** for the catalog's own sigma_PA. A slope of -1 is the geometric expectation for any estimator of an axis whose underlying component noise does not itself depend on elongation, since the angular uncertainty of an ellipse axis scales as sigma_e / |epsilon|. The model therefore degrades with roundness in the same functional form as the catalog measurement it is scored against, with a larger effective component noise: the ratio of model error to catalog sigma_PA runs from 11.3 to 18.3 over the fitted range. Above ellipticity 0.6 the readout leaves the power law and flattens at 1.694 and 1.646 degrees, which is a floor of the readout rather than of the geometry. [measured; the geometric interpretation is interpreted]
 
-### 4.6 Stress axis 2 — topology matching
+### 4.6 Stress axis 2: topology matching
 
 The scoping document's prediction is that a periodic quantity should be stored as a loop and a bounded one as a line. Inclination and axis ratio are bounded companions of position angle, derived from the same catalog shape fit, and are probed as plain scalars.
 
@@ -236,13 +236,13 @@ The scoping document's prediction is that a periodic quantity should be stored a
 | edge-on vote fraction | plain scalar | 0.8889 | | 4,948 |
 | position angle | plain scalar on the raw angle | 0.7736 | | 15,893 |
 
-Scored in degrees rather than R2, which puts the two treatments of each quantity on one axis: position angle recovers to 2.027 degrees under the circular treatment and 10.329 degrees [9.854, 10.875] under the plain linear treatment, a factor of 5.1. Inclination recovers to a median absolute error of 1.565 degrees [1.509, 1.635] as a plain scalar, and forcing it through the same circular machinery gives 1.529 degrees in inclination units with loop radius 0.976 — no material gain. The periodic quantity needs the loop; the bounded one does not. [measured]
+Scored in degrees rather than R2, which puts the two treatments of each quantity on one axis: position angle recovers to 2.027 degrees under the circular treatment and 10.329 degrees [9.854, 10.875] under the plain linear treatment, a factor of 5.1. Inclination recovers to a median absolute error of 1.565 degrees [1.509, 1.635] as a plain scalar, and forcing it through the same circular machinery gives 1.529 degrees in inclination units with loop radius 0.976, which is no material gain. The periodic quantity needs the loop; the bounded one does not. [measured]
 
 The bounded arm of this contrast is **underpowered by design and must be quoted as such**: a bounded quantity has no wrap seam for a linear encoding to fail at, so the circular treatment of inclination cannot fail the way the linear treatment of position angle does. The informative half is the position-angle half.
 
-### 4.7 Stress axis 3 — population invariance
+### 4.7 Stress axis 3: population invariance
 
-One globally-fit probe, held fixed, evaluated separately on each stratum's held-out rows. Per-stratum refits measure within-stratum decodability and are secondary. Brightness tertiles are cut at r = 17.99 and r = 18.63.
+One globally-fit probe, held fixed, evaluated separately on each stratum's held-out rows. Per-stratum refits measure within-stratum decodability and are secondary. Brightness tertiles are cut at r = 18.089 and r = 18.664.
 
 | stratum | n | fixed-probe error (deg) | 95% CI | loop radius | refit error (deg) |
 |---|---|---|---|---|---|
@@ -254,7 +254,7 @@ One globally-fit probe, held fixed, evaluated separately on each stratum's held-
 
 Every stratum's interval overlaps the all-galaxy value of 2.027, and the featured stratum, which is both the smallest (n = 176) and the highest, has an interval reaching 3.08. One coordinate system serves every stratum tested at this resolution. [measured]
 
-### 4.8 Stress axis 4 — heteroscedasticity
+### 4.8 Stress axis 4: heteroscedasticity
 
 Per-galaxy errors on the held-out set, against apparent magnitude and angular size. Because rounder galaxies are also on average fainter and smaller, each raw rank correlation is accompanied by a partial rank correlation with ellipticity held.
 
@@ -316,49 +316,194 @@ Not established here: that the model *uses* this coordinate for anything downstr
 ![Invariance](figures/d1Invariance.png)
 ![Heteroscedasticity](figures/d1Heteroscedasticity.png)
 
-## 5. Diagnostic 2 — O(2) equivariance · *input-space causal*
+## 5. Diagnostic 2: O(2) equivariance · *input-space causal*
 
 **Science question.** Does the internal angle coordinate transform correctly under known transformations of the input, and do the transformations compose the way they compose in the plane?
 
-**Procedure as implemented.** *pending*
+Diagnostic 1 establishes that an angle can be *read* from the embedding. That is a correlation between a representation and a catalog column, and it is compatible with the model having memorised an association rather than having built a coordinate. This diagnostic intervenes: it changes the input by an exactly known amount and asks whether the readout moves by exactly the amount the geometry requires, using a probe that never saw a transformed image.
 
-**Nulls.** *pending* — the untransformed baseline error as the noise floor; matched random directions.
+### 5.1 The group, and what equivariance means here
 
-**Results.** *pending*
+Position angle is axial with period 180 degrees, represented as a point on the circle by the doubling of Section 4.1,
 
-**What it tells us.** *pending*
+> z = exp(2 i theta)
 
+The group acting on the image plane is O(2). Its two components act on theta as
 
-**Artifacts.** `paper1/diagnostics/d2Equivariance.py`, `paper1/results/d2Equivariance.json`, `paper1/figures/d2*.png`
+> rotation of the image by phi:   theta -> theta - phi
+> reflection about the vertical axis:   theta -> -theta
+> reflection followed by rotation:   theta -> -theta - phi
 
-## 6. Diagnostic 3 — Chirality · *input-space causal*
+and in the doubled representation as z -> z exp(-2 i phi), z -> conjugate(z), and z -> conjugate(z) exp(-2 i phi). Every element of O(2) is a rotation or a reflection composed with a rotation, so the rotation grid, the half turn, the reflection and the composition together exhaust the action of the group on this coordinate.
+
+The test is then exactly the equivariance condition: with `theta_hat` the frozen probe's readout and T an operation on the image,
+
+> theta_hat(T x) = T theta_hat(x)   for every T in the group
+
+The sign in the first line is a property of our rotation operator, not of the group, and is verified rather than assumed in Section 5.2.
+
+### 5.2 Conventions, pinned before anything expensive ran
+
+A signed shift is the quantity this diagnostic measures, so a sign error would not raise an exception. It would return a slope of the wrong sign and produce a conclusion stated backwards. Three conventions are therefore pinned by tests that run before any encoding, in `paper1/tests/testTransforms.py`.
+
+**The rotation sign.** `scipy.ndimage.rotate(+phi)`, applied plane by plane with bilinear interpolation and shape preserved, moves the array-frame angle by **-phi**. Verified on a synthetic bar of known angle over a grid of four start angles and six rotations, and again on real cutouts, where the median measured shift matches -phi to better than 0.5 degrees at 30, 60 and 150 degrees. [measured]
+
+**The mirror.** `numpy.flip` on the column axis maps the array-frame angle to its negative, has fixed points at 0 and 90 degrees and displaces by exactly 90 degrees at 45 and 135. It is an **exact permutation of pixels**: the sorted multiset of pixel values and the total flux are unchanged, so it carries no interpolation error at all, while rotation does. [measured]
+
+**The frame relation.** The cutouts are a north-up, east-left tangent projection from the Legacy Surveys viewer, so east is the -x direction and north the +y direction, and a direction at position angle PA east of north has components (-sin PA, cos PA). The array angle should therefore equal PA + 90, same-handed. This is measured, not quoted. Using the mean resultant length of the doubled angle as the statistic that decides handedness, the same-handed pairing concentrates at **R = 0.9866** while the opposite pairing does not, at **R = 0.0346**; only one pairing can. The offset is **89.854 ± 0.212 degrees** over 493 galaxies whose adaptive-moment fit converged, with a median absolute residual of 0.356 degrees, which is **0.69 standard errors** from exactly 90. [measured]
+
+That offset matters for one element of the group and not the other. Writing the array angle as `theta_arr = theta + c`, a rotation moves both by -phi and c cancels from the difference, so the rotation test is insensitive to it. A reflection does not cancel it:
+
+> theta -> theta_arr - c -> -theta_arr - c = -(theta + c) - c = -theta - 2c
+
+so with c exactly 90 the reflected readout is -theta modulo 180, and a departure `c = 90 + delta` appears as a constant extra shift of **-2 delta**. Measuring c from the pixels therefore converts the reflection offset from a nuisance fitted to the flip data into a prediction the flip data can contradict. Section 5.6 reports the comparison.
+
+### 5.3 The transformed inputs, and how they were verified
+
+Eight transformed encodes are used: rotations by 30, 60, 90, 120, 150 and 180 degrees, the mirror, and the mirror followed by a 30-degree rotation. Each is a (15,893 × 1,024) float32 array over the elongated population in ascending anchor order. They were produced by an earlier run at a cost of about two and a quarter hours of GPU time and are reused rather than recomputed.
+
+Reusing them requires proof that each file is the operation its name claims and that its rows correspond to the galaxies the current population mask selects. A structural check cannot establish either. The check used is direct: **64 galaxies were re-encoded through the frozen model under the operators in `lib/transforms.py` and compared with the cached rows**. For all eight files the median absolute difference is **0.0** and the mean cosine is **1.0000000** to seven decimal places, with a largest single-component difference of 0.047 across all eight, which is non-deterministic GPU reduction order rather than a different operator. As a measure of the check's power to fail, the same statistic computed against the legacy rows rolled by one row gives median absolute differences of **0.210 to 0.218**. [measured]
+
+The population itself was checked rather than inherited: the current mask and the mask used to produce the files select the identical 15,893 indices in ascending order. [measured]
+
+An earlier and weaker idea for this check is recorded here because its failure is informative rather than incidental. Nearest-neighbour self-match, which asks whether a transformed row is still nearest to its own untransformed row, gives 0.840 at 180 degrees but only **0.055 at 90 degrees** and 0.045 at 120. Rotation displaces the embedding further than galaxy identity holds it, and the ordering across angles is itself physical, since a half turn maps an axial object nearly onto itself. The statistic is reported in the artifact as a description of that displacement and is not used as a gate. [measured; the reading of the ordering is interpreted]
+
+### 5.4 Rotation
+
+One probe pair, fit once on the untransformed embeddings of the 12,714 training galaxies and never refit, recovers 2.027 degrees on the 3,179 held-out galaxies. That fit is identical to Diagnostic 1's, and reproduces it to **exactly 0.0 degrees**. It is then applied unchanged to each rotated encode. The recovered shift is the circular difference between the transformed and untransformed readouts of the same galaxy.
+
+| applied | folded | expected shift | median recovered shift | circular mean | held-out error (deg) | 95% CI |
+|---|---|---|---|---|---|---|
+| 30 | +30 | -30 | -29.926 | -29.928 | 2.619 | [2.539, 2.737] |
+| 60 | +60 | -60 | -59.979 | -59.938 | 2.691 | [2.573, 2.816] |
+| 90 | -90 | -90 | *ill-defined* (-50.639) | -89.967 | 2.622 | [2.481, 2.725] |
+| 120 | -60 | +60 | +59.943 | +60.018 | 2.758 | [2.643, 2.884] |
+| 150 | -30 | +30 | +29.918 | +29.948 | 2.573 | [2.468, 2.679] |
+| 180 | 0 | 0 | -0.006 | -0.010 | 1.986 | [1.912, 2.082] |
+
+Fitting the median recovered shift against the applied rotation folded into (-90, 90], with 90 degrees excluded, gives a slope of **-0.99896 with interval [-0.99960, -0.99825]** and a largest fit residual of 0.053 degrees. The resampling unit for that interval is the **galaxy**: each resample redraws galaxies, recomputes every angle's median shift on the same redrawn set, and refits, so the interval carries the correlation between angles that a per-angle interval would miss. On held-out galaxies alone the slope is **-0.99902 with interval [-1.00061, -0.99753]**. A slope of -1 is exact equivariance in the verified sign convention. The all-population interval misses -1 by 0.0002 while the held-out interval covers it; the held-out figure is the leakage-free one, so the departure is not resolved where it counts, and in absolute terms it is one part in a thousand of the applied rotation. [measured]
+
+**On 90 degrees.** Plus and minus 90 are the same point on a mod-180 loop, so a *signed* median shift there is not a well-defined quantity, and the scoping document excludes it from the fit for that reason. The plain median returns -50.639, which is an artifact of averaging values that straddle the wrap. The circular mean of the doubled angle does not straddle anything, because doubling maps ±90 to the same point, and it returns **-89.967**: the magnitude is recovered correctly at 90 degrees and only its sign is undetermined. The per-galaxy error there, 2.622 degrees, is as small as at any other angle. [measured]
+
+**What the per-galaxy error should be compared against.** This error is a difference between two readouts of the *same* galaxy, not a readout against a catalog value, so the 2.027-degree baseline is not the right yardstick. If the two readouts erred independently with the same distribution, their difference would have a median of about **sqrt(2) × 2.027 = 2.866 degrees**. Every measured value lies below that reference, so the untransformed and transformed readouts err in the same direction on the same galaxy, which is what a single shared coordinate should do rather than two independent estimates. [measured; the inference about correlated errors is interpreted]
+
+### 5.5 The half-turn self-map
+
+A rotation by 180 degrees maps a galaxy's axis onto itself, so a readout on a genuinely mod-180 coordinate must return to where it started. The probe is built on a doubled-angle assumption, and this element tests that periodicity by intervention rather than inheriting it from the parameterisation. The median recovered shift is **-0.006 degrees** and the held-out per-galaxy error is **1.986 degrees [1.912, 2.082]**, the smallest of any element, consistent with a half turn being nearly the identity operation for an axial quantity. [measured]
+
+### 5.6 Reflection
+
+Under the mirror the readout should go to -theta, with fixed points where theta is 0 or 90 and maximal displacement where it is 45 or 135. This is a prediction about the *shape* of a curve rather than about one number, which is much harder to satisfy by accident.
+
+The median circular error against the negated untransformed readout is **2.381 degrees [2.341, 2.425]**, and **2.495 degrees [2.370, 2.615]** on held-out galaxies. Regressing the recovered displacement on the predicted displacement -2 theta, away from the wrap boundary, gives a slope of **0.9826 [0.9782, 0.9869]** with intercept 0.074 over n = 14,088, a median absolute residual of **3.05 degrees** and a 95th percentile of 10.80. [measured]
+
+That slope sits below 1 by about 1.7 per cent, and its interval excludes 1. The likely reason is not a failure of the reflection but the construction of the regression. The recovered displacement is built from the model's own readout while the predicted displacement is built from the catalog angle, so this line regresses a shrunk predictor on the quantity it predicts, and a ridge fit shrinks. The shortfall is of the same size as the shrinkage already measured directly as the loop radius of 0.9886 in Section 4.4. The rotation slope of Section 5.4 does not share this feature because there the independent variable is the applied rotation, which is exact and carries no shrinkage. [measured; the attribution to shrinkage is interpreted]
+
+**Node and antinode structure, scored correctly.** Galaxies are selected within 5 degrees of each node, and a galaxy at PA = node + d has a *predicted* displacement of -2d, so the median predicted displacement across such a selection is the tolerance itself, 5 degrees, and at the antinodes it is 90 - 5 = 85. Scoring the measurement against 0 and 90 would therefore misattribute the selection width to model error.
+
+| selection | n | median &#124;displacement&#124; | median predicted | analytic, given the 5-degree tolerance | residual against the per-galaxy prediction |
+|---|---|---|---|---|---|
+| within 5 deg of PA 0 or 90 | 1,736 | 6.029 | 5.025 | 5.0 | **2.780** |
+| within 5 deg of PA 45 or 135 | 1,805 | 83.931 | 84.946 | 85.0 | **3.016** |
+
+The last column is the only one of the three that is a statement about the model, and it sits at the same few degrees as every other element of the group. [measured]
+
+**The offset, predicted and then measured.** From the frame offset of Section 5.2, the reflected readout should carry a constant shift of -2(c - 90) = **+0.292 ± 0.424 degrees**. The flip data return **-0.094 degrees**. The two agree at **-0.91 standard errors**. The prediction comes from adaptive moments on pixels and the measurement from a probe on embeddings, so they share no machinery beyond the catalog angle itself. [measured]
+
+### 5.7 Composition
+
+Mirroring and then rotating by 30 degrees should send the readout to -theta - 30. The median circular error against that composed prediction is **2.593 degrees [2.541, 2.639]**, and **2.734 degrees [2.585, 2.857]** on held-out galaxies, in line with the individual elements. Composition raises the claim from responding correctly to two separate transformations to representing the group action. [measured; the upgrade in claim is interpreted]
+
+### 5.8 The invariance complement
+
+Equivariance of the angle is only half of the requirement. Rotating or mirroring a galaxy changes nothing about its colour, its morphology or its stellar mass, so a model that moved those readouts would be writing orientation into quantities that have none. Four probes were fit once on untransformed embeddings, frozen, and applied to each transformed encode. This is the element of Diagnostic 2 that had never been run.
+
+| quantity | declared source | n fit | n held out | R2 untransformed | R2 after a 30-degree rotation |
+|---|---|---|---|---|---|
+| colour g - r | derived from DR8 magnitudes | 12,714 | 3,179 | 0.9475 | 0.9454 |
+| smooth vote fraction | Galaxy Zoo DESI | 12,714 | 3,179 | 0.7865 | 0.7618 |
+| featured vote fraction | Galaxy Zoo DESI | 12,714 | 3,179 | 0.7902 | 0.7641 |
+| stellar mass, elpetro | NSA crossmatch | 1,058 | 261 | 0.6571 | 0.6693 |
+
+Stellar mass is reported with its sample size rather than dropped: only 1,058 elongated galaxies carry the label and 261 of those fall in the held-out split, so its entries are the least constrained in the table. [measured]
+
+**The losses track resampling, not orientation.** The small reductions in R2 are not a function of how far the galaxy was turned. They track whether the operation resampled the pixels. The mirror is an exact permutation, and rotations by 90 and 180 degrees resample onto pixel centres, so all three are effectively interpolation-free; 30, 60, 120 and 150 degrees are not.
+
+| quantity | mean change in R2, interpolation-free (mirror, 90, 180) | mean change in R2, off-axis (30, 60, 120, 150) | change under a 30-degree rotation, with interval | change under the mirror, with interval |
+|---|---|---|---|---|
+| colour g - r | -0.0019 | -0.0030 | -0.0020 [-0.0054, +0.0013] | -0.0022 [-0.0056, +0.0013] |
+| smooth vote fraction | -0.0032 | -0.0271 | **-0.0247 [-0.0374, -0.0128]** | +0.0010 [-0.0093, +0.0107] |
+| featured vote fraction | -0.0025 | -0.0293 | **-0.0261 [-0.0397, -0.0128]** | +0.0007 [-0.0094, +0.0101] |
+| stellar mass | -0.0044 | -0.0127 | +0.0122 [-0.0208, +0.0515] | -0.0149 [-0.0614, +0.0213] |
+
+The intervals separate the two cases rather than leaving the reading to the point estimates. For the two morphology readouts the loss under an off-axis rotation **excludes zero**, while the change under the mirror **covers zero**. The mirror changes orientation as completely as any rotation does, so a readout that survives it unharmed and degrades only when the pixels are resampled is telling us about the resampling, not about invariance. Colour is consistent with no change under either. Stellar mass is consistent with no change under both, but its intervals are wide enough at n = 261 that it constrains little either way, and it is quoted here as such rather than as support. Morphology is eight to twelve times more sensitive than colour, which is consistent with morphology votes depending on fine structure that interpolation blurs while colour is an integrated flux ratio that it barely touches. [measured; the attribution to resampling is interpreted, and rests on the mirror control]
+
+Measured as movement rather than accuracy, and expressed in units of each readout's own spread so that the physical probe and the null are on one scale, a 30-degree rotation moves the colour readout by 0.144 of its spread and the morphology readouts by 0.220 and 0.220, against **0.456** for random directions; stellar mass moves by 0.157 against 0.505. Every physical readout moves by less than half what an arbitrary direction moves by, and its accuracy is preserved while doing so. [measured]
+
+### 5.9 Nulls
+
+The scoping document specifies two nulls for this diagnostic, and both are reported on both axes the result is reported on.
+
+| null | slope against applied rotation | median circular error (deg) |
+|---|---|---|
+| unperturbed baseline (population control) | degenerate, exactly 0 by construction | 2.027 [1.946, 2.116] |
+| matched-norm random directions, 20 pairs | -0.0058 [-0.139, +0.118] | 44.33 [37.88, 47.61] |
+| analytic expectation for the random null | 0 | 45 |
+| the fitted probe, for comparison | -0.99896 [-0.99960, -0.99825] | 2.573 to 2.758 |
+
+Both nulls reproduce their analytic values. The unperturbed baseline is degenerate on the slope axis, because with no transformation the readout is compared with itself and the shift is exactly zero by construction; this is stated rather than presented as a passed test. The random-direction null is a direction pair drawn with the same norm as the fitted probe's coefficient vectors and carrying no fitted information, and it lands at chance on both axes. One caveat is recorded: movement measured relative to a readout's own spread is independent of the direction's norm, so norm matching does no work in that particular statistic, and the norm-matched absolute movement is reported in the artifact alongside it. [measured]
+
+### 5.10 Consistency checks
+
+- **Operator and row identity.** All eight cached encodes reproduce under re-encoding through the frozen model with median absolute difference 0.0 and mean cosine 1.0000000; the rolled control gives 0.210 to 0.218.
+- **Baseline agreement.** The frozen probe reproduces Diagnostic 1's held-out error to a difference of exactly **0.0** degrees.
+- **Independent reimplementation.** An earlier implementation written against a separate data loader returns a rotation slope differing from this one by **-9.5e-08** and a reflection displacement slope differing by **8.2e-10**.
+- **Self-map.** The half turn returns the readout to -0.006 degrees against 0 expected.
+- **Reflection offset.** Predicted from pixels at +0.292 ± 0.424 degrees, measured from embeddings at -0.094, agreeing at -0.91 standard errors.
+- **Interpolation-free against interpolated.** The mirror, which resamples nothing, gives 2.495 degrees on held-out galaxies, inside the 1.986 to 2.758 range spanned by the rotations, so no element is anomalous.
+- **Null calibration.** The random-direction slope reaches -0.0058 against 0 expected and its error reaches 44.33 degrees against 45.
+
+### 5.11 What the result does and does not establish
+
+Established, on this substrate and this population: the angle coordinate is **equivariant under the action of O(2) by intervention rather than by correlation**, with a slope of -0.999 against applied rotation whose held-out interval covers -1; the half turn returns the readout to its starting value, confirming the mod-180 periodicity independently of the parameterisation that assumes it; the reflection reproduces not only the right magnitude but the right shape, with nodes and antinodes where the geometry puts them and a residual of about three degrees against the per-galaxy prediction; the group composition law holds; the reflection's constant offset is predicted from an independent measurement on pixels and confirmed to within one standard error; and physical quantities that carry no orientation do not move, with the small residual losses attributable to resampling by the mirror control.
+
+Not established here: that the model *uses* this coordinate for any downstream purpose, which no probe can show. That the equivariance extends to operations outside O(2), which Diagnostics 3, 5 and 9 test separately. That the representation is equivariant in any sense stronger than the behaviour of one linear readout of one coordinate: the embedding as a whole is not claimed to transform as a group representation, and the nearest-neighbour statistic of Section 5.3 shows that it moves substantially under rotation. And the interpolation attribution in Section 5.8 rests on a control, not on a model of the resampling, so it identifies the cause by elimination rather than by construction.
+
+**Artifacts.** `paper1/diagnostics/d2Equivariance.py`, `paper1/diagnostics/d2EquivarianceFigures.py`, `paper1/results/d2Equivariance.json`, `paper1/results/d2EquivarianceArrays.npz`, figures `d2Rotation.png`, `d2Mirror.png`, `d2Invariance.png`, `d2Nulls.png`.
+
+![Rotation](figures/d2Rotation.png)
+![Mirror](figures/d2Mirror.png)
+![Invariance complement](figures/d2Invariance.png)
+![Nulls](figures/d2Nulls.png)
+
+## 6. Diagnostic 3: Chirality · *input-space causal*
 
 **Science question.** Does the model encode parity-odd structure, spiral arm handedness, or has it discarded a real physical observable?
 
 **Procedure as implemented.** *pending*
 
-**Nulls.** *pending* — the achiral elliptical population; the same procedure with a rotation instead of a flip.
+**Nulls.** *pending*: the achiral elliptical population; the same procedure with a rotation instead of a flip.
 
 **Results.** *pending*
 
-**What it tells us.** *pending* — both outcomes are informative, which is why it is worth running. A null means the model discarded a real observable, which is a concrete demonstration that augmentation choices delete physics from representations. A positive result hands over a self-supervised handedness label as a by-product.
+**What it tells us.** *pending*: both outcomes are informative, which is why it is worth running. A null means the model discarded a real observable, which is a concrete demonstration that augmentation choices delete physics from representations. A positive result hands over a self-supervised handedness label as a by-product.
 
 
 **Artifacts.** `paper1/diagnostics/d3Chirality.py`, `paper1/results/d3Chirality.json`, `paper1/figures/d3*.png`
 
 ---
 
-# Pillar II — Instrumental and observational systematics
+# Pillar II: Instrumental and observational systematics
 
 The embedding is supposed to describe the source. Every image also records the conditions it was taken under, and none of that is a property of the object. This pillar quantifies that contamination. It does double duty: these numbers set the confound budget that qualifies every physical result in Pillar III, and they are the most directly usable results in the suite for anyone doing cross-survey work.
 
-## 7. Diagnostic 4 — Nuisance decodability and leakage · *descriptive*
+## 7. Diagnostic 4: Nuisance decodability and leakage · *descriptive*
 
 **Science question.** How strongly does the embedding encode the observation rather than the object, and can it recover information that should be unavailable from the image entirely?
 
 **Procedure as implemented.** *pending*
 
-**Nulls.** *pending* — shuffled labels; the residualization drop compared against the drop from residualizing on random covariates of matched dimension.
+**Nulls.** *pending*: shuffled labels; the residualization drop compared against the drop from residualizing on random covariates of matched dimension.
 
 **Results.** *pending*
 
@@ -369,87 +514,87 @@ The embedding is supposed to describe the source. Every image also records the c
 
 **Artifacts.** `paper1/diagnostics/d4NuisanceLeakage.py`, `paper1/results/d4NuisanceLeakage.json`, `paper1/figures/d4*.png`
 
-## 8. Diagnostic 5 — Degradation response · *input-space causal*
+## 8. Diagnostic 5: Degradation response · *input-space causal*
 
 **Science question.** Does the representation respond to controlled degradation the way the physics requires, and where does each physical readout break?
 
 **Procedure as implemented.** *pending*
 
-**Nulls.** *pending* — the unperturbed baseline; perturbations applied to a matched random subset of pixels rather than physically.
+**Nulls.** *pending*: the unperturbed baseline; perturbations applied to a matched random subset of pixels rather than physically.
 
 **Results.** *pending*
 
-**What it tells us.** *pending* — the severity at which each physical readout loses half its accuracy is an effective operating limit, directly usable by anyone applying the model to a survey different from the training set.
+**What it tells us.** *pending*: the severity at which each physical readout loses half its accuracy is an effective operating limit, directly usable by anyone applying the model to a survey different from the training set.
 
 
 **Artifacts.** `paper1/diagnostics/d5Degradation.py`, `paper1/results/d5Degradation.json`, `paper1/figures/d5*.png`
 
 ---
 
-# Pillar III — Physical structure
+# Pillar III: Physical structure
 
 Predicting stellar mass accurately is a statement about information content. Reconstructing the Hubble tuning fork, an ordered sequence that branches exactly where bars become possible and bends rather than running straight, is a statement about structure. The first is already established by downstream benchmarks. The second is not, and it is the stronger claim about whether a model has learned physics.
 
-## 9. Diagnostic 6 — Decodability battery · *descriptive, with two control arms*
+## 9. Diagnostic 6: Decodability battery · *descriptive, with two control arms*
 
 **Science question.** Which physical quantities are linearly readable from pixels alone, particularly quantities the model never received as input?
 
 **Procedure as implemented.** *pending*
 
-**Nulls.** *pending* — shuffled labels; a raw-pixel-PCA floor requiring no model weights.
+**Nulls.** *pending*: shuffled labels; a raw-pixel-PCA floor requiring no model weights.
 
 **Results.** *pending*
 
-**What it tells us.** *pending* — quantities that are never model inputs in any substrate and still decode well are the cleanest evidence of learned physics rather than input recall. Any entry where the model ties the pixel floor is non-discriminating and is marked as such.
+**What it tells us.** *pending*: quantities that are never model inputs in any substrate and still decode well are the cleanest evidence of learned physics rather than input recall. Any entry where the model ties the pixel floor is non-discriminating and is marked as such.
 
 
 **Artifacts.** `paper1/diagnostics/d6Decodability.py`, `paper1/results/d6Decodability.json`, `paper1/figures/d6*.png`
 
-## 10. Diagnostic 7 — Concept geometry under a calibrated null · *descriptive with calibrated null (methods contribution)*
+## 10. Diagnostic 7: Concept geometry under a calibrated null · *descriptive with calibrated null (methods contribution)*
 
 **Science question.** Do the directions encoding distinct physical properties sit further apart than the properties' own correlations require?
 
 **Procedure as implemented.** *pending*
 
-**Nulls.** *pending* — the pair-specific calibrated generative null, and the sanity anchors that gate whether its output can be trusted.
+**Nulls.** *pending*: the pair-specific calibrated generative null, and the sanity anchors that gate whether its output can be trusted.
 
 **Results.** *pending*
 
-**What it tells us.** *pending* — with per-pair p-values this becomes an inferential statement rather than a descriptive contrast, and false-discovery control across the sweep becomes possible for the first time.
+**What it tells us.** *pending*: with per-pair p-values this becomes an inferential statement rather than a descriptive contrast, and false-discovery control across the sweep becomes possible for the first time.
 
 **Stated assumption.** The null assumes the model's linearly-decodable structure is adequately described by a linear-Gaussian generative model in the embedding. That is an assumption, but a stated one with testable consequences, which is a strict improvement on an uncalibrated contrast.
 
 
 **Artifacts.** `paper1/diagnostics/d7ConceptGeometry.py`, `paper1/results/d7ConceptGeometry.json`, `paper1/figures/d7*.png`
 
-## 11. Diagnostic 8 — Structured relations · *descriptive*
+## 11. Diagnostic 8: Structured relations · *descriptive*
 
 **Science question.** Does the model organize physical relationships the way nature does, preserving ordering, regime-dependence, curvature and conditional structure, rather than merely encoding the marginal quantities?
 
 **Procedure as implemented.** *pending*
 
-**Nulls.** *pending* — shuffled labels for every fitted direction; a matched noise null for the curvature test; held-out evaluation for the fork; a non-branching control property.
+**Nulls.** *pending*: shuffled labels for every fitted direction; a matched noise null for the curvature test; held-out evaluation for the fork; a non-branching control property.
 
 **Instance gate.** Before any instance of 8d or 8e runs, the relation must be shown to be visible in label space with the sample actually in hand. The gate is stated in advance precisely so that dropping an instance is distinguishable from selecting the ones that worked. Gate outcomes are recorded here whether they pass or fail.
 
 **Results.** *pending*
 
-**What it tells us.** *pending* — this is where "encodes physics" is distinguished from "organizes physics".
+**What it tells us.** *pending*: this is where "encodes physics" is distinguished from "organizes physics".
 
 
 **Artifacts.** `paper1/diagnostics/d8StructuredRelations.py`, `paper1/results/d8StructuredRelations.json`, `paper1/figures/d8*.png`
 
-## 12. Diagnostic 9 — Artificial redshifting · *input-space causal*
+## 12. Diagnostic 9: Artificial redshifting · *input-space causal*
 
 **Science question.** When an object is transformed to look like it sits at a higher redshift, does the embedding move along the empirically derived redshift direction, by the right magnitude, and without disturbing intrinsic properties?
 
 **Procedure as implemented.** *pending*
 
-**Nulls.** *pending* — matched-norm random directions; the untransformed baseline; real objects at the target redshift as the reference population.
+**Nulls.** *pending*: matched-norm random directions; the untransformed baseline; real objects at the target redshift as the reference population.
 
 **Results.** *pending*
 
-**What it tells us.** *pending* — this upgrades an embedding-level translation result, where one merely adds a vector and inspects neighbours, into a genuine intervention on the input. The on-manifold check is what makes it credible.
+**What it tells us.** *pending*: this upgrades an embedding-level translation result, where one merely adds a vector and inspects neighbours, into a genuine intervention on the input. The on-manifold check is what makes it credible.
 
 
 **Artifacts.** `paper1/diagnostics/d9ArtificialRedshift.py`, `paper1/results/d9ArtificialRedshift.json`, `paper1/figures/d9*.png`
@@ -475,10 +620,21 @@ One row per claim, with its section, key numbers, evidential tier and artifact. 
 | 11 | A periodic quantity needs the circular treatment; a bounded companion does not | 4.6 | position angle 2.027 circular against 10.329 linear; inclination 1.565 linear against 1.529 circular | descriptive | d1AngleReadout.json |
 | 12 | The angle coordinate is invisible to the dominant variance directions | 4.9 | top 2 components 43.198 deg at 34 percent of variance; chance 45; about 20 components needed to reach 4.28 | descriptive | d1AngleReadout.json |
 | 13 | The machinery reports nothing when there is nothing | 4.9, 4.11 | shuffled labels 44.060 deg [42.47, 45.76] against a theoretical 45, loop radius 0.0487 | descriptive | d1AngleReadout.json |
+| 14 | The angle coordinate is equivariant under rotation of the input, by intervention | 5.4 | slope -0.99896 [-0.99960, -0.99825]; held out -0.99902 [-1.00061, -0.99753], covering -1; max fit residual 0.053 deg | input-space causal | d2Equivariance.json |
+| 15 | The mod-180 periodicity holds under intervention, not only by construction | 5.5 | half turn returns the readout to -0.006 deg; per-galaxy error 1.986 deg [1.912, 2.082] | input-space causal | d2Equivariance.json |
+| 16 | The reflection reproduces the predicted shape, not merely a magnitude | 5.6 | displacement slope 0.9826 [0.9782, 0.9869] over n = 14,088; residual against the per-galaxy prediction 2.780 deg at the nodes and 3.016 deg at the antinodes | input-space causal | d2Equivariance.json |
+| 17 | The reflection's constant offset is predicted from pixels and confirmed on embeddings | 5.2, 5.6 | frame offset 89.854 +/- 0.212 deg predicts +0.292 +/- 0.424; measured -0.094; agreement -0.91 sigma | input-space causal | d2Equivariance.json |
+| 18 | The transformations compose as they do in the plane | 5.7 | mirror then 30 deg: 2.593 deg [2.541, 2.639]; held out 2.734 deg [2.585, 2.857] | input-space causal | d2Equivariance.json |
+| 19 | Quantities carrying no orientation do not move when the input is turned | 5.8 | colour R2 0.9475 to 0.9454, morphology 0.7865 to 0.7618, stellar mass 0.6571 to 0.6693 (n = 261) under a 30 deg rotation | input-space causal | d2Equivariance.json |
+| 20 | The residual movement of physical readouts is a resampling artifact, not a loss of invariance | 5.8 | morphology under a 30 deg rotation -0.0247 [-0.0374, -0.0128], excluding zero, against +0.0010 [-0.0093, +0.0107] under the exact mirror, covering zero | input-space causal | d2Equivariance.json |
+| 21 | Physical readouts move less than half as far as an arbitrary direction of the same norm | 5.8, 5.9 | 0.144 to 0.220 of the readout's own spread against 0.456 for random directions under a 30 deg rotation | input-space causal | d2Equivariance.json |
+| 22 | Both declared nulls reproduce their analytic values on both axes | 5.9 | random directions: slope -0.0058 [-0.139, +0.118] against 0, error 44.33 deg [37.88, 47.61] against 45 | input-space causal | d2Equivariance.json |
+| 23 | The cached transformed encodes are the operators they claim and are row aligned | 5.3 | all eight reproduce on re-encoding with median absolute difference 0.0 and mean cosine 1.0000000; rolled control 0.210 to 0.218 | input-space causal | d2Equivariance.json |
+| 24 | Rotation displaces the embedding further than galaxy identity holds it | 5.3 | nearest-neighbour self-match 0.840 at 180 deg, 0.055 at 90 deg, 0.045 at 120 deg | input-space causal | d2Equivariance.json |
 
 ---
 
-## Appendix A — validation and reproducibility
+## Appendix A: validation and reproducibility
 
 **Reproducing the suite.** The environment is pinned in `envInterp.txt` at the repository root (Python 3.11.14, NumPy 1.26.4, SciPy 1.17.0, scikit-learn 1.8.0). With the anchor data present under `data/`:
 
@@ -491,17 +647,24 @@ python -m pytest paper1/tests -q   convention and null-calibration tests
 
 **Provenance.** Every results file carries the git revision and dirty flag, the UTC timestamp, wall-clock seconds, the seed, interpreter and package versions, the platform, and the SHA-256 and byte count of every input file read. `runAll.py --verify` re-hashes those inputs and reports any that have changed since the run, so a result can never be silently attributed to data it was not computed from.
 
-**Test suite.** Twenty-three tests cover the two failure modes that would invalidate results without producing an error: an incorrect convention, and an uncalibrated null.
+**Test suite.** Forty-three tests cover the two failure modes that would invalidate results without producing an error: an incorrect convention, and an uncalibrated null. No module is skipped.
 
 - *Conventions* (`tests/testConventions.py`): the ellipticity identities, the axial-doubling reconstruction, inclination from axis ratio, the exclusion of circular-by-construction models, uniformity of retained position angles, and the inverse-elongation scaling of the catalog angle uncertainty, all checked against the real catalog rather than against documentation.
 - *Nulls and circular machinery* (`tests/testNulls.py`): the analytic chance floors of 45 and 90 degrees for axial and full-circle quantities, wrap symmetry across the seam, collapse of both error and loop radius under shuffled labels, recovery and radius on synthetic data of known signal strength, the loop-radius shrinkage identity at three signal levels, near-orthogonality of random directions in high dimension, determinism of the split, and boundedness of the error by the period.
-- *Input-space operators* (`tests/testTransforms.py`): skipped with an explicit reason until the operators exist, so a missing implementation cannot be mistaken for a pass.
+- *Input-space operators* (`tests/testTransforms.py`): the rotation sign over a grid of start angles and rotations, on a synthetic bar of known angle and again on real cutouts; shape, dtype and the unresampled identity at a full turn; that the operator applies identically plane by plane on a stack; that the mirror is an exact pixel permutation, an involution, and preserves flux exactly where rotation does not; the mirror's fixed points and antinodes; the composition law; the boundedness of the axial wrap; the calibration of the concentration statistic against uniform and identical inputs; and, on the real catalog, that the array and catalog frames are same-handed with an offset of 90 degrees while the opposite pairing does not concentrate.
 
 **Figure integrity.** Figure scripts read only the results file and the saved projection array, never the embeddings or labels, so no plotted value can differ from the recorded one.
 
-**Numerical audit.** Each written section is checked against its artifact by an automated comparison of every numeric and string claim before the section is considered complete.
+**Numerical audit.** Each written section is checked against its artifact by an automated comparison before it is considered complete. `paper1/auditReport.py` reads this report, extracts every numeric token from the requested sections, and requires each one to match a value stored in a results file at the precision it is written to. Anything that does not match must be declared in the script with the reason it is not a measurement, such as a definition, a target value or arithmetic on two stored numbers, so every exception is visible rather than silently tolerated. The same pass scans for development-log vocabulary and reports which sections still hold placeholder markers.
 
-## Appendix B — glossary
+```
+python -B paper1/auditReport.py      every written section
+python -B paper1/auditReport.py 5    one section
+```
+
+The audit exits non-zero if any number in the report fails to match a stored value. Counts are deliberately not quoted here: they change with every edit, and the condition that matters is that the unmatched count is zero.
+
+## Appendix B: glossary
 
 | Term | Meaning here |
 |---|---|
@@ -531,13 +694,21 @@ python -m pytest paper1/tests -q   convention and null-calibration tests
 | partial rank correlation | Spearman correlation after removing the rank of a confounder from both variables |
 | evidential tier | Input-space causal, descriptive with a calibrated null, or descriptive |
 | provenance block | Git revision, input hashes, seed, environment and timing recorded in every results file |
+| equivariance | The property that transforming the input transforms the readout by the corresponding amount: theta_hat(T x) = T theta_hat(x) |
+| O(2) | The group of rotations of the plane together with reflections; every element is a rotation, or a reflection followed by a rotation |
+| array frame | Pixel coordinates of the cutout, with angles measured from the column axis toward the row axis |
+| frame offset | The constant relating the array-frame angle to the catalog position angle; it cancels under rotation but not under reflection |
+| fixed point | An angle a transformation leaves unchanged: 0 and 90 degrees under the mirror |
+| antinode | An angle a transformation displaces maximally: 45 and 135 degrees under the mirror |
+| adaptive moments | Second moments of an image computed with a Gaussian weight re-derived from the moments themselves each pass, so the window adapts to the source |
+| interpolation-free operation | An image operation that permutes pixels without resampling, so it carries no interpolation error: the mirror, and to good approximation rotations by 90 and 180 degrees |
 
-## Appendix C — artifact index
+## Appendix C: artifact index
 
 | Diagnostic | Script | Results | Figures |
 |---|---|---|---|
 | 1 | `diagnostics/d1AngleReadout.py`, `d1AngleReadoutFigures.py` | `results/d1AngleReadout.json`, `d1AngleReadoutProjection.npy` | `d1Loop`, `d1Elongation`, `d1Nulls`, `d1Invariance`, `d1Heteroscedasticity` |
-| 2 | `diagnostics/d2Equivariance.py` | `results/d2Equivariance.json` | |
+| 2 | `diagnostics/d2Equivariance.py`, `d2EquivarianceFigures.py` | `results/d2Equivariance.json`, `d2EquivarianceArrays.npz` | `d2Rotation`, `d2Mirror`, `d2Invariance`, `d2Nulls` |
 | 3 | `diagnostics/d3Chirality.py` | `results/d3Chirality.json` | |
 | 4 | `diagnostics/d4NuisanceLeakage.py` | `results/d4NuisanceLeakage.json` | |
 | 5 | `diagnostics/d5Degradation.py` | `results/d5Degradation.json` | |
@@ -546,7 +717,7 @@ python -m pytest paper1/tests -q   convention and null-calibration tests
 | 8 | `diagnostics/d8StructuredRelations.py` | `results/d8StructuredRelations.json` | |
 | 9 | `diagnostics/d9ArtificialRedshift.py` | `results/d9ArtificialRedshift.json` | |
 
-## Appendix D — standing caveats
+## Appendix D: standing caveats
 
 These five apply to the whole suite and are not repeated in every section.
 
@@ -556,7 +727,7 @@ These five apply to the whole suite and are not repeated in every section.
 4. **Sparse-label subsamples** are catalog crossmatches, not random draws, and carry their own selection.
 5. **Inference-time configuration** (token budget, pooling) differs from pretraining. Results are properties of the documented recipe and are labelled that way.
 
-## Appendix E — environment and provenance
+## Appendix E: environment and provenance
 
 Analysis environment, recorded in every results file rather than described here from memory: Python 3.11.14, NumPy 1.26.4, SciPy 1.17.0, scikit-learn 1.8.0, on Windows. The full lock is `envInterp.txt` at the repository root; the embedding and re-encoding steps additionally require PyTorch 2.10.0+cu128 and polymathic-aion 0.0.2.
 
@@ -570,14 +741,23 @@ Per-diagnostic wall-clock cost, from the provenance blocks:
 |---|---|---|
 | d0 dataset and substrate audit | about 1 second | CPU |
 | d1 angle readout characterization | about 2 minutes, including the ten-split sensitivity sweep | CPU |
+| d2 O(2) equivariance | about 90 seconds, of which roughly 50 seconds is the GPU verification of the eight cached encodes | CPU, plus one GPU pass over 512 images |
+
+Diagnostic 2 reuses eight transformed encodes produced earlier at a cost of about two and a quarter hours of GPU time. Recomputing them is unnecessary but not impossible: at the measured throughput the eight files represent about 127,000 image encodes.
 
 `python paper1/runAll.py` prints the recorded revision, timestamp and cost for every diagnostic; `--verify` re-hashes every input file against the values stored at run time.
 
-## Appendix F — references
+## Appendix F: references
 
 Sources the suite relies on, with what each supports. Conventions are verified numerically against the data in `paper1/tests/testConventions.py` rather than taken on documentation alone.
 
 **Diagnostic 1**
 
-- Krumbein (1939); Fisher, *Statistical Analysis of Circular Data*, Cambridge University Press (1993); Mardia and Jupp, *Directional Statistics*, Wiley (2000) — angle doubling as the standard treatment of axial data, and the mean resultant length as a concentration statistic distinct from the loop radius of Section 4.2.
-- DESI Legacy Imaging Surveys, tractor catalog documentation, <https://www.legacysurvey.org/dr10/catalogs/> — the complex-ellipticity parameterisation and its conversions. The identities are verified on all 43,672 retained sources to 1e-9, and inclination to 1e-6.
+- Krumbein (1939); Fisher, *Statistical Analysis of Circular Data*, Cambridge University Press (1993); Mardia and Jupp, *Directional Statistics*, Wiley (2000): angle doubling as the standard treatment of axial data, and the mean resultant length as a concentration statistic distinct from the loop radius of Section 4.2.
+- DESI Legacy Imaging Surveys, tractor catalog documentation, <https://www.legacysurvey.org/dr10/catalogs/>: the complex-ellipticity parameterisation and its conversions. The identities are verified on all 43,672 retained sources to 1e-9, and inclination to 1e-6.
+
+**Diagnostic 2**
+
+- DESI Legacy Imaging Surveys cutout service, `https://www.legacysurvey.org/viewer/fits-cutout`, layer `ls-dr10`: the origin of the image cutouts and hence of the array frame. The north-up, east-left orientation this implies is not taken on trust: Section 5.2 derives the consequent array-to-catalog offset of 90 degrees and then measures it at 89.854 ± 0.212 degrees on real galaxies, with the opposite handedness excluded at a resultant length of 0.035 against 0.987.
+- SciPy `scipy.ndimage.rotate`, order 1, `reshape=False`, constant mode: the rotation operator. Its sign convention is not quoted from documentation: `tests/testTransforms.py` measures it on a synthetic bar of known angle and on real cutouts, and pins it at -phi.
+- Fisher (1993); Mardia and Jupp (2000), as in Diagnostic 1: the mean resultant length used here as the statistic that decides frame handedness, and the circular mean used to recover the shift magnitude at 90 degrees where a signed median is undefined.
