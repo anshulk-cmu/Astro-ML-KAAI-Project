@@ -1,4 +1,8 @@
 """Single source of truth for paths, seeds and constants. Every diagnostic imports from here."""
+import sys
+
+sys.dont_write_bytecode = True
+
 from pathlib import Path
 import numpy as np
 
