@@ -33,8 +33,12 @@ def git():
                                   text=True, timeout=30).stdout.strip()
         except Exception:
             return None
+    code = ["paper1/lib", "paper1/diagnostics", "paper1/config.py",
+            "paper1/runAll.py", "paper1/tests"]
     return {"sha": run("rev-parse", "HEAD"),
-            "dirty": bool(run("status", "--porcelain"))}
+            "code_dirty": bool(run("status", "--porcelain", "--", *code)),
+            "code_paths": code,
+            "note": "code_dirty covers the analysis code only; results and report are written by the run"}
 
 
 def stamp(inputs, started):
