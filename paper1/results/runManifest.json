@@ -1,11 +1,17 @@
 {
-  "utc": "2026-07-25T22:29:32Z",
+  "utc": "2026-07-25T22:34:10Z",
   "runs": [
+    {
+      "key": "d0",
+      "module": "d0DatasetAudit",
+      "ok": true,
+      "seconds": 2.5
+    },
     {
       "key": "d1",
       "module": "d1AngleReadout",
       "ok": true,
-      "seconds": 129.4
+      "seconds": 129.0
     },
     {
       "key": "d1",
@@ -17,13 +23,13 @@
       "key": "d2",
       "module": "d2Equivariance",
       "ok": true,
-      "seconds": 92.5
+      "seconds": 91.5
     },
     {
       "key": "d2",
       "module": "d2EquivarianceFigures",
       "ok": true,
-      "seconds": 0.7
+      "seconds": 0.6
     }
   ]
 }

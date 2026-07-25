@@ -1675,11 +1675,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-25T22:29:27Z",
-    "wall_seconds": 88.2,
+    "utc": "2026-07-25T22:34:05Z",
+    "wall_seconds": 87.3,
     "git": {
-      "sha": "e3097c964ec051357157b7f66a6e2ff5512615dd",
-      "code_dirty": true,
+      "sha": "af79e0ec5f3631418905c0a1b5b0390629d67c62",
+      "code_dirty": false,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",
