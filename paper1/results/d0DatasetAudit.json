@@ -1,0 +1,242 @@
+{
+  "diagnostic": "d0DatasetAudit",
+  "result": {
+    "anchor": {
+      "n_rows": 48398,
+      "n_unique_dr8_id": 48398,
+      "ok_index_len": 48398,
+      "row_contract": "E_img row i is sample.parquet row ok_index[i]; catalog tables left-joined on dr8_id"
+    },
+    "recipe": {
+      "model_path": "D:\\AstroML-Project\\data\\models\\aion-large",
+      "encoder_tokens": 600,
+      "pooling": "mean",
+      "pixel_scale_arcsec": 0.262,
+      "cutout_pixels": 96,
+      "bands": [
+        "g",
+        "r",
+        "i",
+        "z"
+      ],
+      "zeropoint": 22.5,
+      "field_of_view_arcsec": 25.152
+    },
+    "substrates": {
+      "img": {
+        "path": "D:\\AstroML-Project\\data\\E_img.npy",
+        "shape": [
+          48398,
+          1024
+        ],
+        "dtype": "float32",
+        "n_nan": 0,
+        "n_inf": 0,
+        "norm_mean": 49.58041763305664,
+        "norm_std": 2.4634997844696045,
+        "per_dim_std_min": 0.1267426460981369,
+        "per_dim_std_max": 2.803079605102539,
+        "per_dim_std_ratio": 22.116310119628906
+      },
+      "full": {
+        "path": "D:\\AstroML-Project\\data\\E_full.npy",
+        "shape": [
+          48398,
+          1024
+        ],
+        "dtype": "float32",
+        "n_nan": 0,
+        "n_inf": 0,
+        "norm_mean": 48.37400817871094,
+        "norm_std": 2.5168535709381104,
+        "per_dim_std_min": 0.1292305588722229,
+        "per_dim_std_max": 2.92655873298645,
+        "per_dim_std_ratio": 22.646026611328125
+      }
+    },
+    "analysis_constants": {
+      "seed": 0,
+      "test_size": 0.2,
+      "alphas": [
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0,
+        1000.0,
+        10000.0
+      ],
+      "alpha_direction": 100.0,
+      "n_boot": 1000,
+      "ellip_cut": 0.3
+    },
+    "shape_catalog": {
+      "n_with_shape_row": 48290,
+      "n_pa_defined": 43672,
+      "n_circular_models": 4618,
+      "type_counts": {
+        "DEV": 4051,
+        "DUP": 457,
+        "EXP": 1736,
+        "PSF": 50,
+        "REX": 4111,
+        "SER": 37885,
+        "nan": 108
+      },
+      "n_above_ellip_cut": 15893,
+      "ellipticity": {
+        "n_finite": 43672,
+        "percentiles": {
+          "1": 0.01834239712550626,
+          "50": 0.23035178941749151,
+          "99": 0.7301695330385457
+        },
+        "min": 0.0011284563953860031,
+        "max": 0.9970832568936969
+      },
+      "sigma_pa_deg": {
+        "n_finite": 43672,
+        "percentiles": {
+          "1": 0.015061544099434858,
+          "50": 0.2485832030966741,
+          "99": 4.510607317936519
+        },
+        "min": 0.0016883442761850699,
+        "max": 79.73673232678689
+      }
+    },
+    "label_coverage": {
+      "redshift": {
+        "n_finite": 48398,
+        "coverage": 1.0
+      },
+      "spec_z": {
+        "n_finite": 6699,
+        "coverage": 0.1384
+      },
+      "mag_r_desi": {
+        "n_finite": 48398,
+        "coverage": 1.0
+      },
+      "elpetro_mass_log": {
+        "n_finite": 3728,
+        "coverage": 0.077
+      },
+      "total_ssfr_median": {
+        "n_finite": 4760,
+        "coverage": 0.0984
+      },
+      "sersic_n": {
+        "n_finite": 3730,
+        "coverage": 0.0771
+      },
+      "smooth_fraction": {
+        "n_finite": 48398,
+        "coverage": 1.0
+      },
+      "featured_fraction": {
+        "n_finite": 48398,
+        "coverage": 1.0
+      },
+      "edgeon_fraction": {
+        "n_finite": 4948,
+        "coverage": 0.1022
+      }
+    },
+    "covariates": {
+      "psfsize_r": {
+        "n_finite": 48290,
+        "percentiles": {
+          "1": 1.0585150589999999,
+          "50": 1.38118885,
+          "99": 2.1707363799999997
+        },
+        "min": 0.0,
+        "max": 3.530564
+      },
+      "psfdepth_r": {
+        "n_finite": 48290,
+        "percentiles": {
+          "1": 120.6386373,
+          "50": 621.2168650000001,
+          "99": 12433.082250000018
+        },
+        "min": 0.0,
+        "max": 60974.555
+      },
+      "ebv": {
+        "n_finite": 48290,
+        "percentiles": {
+          "1": 0.00810590443,
+          "50": 0.030671936,
+          "99": 0.14810808890000002
+        },
+        "min": 0.0026861113,
+        "max": 0.45212784
+      },
+      "footprint_counts": {
+        "nan": 108,
+        "north": 12371,
+        "south": 35919
+      }
+    },
+    "redshift": {
+      "n_finite": 48398,
+      "percentiles": {
+        "1": 0.024699635822325944,
+        "50": 0.17387185,
+        "99": 0.3835668348
+      },
+      "min": 0.0010842065,
+      "max": 0.68833566
+    }
+  },
+  "provenance": {
+    "utc": "2026-07-25T20:57:16Z",
+    "wall_seconds": 1.4,
+    "git": {
+      "sha": "539af0e9d80b97f1b22ed4df6596213743e652af",
+      "dirty": true
+    },
+    "seed": 0,
+    "python": "3.11.14",
+    "packages": {
+      "numpy": "1.26.4",
+      "scipy": "1.17.0",
+      "scikit-learn": "1.8.0"
+    },
+    "platform": "Windows-10-10.0.26200-SP0",
+    "inputs": {
+      "E_img.npy": {
+        "path": "D:\\AstroML-Project\\data\\E_img.npy",
+        "sha256": "4766010a79d090f178e5ebb75a5edbfb064509c605cf934aeba175e723c1fd65",
+        "bytes": 198238336
+      },
+      "E_full.npy": {
+        "path": "D:\\AstroML-Project\\data\\E_full.npy",
+        "sha256": "b2cd8389b5bad6178e8962f6b62677ea7abe58ceb3b5de33d13555dfa2b35a5e",
+        "bytes": 198238336
+      },
+      "ok_index.npy": {
+        "path": "D:\\AstroML-Project\\data\\ok_index.npy",
+        "sha256": "b23a90f441680c1fcf3f5ef54a75b6d39f797043720829941dbc9422a3a3acbe",
+        "bytes": 387312
+      },
+      "sample.parquet": {
+        "path": "D:\\AstroML-Project\\data\\sample.parquet",
+        "sha256": "339150d566bae0555390f48bfcc71c20fca57301e872e80caf478c1e7f4e202f",
+        "bytes": 4662407
+      },
+      "anchorShapes.parquet": {
+        "path": "D:\\AstroML-Project\\data\\anchorShapes.parquet",
+        "sha256": "e05f9b4ae32ce1daeb0f5631c1a20aaf62aeeb328e34daec8da8d9b6eebe6a97",
+        "bytes": 6348091
+      },
+      "anchorCovariates.parquet": {
+        "path": "D:\\AstroML-Project\\data\\anchorCovariates.parquet",
+        "sha256": "3fdecaf8e47afab423af237b223283ec39c1aa536f93b122444842e47bb4b6cb",
+        "bytes": 8316582
+      }
+    }
+  }
+}

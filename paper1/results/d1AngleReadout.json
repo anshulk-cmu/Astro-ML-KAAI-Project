@@ -1,0 +1,1288 @@
+{
+  "diagnostic": "d1AngleReadout",
+  "result": {
+    "population": {
+      "n_anchor": 48398,
+      "n_elongated": 15893,
+      "ellip_cut": 0.3,
+      "n_pa_finite_in_catalog": 48290,
+      "n_pa_defined": 43672,
+      "n_excluded_circular_model": 4618,
+      "excluded_type_counts": {
+        "DUP": 457,
+        "PSF": 50,
+        "REX": 4111
+      },
+      "exclusion_reason": "shape_e1 = shape_e2 = 0 exactly (REX, PSF, DUP tractor models are circular by construction), which would read as a placeholder PA of 0",
+      "substrate": "E_img (image tokens only)",
+      "period_deg": 180.0,
+      "k": 2
+    },
+    "readout": {
+      "E_img": {
+        "n": 3179,
+        "med_err_deg": 2.0266658091947662,
+        "med_err_ci": [
+          1.9456195322854983,
+          2.1164847839269023
+        ],
+        "loop_radius": 0.9886459708213806,
+        "loop_radius_ci": [
+          0.9835944771766663,
+          0.9927584528923035
+        ],
+        "loop_radius_rms": 0.9846084713935852,
+        "frac_within_20": 0.9971689210443536,
+        "frac_within_20_ci": [
+          0.9952736709657125,
+          0.9987417426863794
+        ],
+        "r2_cos": 0.9702855106899314,
+        "r2_sin": 0.9658395137044014,
+        "chance_floor_deg": 45.0,
+        "alpha_cos_sin": [
+          0.01,
+          0.01
+        ],
+        "n_train": 12714,
+        "n_pool": 15893
+      },
+      "E_full": {
+        "n": 3179,
+        "med_err_deg": 2.145622167862683,
+        "med_err_ci": [
+          2.062834930833578,
+          2.247465558354015
+        ],
+        "loop_radius": 0.9865536093711853,
+        "loop_radius_ci": [
+          0.981201121211052,
+          0.9908151775598526
+        ],
+        "loop_radius_rms": 0.982166588306427,
+        "frac_within_20": 0.9974834853727588,
+        "frac_within_20_ci": [
+          0.9955960994023277,
+          0.9990563070147845
+        ],
+        "r2_cos": 0.9683255892943285,
+        "r2_sin": 0.9637525757973734,
+        "chance_floor_deg": 45.0,
+        "alpha_cos_sin": [
+          0.01,
+          0.01
+        ],
+        "n_train": 12714,
+        "n_pool": 15893
+      }
+    },
+    "elongation_grading": {
+      "note": "one probe fit on the elongated training rows, evaluated on every galaxy with a defined position angle that the probe never saw; bins below the working cut are the regime where the angle is genuinely ill-defined",
+      "bins": [
+        {
+          "n": 2424,
+          "med_err_deg": 23.643227012150355,
+          "med_err_ci": [
+            22.359283260430857,
+            25.145389069385413
+          ],
+          "loop_radius": 0.26985055208206177,
+          "loop_radius_ci": [
+            0.261518856137991,
+            0.27899590134620667
+          ],
+          "loop_radius_rms": 0.32218700647354126,
+          "frac_within_20": 0.4397689768976898,
+          "frac_within_20_ci": [
+            0.41996699669966997,
+            0.4591584158415842
+          ],
+          "r2_cos": 0.16743924135509503,
+          "r2_sin": 0.1698220916228086,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.0,
+          "ellip_hi": 0.05,
+          "ellip_median": 0.03272007788025719,
+          "above_working_cut": false,
+          "catalog_sigma_pa_deg": 2.096533544519769,
+          "label_uniformity_ks_p": 0.8118731487247054
+        },
+        {
+          "n": 4565,
+          "med_err_deg": 11.992700156318053,
+          "med_err_ci": [
+            11.564270345747573,
+            12.444399684155824
+          ],
+          "loop_radius": 0.38984131813049316,
+          "loop_radius_ci": [
+            0.3833325281739235,
+            0.39601072669029236
+          ],
+          "loop_radius_rms": 0.43678632378578186,
+          "frac_within_20": 0.6904709748083242,
+          "frac_within_20_ci": [
+            0.6755695509309967,
+            0.7034008762322015
+          ],
+          "r2_cos": 0.43862199226702125,
+          "r2_sin": 0.43376391292000693,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.05,
+          "ellip_hi": 0.1,
+          "ellip_median": 0.07743854565379567,
+          "above_working_cut": false,
+          "catalog_sigma_pa_deg": 0.8094501903190755,
+          "label_uniformity_ks_p": 0.5842497321086846
+        },
+        {
+          "n": 5986,
+          "med_err_deg": 7.338973570302143,
+          "med_err_ci": [
+            7.102406606321777,
+            7.554983054619847
+          ],
+          "loop_radius": 0.542698085308075,
+          "loop_radius_ci": [
+            0.5368384346365929,
+            0.5487634479999542
+          ],
+          "loop_radius_rms": 0.569670557975769,
+          "frac_within_20": 0.8803875709989977,
+          "frac_within_20_ci": [
+            0.8720347477447378,
+            0.8884062813230872
+          ],
+          "r2_cos": 0.6677387977350933,
+          "r2_sin": 0.6503901862006258,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.1,
+          "ellip_hi": 0.15,
+          "ellip_median": 0.1251703758194524,
+          "above_working_cut": false,
+          "catalog_sigma_pa_deg": 0.48023959008844797,
+          "label_uniformity_ks_p": 0.9184846889604686
+        },
+        {
+          "n": 5784,
+          "med_err_deg": 5.176475012075855,
+          "med_err_ci": [
+            5.016165822527282,
+            5.331938562302774
+          ],
+          "loop_radius": 0.6713496446609497,
+          "loop_radius_ci": [
+            0.6658154927194119,
+            0.6772432632744312
+          ],
+          "loop_radius_rms": 0.682027280330658,
+          "frac_within_20": 0.9495159059474412,
+          "frac_within_20_ci": [
+            0.9439790802213002,
+            0.9552213001383126
+          ],
+          "r2_cos": 0.7906853355318001,
+          "r2_sin": 0.7857766083222832,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.15,
+          "ellip_hi": 0.2,
+          "ellip_median": 0.17447751831195019,
+          "above_working_cut": false,
+          "catalog_sigma_pa_deg": 0.3425600199113761,
+          "label_uniformity_ks_p": 0.8228666656028919
+        },
+        {
+          "n": 4958,
+          "med_err_deg": 3.8336315434227286,
+          "med_err_ci": [
+            3.702829321452136,
+            3.9626657909210232
+          ],
+          "loop_radius": 0.7796604633331299,
+          "loop_radius_ci": [
+            0.7742354139685631,
+            0.7842733673751354
+          ],
+          "loop_radius_rms": 0.7824383974075317,
+          "frac_within_20": 0.9778136345300524,
+          "frac_within_20_ci": [
+            0.9737747075433643,
+            0.981645824929407
+          ],
+          "r2_cos": 0.8843627620515179,
+          "r2_sin": 0.8652082191621341,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.2,
+          "ellip_hi": 0.25,
+          "ellip_median": 0.2238179735339133,
+          "above_working_cut": false,
+          "catalog_sigma_pa_deg": 0.2619488033345696,
+          "label_uniformity_ks_p": 0.6496074242005052
+        },
+        {
+          "n": 4062,
+          "med_err_deg": 3.0464704739998947,
+          "med_err_ci": [
+            2.933987802076653,
+            3.1786289844379243
+          ],
+          "loop_radius": 0.8603412508964539,
+          "loop_radius_ci": [
+            0.8563668370246887,
+            0.8651934266090393
+          ],
+          "loop_radius_rms": 0.8567187190055847,
+          "frac_within_20": 0.9886755292959133,
+          "frac_within_20_ci": [
+            0.9854751354012802,
+            0.9916297390448056
+          ],
+          "r2_cos": 0.9235827057467887,
+          "r2_sin": 0.9212660172731446,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.25,
+          "ellip_hi": 0.3,
+          "ellip_median": 0.27408022456020553,
+          "above_working_cut": false,
+          "catalog_sigma_pa_deg": 0.2089238726764549,
+          "label_uniformity_ks_p": 0.9788418639128136
+        },
+        {
+          "n": 1225,
+          "med_err_deg": 2.5632256436041043,
+          "med_err_ci": [
+            2.33947204034,
+            2.7673460689883638
+          ],
+          "loop_radius": 0.9450270533561707,
+          "loop_radius_ci": [
+            0.9383141398429871,
+            0.9509503394365311
+          ],
+          "loop_radius_rms": 0.9386962056159973,
+          "frac_within_20": 0.9975510204081632,
+          "frac_within_20_ci": [
+            0.9942857142857143,
+            1.0
+          ],
+          "r2_cos": 0.9587818463482768,
+          "r2_sin": 0.9527637039972184,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.3,
+          "ellip_hi": 0.4,
+          "ellip_median": 0.3468883957300245,
+          "above_working_cut": true,
+          "catalog_sigma_pa_deg": 0.15528054211946,
+          "label_uniformity_ks_p": 0.028195949420858457
+        },
+        {
+          "n": 902,
+          "med_err_deg": 1.9653870458432041,
+          "med_err_ci": [
+            1.8012394177783644,
+            2.135057651730649
+          ],
+          "loop_radius": 1.0046956539154053,
+          "loop_radius_ci": [
+            0.9984303802251816,
+            1.0106934547424316
+          ],
+          "loop_radius_rms": 1.002764344215393,
+          "frac_within_20": 0.9944567627494457,
+          "frac_within_20_ci": [
+            0.9889135254988913,
+            0.9988913525498891
+          ],
+          "r2_cos": 0.9708038692211411,
+          "r2_sin": 0.9675229345768721,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.4,
+          "ellip_hi": 0.5,
+          "ellip_median": 0.44518934606738764,
+          "above_working_cut": true,
+          "catalog_sigma_pa_deg": 0.11549170643677026,
+          "label_uniformity_ks_p": 0.5044007421152557
+        },
+        {
+          "n": 578,
+          "med_err_deg": 1.6612880698269197,
+          "med_err_ci": [
+            1.5111365690908762,
+            1.8130259707539373
+          ],
+          "loop_radius": 1.0283269882202148,
+          "loop_radius_ci": [
+            1.0176164507865906,
+            1.0382530689239502
+          ],
+          "loop_radius_rms": 1.0255521535873413,
+          "frac_within_20": 0.9982698961937716,
+          "frac_within_20_ci": [
+            0.9948096885813149,
+            1.0
+          ],
+          "r2_cos": 0.9812019233132427,
+          "r2_sin": 0.9784786082554786,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.5,
+          "ellip_hi": 0.6,
+          "ellip_median": 0.5444136259293504,
+          "above_working_cut": true,
+          "catalog_sigma_pa_deg": 0.09062535675360538,
+          "label_uniformity_ks_p": 0.9672498716992487
+        },
+        {
+          "n": 334,
+          "med_err_deg": 1.6935450283475908,
+          "med_err_ci": [
+            1.3989686749279053,
+            1.993630869362102
+          ],
+          "loop_radius": 1.0163891315460205,
+          "loop_radius_ci": [
+            1.0016889572143555,
+            1.0252108708024026
+          ],
+          "loop_radius_rms": 1.019376277923584,
+          "frac_within_20": 1.0,
+          "frac_within_20_ci": [
+            1.0,
+            1.0
+          ],
+          "r2_cos": 0.9857421369469536,
+          "r2_sin": 0.9819336764646698,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.6,
+          "ellip_hi": 0.7,
+          "ellip_median": 0.6410709075327043,
+          "above_working_cut": true,
+          "catalog_sigma_pa_deg": 0.06831124193994831,
+          "label_uniformity_ks_p": 0.740434281334649
+        },
+        {
+          "n": 140,
+          "med_err_deg": 1.6464474221015728,
+          "med_err_ci": [
+            1.4137786740124025,
+            2.0466102973910814
+          ],
+          "loop_radius": 1.0025262832641602,
+          "loop_radius_ci": [
+            0.9768048487603664,
+            1.0166561603546143
+          ],
+          "loop_radius_rms": 1.0018064975738525,
+          "frac_within_20": 1.0,
+          "frac_within_20_ci": [
+            1.0,
+            1.0
+          ],
+          "r2_cos": 0.9830776227239512,
+          "r2_sin": 0.9796203621135602,
+          "chance_floor_deg": 45.0,
+          "ellip_lo": 0.7,
+          "ellip_hi": 1.0,
+          "ellip_median": 0.740459592079905,
+          "above_working_cut": true,
+          "catalog_sigma_pa_deg": 0.043680801987289485,
+          "label_uniformity_ks_p": 0.6012043742778892
+        }
+      ]
+    },
+    "EXTENSION_error_scaling": {
+      "model_loglog_slope": -0.9744787298839712,
+      "model_loglog_intercept": -0.0394606242246606,
+      "catalog_loglog_slope": -1.109283014355879,
+      "catalog_loglog_intercept": -1.318305658688642,
+      "model_err_times_ellip_deg": [
+        0.7736082291781601,
+        0.928697258567318,
+        0.9186220799237476,
+        0.9031785137108176,
+        0.8580356433245635,
+        0.8349773116299269,
+        0.8891532314038872,
+        0.8749693737082509,
+        0.9044278618076452,
+        1.0856824482702896,
+        1.2191277865503418
+      ],
+      "model_over_catalog_ratio": [
+        11.277294882284396,
+        14.81585933235827,
+        15.28190037175088,
+        15.111147568870017,
+        14.635041254707657,
+        14.581725079918177,
+        16.50706269193838,
+        17.017560017776862,
+        18.331382400443108,
+        24.79160062462879,
+        37.69270130572846
+      ],
+      "saturation_bins_ellip_gt_0p6_med_err_deg": [
+        1.6935450283475908,
+        1.6464474221015728
+      ],
+      "fit_bins_ellip_lt_0p6": 9,
+      "note": "a slope of -1 is the geometric expectation for an axis estimator whose component noise is independent of elongation; fitted on bin medians below ellipticity 0.6, above which the readout saturates"
+    },
+    "topology_matching": {
+      "inclination_scalar": {
+        "r2": 0.8445411270513328,
+        "r2_ci": [
+          0.8297709072563764,
+          0.858675876110897
+        ],
+        "n": 15893,
+        "n_test": 3179,
+        "alpha": 1.0,
+        "med_abs_err": 1.5647884941510597,
+        "med_abs_err_ci": [
+          1.5087695577667226,
+          1.6354409972350368
+        ]
+      },
+      "axis_ratio_scalar": {
+        "r2": 0.8486583945986054,
+        "r2_ci": [
+          0.8337907066432664,
+          0.8627145336729545
+        ],
+        "n": 15893,
+        "n_test": 3179,
+        "alpha": 1.0
+      },
+      "edgeon_vote_scalar": {
+        "r2": 0.8889097921570244,
+        "r2_ci": [
+          0.8717063469036813,
+          0.9043986092803692
+        ],
+        "n": 4948,
+        "n_test": 990,
+        "alpha": 10.0
+      },
+      "position_angle_circular": {
+        "med_err_deg": 2.0266658091947662,
+        "loop_radius": 0.9886459708213806
+      },
+      "EXTENSION_inclination_forced_circular": {
+        "n": 3179,
+        "med_err_deg": 3.0588219063035607,
+        "med_err_ci": [
+          2.9552645177203485,
+          3.1893830079650147
+        ],
+        "loop_radius": 0.975854754447937,
+        "loop_radius_ci": [
+          0.9737500071525573,
+          0.9777389869093895
+        ],
+        "loop_radius_rms": 0.983108639717102,
+        "frac_within_20": 0.9968543567159485,
+        "frac_within_20_ci": [
+          0.9946524064171123,
+          0.9987417426863794
+        ],
+        "r2_cos": 0.8381877537696817,
+        "r2_sin": 0.6303704934854459,
+        "chance_floor_deg": 45.0,
+        "alpha_cos_sin": [
+          1.0,
+          1.0
+        ],
+        "n_train": 12714,
+        "n_pool": 15893,
+        "med_err_deg_in_inclination_units": 1.5294109531517803,
+        "note": "underpowered by design: a bounded quantity has no wrap seam for a linear encoding to fail at, so this control cannot fail the way the angle case can"
+      }
+    },
+    "population_invariance": {
+      "fixed_global_probe": {
+        "bright": {
+          "n": 1042,
+          "med_err_deg": 2.0534536096824163,
+          "med_err_ci": [
+            1.9270773510651567,
+            2.1726876442110377
+          ],
+          "loop_radius": 0.9881778359413147,
+          "loop_radius_ci": [
+            0.977190288156271,
+            0.997686505317688
+          ],
+          "loop_radius_rms": 0.987939715385437,
+          "frac_within_20": 0.9980806142034548,
+          "frac_within_20_ci": [
+            0.9952015355086372,
+            1.0
+          ],
+          "r2_cos": 0.9722586930518976,
+          "r2_sin": 0.9714299928041273,
+          "chance_floor_deg": 45.0
+        },
+        "mid": {
+          "n": 1044,
+          "med_err_deg": 1.9258484047938529,
+          "med_err_ci": [
+            1.776662983444535,
+            2.112777768856932
+          ],
+          "loop_radius": 0.9950869083404541,
+          "loop_radius_ci": [
+            0.986952006816864,
+            1.000841736793518
+          ],
+          "loop_radius_rms": 0.9918326139450073,
+          "frac_within_20": 0.9971264367816092,
+          "frac_within_20_ci": [
+            0.9932950191570882,
+            1.0
+          ],
+          "r2_cos": 0.9746331114080918,
+          "r2_sin": 0.9698423256133462,
+          "chance_floor_deg": 45.0
+        },
+        "faint": {
+          "n": 1093,
+          "med_err_deg": 2.0619223554913324,
+          "med_err_ci": [
+            1.9300462193820034,
+            2.211164581631432
+          ],
+          "loop_radius": 0.9816893935203552,
+          "loop_radius_ci": [
+            0.9736247718334198,
+            0.9898073077201843
+          ],
+          "loop_radius_rms": 0.9744492769241333,
+          "frac_within_20": 0.9963403476669717,
+          "frac_within_20_ci": [
+            0.9926806953339433,
+            0.9990850869167429
+          ],
+          "r2_cos": 0.9640875096834095,
+          "r2_sin": 0.9566819267497744,
+          "chance_floor_deg": 45.0
+        },
+        "smooth": {
+          "n": 1817,
+          "med_err_deg": 1.970307578804164,
+          "med_err_ci": [
+            1.8408103772853768,
+            2.090554148693966
+          ],
+          "loop_radius": 0.9840829968452454,
+          "loop_radius_ci": [
+            0.9789651036262512,
+            0.9892452090978623
+          ],
+          "loop_radius_rms": 0.9775835871696472,
+          "frac_within_20": 0.996147495872317,
+          "frac_within_20_ci": [
+            0.9928453494771602,
+            0.9988992845349477
+          ],
+          "r2_cos": 0.9700475357909113,
+          "r2_sin": 0.964389799531307,
+          "chance_floor_deg": 45.0
+        },
+        "featured": {
+          "n": 176,
+          "med_err_deg": 2.470826758711786,
+          "med_err_ci": [
+            2.0599484405173296,
+            3.084661611380098
+          ],
+          "loop_radius": 0.9602677822113037,
+          "loop_radius_ci": [
+            0.9331888258457184,
+            0.9989342711865902
+          ],
+          "loop_radius_rms": 0.9741635322570801,
+          "frac_within_20": 1.0,
+          "frac_within_20_ci": [
+            1.0,
+            1.0
+          ],
+          "r2_cos": 0.9702429510824603,
+          "r2_sin": 0.9670153158445975,
+          "chance_floor_deg": 45.0
+        }
+      },
+      "SECONDARY_per_stratum_refit": {
+        "bright": {
+          "n": 1059,
+          "med_err_deg": 2.032436105592122,
+          "med_err_ci": [
+            1.9171340003074309,
+            2.171261145969392
+          ],
+          "loop_radius": 0.9844748377799988,
+          "loop_radius_ci": [
+            0.976639986038208,
+            0.9915674924850464
+          ],
+          "loop_radius_rms": 0.9831981062889099,
+          "frac_within_20": 0.9971671388101983,
+          "frac_within_20_ci": [
+            0.9933663833805477,
+            1.0
+          ],
+          "r2_cos": 0.9674214054443387,
+          "r2_sin": 0.9679195076788224,
+          "chance_floor_deg": 45.0,
+          "alpha_cos_sin": [
+            1.0,
+            0.1
+          ],
+          "n_train": 4234,
+          "n_pool": 5293
+        },
+        "mid": {
+          "n": 1062,
+          "med_err_deg": 2.18353237225934,
+          "med_err_ci": [
+            2.013366602775812,
+            2.3126920010535006
+          ],
+          "loop_radius": 0.9946694374084473,
+          "loop_radius_ci": [
+            0.987964927405119,
+            1.0017594695091248
+          ],
+          "loop_radius_rms": 0.9941326379776001,
+          "frac_within_20": 0.9962335216572504,
+          "frac_within_20_ci": [
+            0.992467043314501,
+            0.9990583804143126
+          ],
+          "r2_cos": 0.9724377411926098,
+          "r2_sin": 0.9623661648563264,
+          "chance_floor_deg": 45.0,
+          "alpha_cos_sin": [
+            0.1,
+            0.1
+          ],
+          "n_train": 4245,
+          "n_pool": 5307
+        },
+        "faint": {
+          "n": 1059,
+          "med_err_deg": 2.2572228647899304,
+          "med_err_ci": [
+            2.1158715079126416,
+            2.442901313537148
+          ],
+          "loop_radius": 0.9905340075492859,
+          "loop_radius_ci": [
+            0.981820285320282,
+            0.9982687830924988
+          ],
+          "loop_radius_rms": 0.9869434833526611,
+          "frac_within_20": 0.9933899905571294,
+          "frac_within_20_ci": [
+            0.987724268177526,
+            0.9971671388101983
+          ],
+          "r2_cos": 0.9648598811667016,
+          "r2_sin": 0.9575843897669216,
+          "chance_floor_deg": 45.0,
+          "alpha_cos_sin": [
+            0.1,
+            1.0
+          ],
+          "n_train": 4234,
+          "n_pool": 5293
+        },
+        "smooth": {
+          "n": 1825,
+          "med_err_deg": 2.1043813151160236,
+          "med_err_ci": [
+            1.970097522025613,
+            2.2209919719650393
+          ],
+          "loop_radius": 0.9959664940834045,
+          "loop_radius_ci": [
+            0.9904709458351135,
+            1.0002771615982056
+          ],
+          "loop_radius_rms": 0.9897480010986328,
+          "frac_within_20": 0.9983561643835617,
+          "frac_within_20_ci": [
+            0.9961643835616438,
+            1.0
+          ],
+          "r2_cos": 0.9726150910503872,
+          "r2_sin": 0.9677405353394739,
+          "chance_floor_deg": 45.0,
+          "alpha_cos_sin": [
+            0.01,
+            0.01
+          ],
+          "n_train": 7299,
+          "n_pool": 9124
+        },
+        "featured": {
+          "n": 173,
+          "med_err_deg": 2.4664930701604333,
+          "med_err_ci": [
+            1.8013519631371158,
+            2.948032492007547
+          ],
+          "loop_radius": 0.9688043594360352,
+          "loop_radius_ci": [
+            0.9351287484169006,
+            0.9975988268852234
+          ],
+          "loop_radius_rms": 0.9736841917037964,
+          "frac_within_20": 0.9942196531791907,
+          "frac_within_20_ci": [
+            0.9826589595375722,
+            1.0
+          ],
+          "r2_cos": 0.9566302275086592,
+          "r2_sin": 0.9413773226136346,
+          "chance_floor_deg": 45.0,
+          "alpha_cos_sin": [
+            10.0,
+            10.0
+          ],
+          "n_train": 691,
+          "n_pool": 864
+        }
+      },
+      "tertile_edges_mag_r": [
+        18.08931964111328,
+        18.664469161987306
+      ],
+      "note": "the fixed-probe block is the invariance evidence; refits measure within-stratum decodability and are secondary"
+    },
+    "heteroscedasticity": {
+      "apparent_magnitude_r": {
+        "spearman_vs_error": {
+          "rho": 0.011686193481025361,
+          "rho_ci": [
+            -0.0228486099176062,
+            0.04264244026585803
+          ],
+          "p_value": 0.5101131075584647,
+          "n": 3179
+        },
+        "partial_spearman_controlling_ellipticity": {
+          "rho": 0.008955547858710078,
+          "rho_ci": [
+            -0.02555689584513197,
+            0.04109526990175106
+          ],
+          "n": 3179
+        },
+        "quintiles": [
+          {
+            "lo": 14.189372062683105,
+            "hi": 17.703189086914062,
+            "n": 636,
+            "med_err_deg": 2.0884052995814537,
+            "med_err_ci": [
+              1.9456795766463257,
+              2.2922337704828526
+            ],
+            "loop_radius": 0.9842921495437622
+          },
+          {
+            "lo": 17.703189086914062,
+            "hi": 18.253285217285157,
+            "n": 636,
+            "med_err_deg": 1.9889340787700909,
+            "med_err_ci": [
+              1.7534050856981662,
+              2.1718246081286168
+            ],
+            "loop_radius": 0.9913560748100281
+          },
+          {
+            "lo": 18.253285217285157,
+            "hi": 18.590927505493163,
+            "n": 635,
+            "med_err_deg": 1.8923465060549056,
+            "med_err_ci": [
+              1.734131979781574,
+              2.117722585595578
+            ],
+            "loop_radius": 0.998198926448822
+          },
+          {
+            "lo": 18.590927505493163,
+            "hi": 18.822184753417968,
+            "n": 636,
+            "med_err_deg": 2.0429837563187303,
+            "med_err_ci": [
+              1.8287000475670911,
+              2.2532026934198646
+            ],
+            "loop_radius": 0.991984486579895
+          },
+          {
+            "lo": 18.822184753417968,
+            "hi": 18.999799728393555,
+            "n": 636,
+            "med_err_deg": 2.0854853630685706,
+            "med_err_ci": [
+              1.8736802810965456,
+              2.2764107985687754
+            ],
+            "loop_radius": 0.9723192453384399
+          }
+        ]
+      },
+      "angular_size_shape_r_arcsec": {
+        "spearman_vs_error": {
+          "rho": -0.0667336339411085,
+          "rho_ci": [
+            -0.10321683965571415,
+            -0.03209612116965946
+          ],
+          "p_value": 0.0001663258282517638,
+          "n": 3179
+        },
+        "partial_spearman_controlling_ellipticity": {
+          "rho": -0.024686752036858845,
+          "rho_ci": [
+            -0.06080923830137942,
+            0.010366958662335009
+          ],
+          "n": 3179
+        },
+        "quintiles": [
+          {
+            "lo": 0.50897384,
+            "hi": 1.3417136,
+            "n": 636,
+            "med_err_deg": 2.415095262431098,
+            "med_err_ci": [
+              2.1556075614698686,
+              2.682285929895975
+            ],
+            "loop_radius": 0.9530664682388306
+          },
+          {
+            "lo": 1.3417136,
+            "hi": 1.8621345,
+            "n": 636,
+            "med_err_deg": 2.105416699530246,
+            "med_err_ci": [
+              1.9146760516231056,
+              2.4191358789700774
+            ],
+            "loop_radius": 0.9967485070228577
+          },
+          {
+            "lo": 1.8621345,
+            "hi": 2.43174688,
+            "n": 635,
+            "med_err_deg": 1.9013292199143543,
+            "med_err_ci": [
+              1.722722996050778,
+              2.0309395614845953
+            ],
+            "loop_radius": 1.0042086839675903
+          },
+          {
+            "lo": 2.43174688,
+            "hi": 3.42028984,
+            "n": 636,
+            "med_err_deg": 1.818581779020501,
+            "med_err_ci": [
+              1.6958034975277914,
+              2.010315611424944
+            ],
+            "loop_radius": 0.9948263168334961
+          },
+          {
+            "lo": 3.42028984,
+            "hi": 19.584457,
+            "n": 636,
+            "med_err_deg": 1.9947089909960878,
+            "med_err_ci": [
+              1.8256418860800778,
+              2.2070331285770917
+            ],
+            "loop_radius": 0.9900847673416138
+          }
+        ]
+      },
+      "ellipticity": {
+        "spearman_vs_error": {
+          "rho": -0.1772403166921768,
+          "rho_ci": [
+            -0.21217039234356544,
+            -0.14298877005511337
+          ],
+          "p_value": 7.562028740396951e-24,
+          "n": 3179
+        },
+        "quintiles": [
+          {
+            "lo": 0.30000786306107646,
+            "hi": 0.34849448605472505,
+            "n": 636,
+            "med_err_deg": 2.714630044484502,
+            "med_err_ci": [
+              2.4232228769512894,
+              3.008448620388423
+            ],
+            "loop_radius": 0.9253556132316589
+          },
+          {
+            "lo": 0.34849448605472505,
+            "hi": 0.4051515862157161,
+            "n": 636,
+            "med_err_deg": 2.301018780504566,
+            "med_err_ci": [
+              2.0121824734880502,
+              2.625657998798844
+            ],
+            "loop_radius": 0.9633489847183228
+          },
+          {
+            "lo": 0.4051515862157161,
+            "hi": 0.4728332134486856,
+            "n": 635,
+            "med_err_deg": 1.9812883880198167,
+            "med_err_ci": [
+              1.7882161638770653,
+              2.162892428213874
+            ],
+            "loop_radius": 0.9975535869598389
+          },
+          {
+            "lo": 0.4728332134486856,
+            "hi": 0.5668513963868012,
+            "n": 636,
+            "med_err_deg": 1.7479498898831487,
+            "med_err_ci": [
+              1.5998416806889169,
+              1.932678913502989
+            ],
+            "loop_radius": 1.028179407119751
+          },
+          {
+            "lo": 0.5668513963868012,
+            "hi": 0.8454360731820986,
+            "n": 636,
+            "med_err_deg": 1.700219702433125,
+            "med_err_ci": [
+              1.5549886954049477,
+              1.917776606705023
+            ],
+            "loop_radius": 1.014952540397644
+          }
+        ]
+      }
+    },
+    "nulls": {
+      "shuffled_labels": {
+        "n": 3179,
+        "med_err_deg": 44.060108481458265,
+        "med_err_ci": [
+          42.465553534693676,
+          45.7604556781442
+        ],
+        "loop_radius": 0.0487467423081398,
+        "loop_radius_ci": [
+          0.047253359109163284,
+          0.050067135412245986
+        ],
+        "loop_radius_rms": 0.06453626602888107,
+        "frac_within_20": 0.23151934570619692,
+        "frac_within_20_ci": [
+          0.21767851525636991,
+          0.2469329977980497
+        ],
+        "r2_cos": -0.0008203818395586815,
+        "r2_sin": -0.003991224206509658,
+        "chance_floor_deg": 45.0,
+        "alpha_cos_sin": [
+          10000.0,
+          10000.0
+        ],
+        "n_train": 12714,
+        "n_pool": 15893
+      },
+      "top_2_principal_components": {
+        "n": 3179,
+        "med_err_deg": 43.19801403724908,
+        "med_err_ci": [
+          41.77312044995273,
+          45.25654854098214
+        ],
+        "loop_radius": 0.029131494462490082,
+        "loop_radius_ci": [
+          0.028406227426603436,
+          0.02976200357079506
+        ],
+        "loop_radius_rms": 0.025387538596987724,
+        "frac_within_20": 0.2255426234664989,
+        "frac_within_20_ci": [
+          0.21106480025165145,
+          0.23969801824473105
+        ],
+        "r2_cos": -0.00010772059658514799,
+        "r2_sin": -0.0008133631269873209,
+        "chance_floor_deg": 45.0,
+        "alpha_cos_sin": [
+          10000.0,
+          10000.0
+        ],
+        "n_train": 12714,
+        "n_pool": 15893
+      },
+      "plain_linear_probe_raw_angle": {
+        "n": 3179,
+        "r2": 0.7736382604856948,
+        "med_err_deg": 10.329251582720218,
+        "med_err_ci": [
+          9.853641500403867,
+          10.875162756174237
+        ],
+        "frac_within_20": 0.7728845548914753,
+        "alpha": 0.01
+      },
+      "chance_floor_deg": 45.0,
+      "EXTENSION_pc_sweep": [
+        {
+          "n_components": 2,
+          "cum_variance": 0.33979493379592896,
+          "med_err_deg": 43.19801403724908,
+          "med_err_ci": [
+            41.77312044995273,
+            45.25654854098214
+          ],
+          "loop_radius": 0.029131494462490082,
+          "r2_cos": -0.00010772059658514799,
+          "r2_sin": -0.0008133631269873209
+        },
+        {
+          "n_components": 5,
+          "cum_variance": 0.5399913191795349,
+          "med_err_deg": 34.027230070635696,
+          "med_err_ci": [
+            32.85179998141494,
+            35.43173762006984
+          ],
+          "loop_radius": 0.16031016409397125,
+          "r2_cos": 0.009860035488547192,
+          "r2_sin": 0.1214147602440111
+        },
+        {
+          "n_components": 10,
+          "cum_variance": 0.6931381225585938,
+          "med_err_deg": 17.71915413955653,
+          "med_err_ci": [
+            17.144794237892402,
+            18.46324012648247
+          ],
+          "loop_radius": 0.42527008056640625,
+          "r2_cos": 0.32189589317891176,
+          "r2_sin": 0.33390777537295513
+        },
+        {
+          "n_components": 20,
+          "cum_variance": 0.8305354118347168,
+          "med_err_deg": 4.276487051370935,
+          "med_err_ci": [
+            4.135503060691251,
+            4.446412528743891
+          ],
+          "loop_radius": 0.8756992220878601,
+          "r2_cos": 0.8878153026798138,
+          "r2_sin": 0.8662565780742781
+        },
+        {
+          "n_components": 50,
+          "cum_variance": 0.9407323002815247,
+          "med_err_deg": 4.22165491338374,
+          "med_err_ci": [
+            4.061365145005434,
+            4.375290143618777
+          ],
+          "loop_radius": 0.8829182982444763,
+          "r2_cos": 0.8938238628386631,
+          "r2_sin": 0.8815895443545582
+        },
+        {
+          "n_components": 100,
+          "cum_variance": 0.976796567440033,
+          "med_err_deg": 3.952344016149924,
+          "med_err_ci": [
+            3.768917602646876,
+            4.103333990087249
+          ],
+          "loop_radius": 0.9161859750747681,
+          "r2_cos": 0.9077232603860881,
+          "r2_sin": 0.9030016960347217
+        },
+        {
+          "n_components": 200,
+          "cum_variance": 0.9936614632606506,
+          "med_err_deg": 3.2063115073917925,
+          "med_err_ci": [
+            3.0714994550131043,
+            3.352482568336333
+          ],
+          "loop_radius": 0.9587407112121582,
+          "r2_cos": 0.9353969107611659,
+          "r2_sin": 0.9314566890666784
+        },
+        {
+          "n_components": 512,
+          "cum_variance": 0.9997747540473938,
+          "med_err_deg": 2.345830868092923,
+          "med_err_ci": [
+            2.231020084995857,
+            2.450264460042587
+          ],
+          "loop_radius": 0.9857370257377625,
+          "r2_cos": 0.9637186184991491,
+          "r2_sin": 0.955062339250289
+        }
+      ]
+    },
+    "EXTENSION_split_sensitivity": {
+      "n_seeds": 10,
+      "seeds": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "med_err_deg": {
+        "values": [
+          2.0266658091947662,
+          1.9072725681123923,
+          1.9609482731069596,
+          1.9717174721335087,
+          1.9100878904522642,
+          2.0365243995793474,
+          2.039955731336508,
+          1.9879986378830021,
+          2.0332950420492373,
+          2.010568615863338
+        ],
+        "mean": 1.9885034439711322,
+        "std": 0.05021248249927815,
+        "min": 1.9072725681123923,
+        "max": 2.039955731336508
+      },
+      "loop_radius": {
+        "mean": 0.9908950567245484,
+        "std": 0.002835973008199247,
+        "min": 0.9856815338134766,
+        "max": 0.9968135952949524
+      },
+      "r2_cos": {
+        "mean": 0.9719386470780005
+      },
+      "r2_sin": {
+        "mean": 0.9672552300206891
+      },
+      "note": "each seed redraws the 80/20 split and refits both probes, so this spread covers split and refit variation that the within-split bootstrap does not"
+    },
+    "EXTENSION_label_noise_floor": {
+      "catalog_sigma_pa_deg_median": 0.11053175372846534,
+      "catalog_sigma_pa_deg_p25_p75": [
+        0.05989828174370948,
+        0.19414953875143492
+      ],
+      "n": 15893,
+      "readout_median_error_deg": 2.0266658091947662,
+      "note": "propagated from shape_e1_ivar and shape_e2_ivar; the readout cannot be scored below the uncertainty of the label it is scored against"
+    },
+    "consistency_checks": {
+      "roundest_bin_approaches_chance_from_below": {
+        "ellip_range": [
+          0.0,
+          0.05
+        ],
+        "med_err_deg": 23.643227012150355,
+        "chance_floor_deg": 45.0,
+        "label_uniformity_ks_p": 0.8118731487247054
+      },
+      "shuffle_vs_theoretical_chance": {
+        "measured": 44.060108481458265,
+        "theory": 45.0
+      },
+      "shuffle_loop_radius_should_collapse": 0.0487467423081398,
+      "loop_radius_rms_vs_sqrt_mean_r2": {
+        "rms_radius": 0.9846084713935852,
+        "sqrt_mean_r2": 0.9839016781148239
+      },
+      "monotone_error_vs_ellipticity": {
+        "rho": -0.990909090909091,
+        "rho_ci": [
+          -1.0,
+          -0.9043062200956938
+        ],
+        "p_value": 3.7625718070854e-09,
+        "n": 11
+      },
+      "legacy_trackA_med_err_deg": 2.0266658091947662,
+      "legacy_reproduction_delta_deg": 0.0
+    }
+  },
+  "provenance": {
+    "utc": "2026-07-25T20:49:10Z",
+    "wall_seconds": 128.6,
+    "git": {
+      "sha": "539af0e9d80b97f1b22ed4df6596213743e652af",
+      "dirty": true
+    },
+    "seed": 0,
+    "python": "3.11.14",
+    "packages": {
+      "numpy": "1.26.4",
+      "scipy": "1.17.0",
+      "scikit-learn": "1.8.0"
+    },
+    "platform": "Windows-10-10.0.26200-SP0",
+    "inputs": {
+      "E_img.npy": {
+        "path": "D:\\AstroML-Project\\data\\E_img.npy",
+        "sha256": "4766010a79d090f178e5ebb75a5edbfb064509c605cf934aeba175e723c1fd65",
+        "bytes": 198238336
+      },
+      "E_full.npy": {
+        "path": "D:\\AstroML-Project\\data\\E_full.npy",
+        "sha256": "b2cd8389b5bad6178e8962f6b62677ea7abe58ceb3b5de33d13555dfa2b35a5e",
+        "bytes": 198238336
+      },
+      "ok_index.npy": {
+        "path": "D:\\AstroML-Project\\data\\ok_index.npy",
+        "sha256": "b23a90f441680c1fcf3f5ef54a75b6d39f797043720829941dbc9422a3a3acbe",
+        "bytes": 387312
+      },
+      "sample.parquet": {
+        "path": "D:\\AstroML-Project\\data\\sample.parquet",
+        "sha256": "339150d566bae0555390f48bfcc71c20fca57301e872e80caf478c1e7f4e202f",
+        "bytes": 4662407
+      },
+      "anchorShapes.parquet": {
+        "path": "D:\\AstroML-Project\\data\\anchorShapes.parquet",
+        "sha256": "e05f9b4ae32ce1daeb0f5631c1a20aaf62aeeb328e34daec8da8d9b6eebe6a97",
+        "bytes": 6348091
+      },
+      "anchorCovariates.parquet": {
+        "path": "D:\\AstroML-Project\\data\\anchorCovariates.parquet",
+        "sha256": "3fdecaf8e47afab423af237b223283ec39c1aa536f93b122444842e47bb4b6cb",
+        "bytes": 8316582
+      }
+    }
+  }
+}

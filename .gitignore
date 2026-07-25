@@ -8,7 +8,7 @@ prototype_out/
 *.safetensors
 vera/*.tar.gz
 .claude/
-Recordings/
+recordings/
 
 # Secrets / keys
 *.pem
@@ -40,7 +40,14 @@ runLog.md
 prototypePlan.md
 analysisPlan.md
 problem.md
-report_sections
+reportSections
 papers/
-paper-suggestions.md
+paperSuggestions.md
 relatedWork.md
+
+paperScopingV1.md
+
+# paper1: cache and large arrays are regenerable
+paper1/cache/
+paper1/results/*.npy
+__pycache__/
