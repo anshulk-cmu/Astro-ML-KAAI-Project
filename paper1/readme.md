@@ -48,12 +48,14 @@ reference implementation. A diagnostic is not finished until every item in it ho
 Requires the anchor data under `../data/` and the environment pinned in `../envInterp.txt` (Python 3.11, NumPy 1.26.4, SciPy 1.17.0, scikit-learn 1.8.0, PyTorch 2.10.0+cu128, polymathic-aion 0.0.2).
 
 ```
-python paper1/runAll.py             # status and provenance of all nine
-python paper1/runAll.py d1          # run one diagnostic and render its figures
-python paper1/runAll.py --figures d1 # re-render figures only
-python paper1/runAll.py --all       # run everything
-python paper1/runAll.py --verify    # re-hash every recorded input and compare
-python -m pytest paper1/tests -q    # convention and null-calibration tests
+python -B paper1/runAll.py             # status and provenance of all nine
+python -B paper1/runAll.py d1          # run one diagnostic and render its figures
+python -B paper1/runAll.py --figures d1 # re-render figures only
+python -B paper1/runAll.py --all       # run everything
+python -B paper1/runAll.py --verify    # re-hash every recorded input and compare
+python -B -m pytest paper1/tests -q    # convention and null-calibration tests
+
+# -B keeps the tree free of __pycache__; the suite writes no other caches.
 ```
 
 ## Relationship to the older code
