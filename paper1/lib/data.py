@@ -35,6 +35,15 @@ def substrate(name="img"):
     return ((E - E.mean(0)) / (E.std(0) + 1e-8)).astype(np.float32), path
 
 
+def valid(df, col):
+    """Finite and above any declared sentinel. Use everywhere a label is masked."""
+    v = df[col].to_numpy(float)
+    ok = np.isfinite(v)
+    if col in C.SENTINEL_MIN:
+        ok &= v > C.SENTINEL_MIN[col]
+    return ok, v
+
+
 def pa_defined(df):
     """Position angle exists only where the catalog fitted an ellipticity. REX, PSF and DUP
     models are circular by construction, carry shape_e1 = shape_e2 = 0 exactly, and would

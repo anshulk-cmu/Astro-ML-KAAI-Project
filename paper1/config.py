@@ -50,6 +50,34 @@ N_BOOT = 1000
 N_BOOT_ANGLE = 200
 ELLIP_CUT = 0.3
 
+# Label validity. Some catalog columns encode "not measured" as a finite sentinel, which
+# np.isfinite does not catch. A label is valid only if it is finite and above its sentinel.
+SENTINEL_MIN = {"total_ssfr_median": -90.0}
+
+# Declared provenance of each label column. The counts are measured; these attributions are
+# declared here rather than read from the files, which carry no provenance metadata.
+LABEL_SOURCES = {
+    "redshift": ("GZ DESI external catalog, photometric-dominated", "sample.parquet"),
+    "spec_z": ("GZ DESI external catalog, spectroscopic subset", "sample.parquet"),
+    "photo_z": ("GZ DESI external catalog, photometric", "sample.parquet"),
+    "mag_g_desi": ("Legacy Surveys DR8 catalog", "sample.parquet"),
+    "mag_r_desi": ("Legacy Surveys DR8 catalog", "sample.parquet"),
+    "mag_z_desi": ("Legacy Surveys DR8 catalog", "sample.parquet"),
+    "smooth-or-featured_smooth_fraction": ("Galaxy Zoo DESI vote fractions", "sample.parquet"),
+    "smooth-or-featured_featured-or-disk_fraction": ("Galaxy Zoo DESI vote fractions", "sample.parquet"),
+    "disk-edge-on_yes_fraction": ("Galaxy Zoo DESI vote fractions", "sample.parquet"),
+    "elpetro_mass_log": ("NSA elpetro crossmatch", "sample.parquet"),
+    "total_ssfr_median": ("NSA crossmatch", "sample.parquet"),
+    "sersic_n": ("NSA crossmatch", "sample.parquet"),
+    "paDeg": ("derived from DR10 tractor shape_e1, shape_e2", "anchorShapes.parquet"),
+    "ellip": ("derived from DR10 tractor shape_e1, shape_e2", "anchorShapes.parquet"),
+    "shape_r": ("DR10 tractor half-light radius", "anchorShapes.parquet"),
+    "psfsize_r": ("DR10 tractor observing conditions", "anchorCovariates.parquet"),
+    "psfdepth_r": ("DR10 tractor observing conditions", "anchorCovariates.parquet"),
+    "ebv": ("DR10 tractor, SFD extinction", "anchorCovariates.parquet"),
+    "footprint": ("derived from Legacy Surveys release code", "anchorCovariates.parquet"),
+}
+
 # Instrument constants.
 PIXEL_SCALE = 0.262
 CUTOUT_PIX = 96

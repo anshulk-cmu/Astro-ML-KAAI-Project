@@ -84,9 +84,23 @@ def main():
               "smooth_fraction": "smooth-or-featured_smooth_fraction",
               "featured_fraction": "smooth-or-featured_featured-or-disk_fraction",
               "edgeon_fraction": "disk-edge-on_yes_fraction"}
-    out["label_coverage"] = {k: {"n_finite": int(np.isfinite(df[c].to_numpy(float)).sum()),
-                                 "coverage": round(float(np.isfinite(df[c].to_numpy(float)).mean()), 4)}
-                             for k, c in labels.items() if c in df}
+    cover = {}
+    for k, c in labels.items():
+        if c not in df:
+            continue
+        ok, v = D.valid(df, c)
+        fin = int(np.isfinite(v).sum())
+        src, f = C.LABEL_SOURCES.get(c, ("undeclared", "unknown"))
+        cover[k] = {"column": c, "declared_source": src, "source_file": f,
+                    "n_finite": fin, "n_valid": int(ok.sum()),
+                    "n_sentinel": fin - int(ok.sum()),
+                    "sentinel_min": C.SENTINEL_MIN.get(c),
+                    "coverage_valid": round(float(ok.mean()), 4)}
+    out["label_coverage"] = cover
+    out["label_coverage_note"] = ("n_valid applies the declared sentinel rule; n_finite is what a "
+                                  "bare isfinite gives. Every diagnostic masks on n_valid. "
+                                  "declared_source is an attribution recorded in config, not a "
+                                  "value read from the file, which carries no provenance metadata.")
 
     cov = {"psfsize_r": "psfsize_r", "psfdepth_r": "psfdepth_r", "ebv": "ebv"}
     out["covariates"] = {k: describe(df[c].to_numpy(float)) for k, c in cov.items() if c in df}

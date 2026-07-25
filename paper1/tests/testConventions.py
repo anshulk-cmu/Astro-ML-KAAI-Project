@@ -82,6 +82,28 @@ def test_position_angle_of_defined_sources_is_uniform_on_the_sky():
     assert kstest((pa % 180) / 180.0, "uniform").pvalue > 1e-3
 
 
+def test_sentinel_values_are_excluded_from_valid_labels():
+    """Some catalog columns encode 'not measured' as a finite sentinel that isfinite accepts."""
+    df = D.anchor()
+    ok, v = D.valid(df, "total_ssfr_median")
+    assert np.isfinite(v).sum() > ok.sum(), "sentinel rule removed nothing"
+    assert (v[ok] > C.SENTINEL_MIN["total_ssfr_median"]).all()
+    assert ok.sum() == 4473
+
+
+def test_labels_without_a_declared_sentinel_keep_every_finite_value():
+    df = D.anchor()
+    for col in ("redshift", "elpetro_mass_log", "sersic_n"):
+        ok, v = D.valid(df, col)
+        assert ok.sum() == np.isfinite(v).sum()
+
+
+def test_every_label_used_has_a_declared_source():
+    for col in ("redshift", "total_ssfr_median", "elpetro_mass_log", "sersic_n",
+                "paDeg", "ellip", "psfsize_r", "ebv"):
+        assert col in C.LABEL_SOURCES and C.LABEL_SOURCES[col][0] != "undeclared"
+
+
 def test_pa_uncertainty_scales_inversely_with_elongation(cat):
     """sigma_PA ~ sigma_e / (2|eps|), so the product with ellipticity should be flat."""
     sig = D.pa_uncertainty(cat)

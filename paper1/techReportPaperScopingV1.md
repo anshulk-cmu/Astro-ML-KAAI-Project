@@ -58,17 +58,21 @@ The row contract is enforced in `lib/data.py` and is identical for every diagnos
 
 Coverage differs sharply between label sets, which is why every diagnostic reports the sample size beside each entry. Morphology vote fractions, redshift and magnitudes are complete; the stellar-population and structural quantities come from catalog crossmatches and cover under a tenth of the anchor.
 
-| label | source | n finite | coverage |
-|---|---|---|---|
-| redshift | external catalog, photometric-dominated | 48,398 | 1.000 |
-| spectroscopic redshift | same | 6,699 | 0.138 |
-| r magnitude | Legacy Surveys catalog | 48,398 | 1.000 |
-| smooth vote fraction | Galaxy Zoo DESI | 48,398 | 1.000 |
-| featured vote fraction | Galaxy Zoo DESI | 48,398 | 1.000 |
-| edge-on vote fraction | Galaxy Zoo DESI | 4,948 | 0.102 |
-| stellar mass, elpetro | NSA crossmatch | 3,728 | 0.077 |
-| specific star formation rate | NSA crossmatch | 4,760 | 0.098 |
-| Sersic index | NSA crossmatch | 3,730 | 0.077 |
+Two counts are given per label. **Finite** is what a bare finiteness test returns. **Valid** additionally excludes declared sentinel values, which some catalogs use to encode "not measured" as an ordinary number that a finiteness test accepts. Every diagnostic masks on the valid count. The source column is a declared attribution recorded in `config.py`, since the files carry no provenance metadata; the counts are measured.
+
+| label | declared source | finite | sentinel | valid | coverage |
+|---|---|---|---|---|---|
+| redshift | GZ DESI external catalog, photometric-dominated | 48,398 | 0 | 48,398 | 1.000 |
+| spectroscopic redshift | GZ DESI external catalog, spectroscopic subset | 6,699 | 0 | 6,699 | 0.138 |
+| r magnitude | Legacy Surveys DR8 catalog | 48,398 | 0 | 48,398 | 1.000 |
+| smooth vote fraction | Galaxy Zoo DESI vote fractions | 48,398 | 0 | 48,398 | 1.000 |
+| featured vote fraction | Galaxy Zoo DESI vote fractions | 48,398 | 0 | 48,398 | 1.000 |
+| edge-on vote fraction | Galaxy Zoo DESI vote fractions | 4,948 | 0 | 4,948 | 0.102 |
+| stellar mass, elpetro | NSA elpetro crossmatch | 3,728 | 0 | 3,728 | 0.077 |
+| specific star formation rate | NSA crossmatch | 4,760 | 287 | 4,473 | 0.092 |
+| Sersic index | NSA crossmatch | 3,730 | 0 | 3,730 | 0.077 |
+
+The specific star formation rate is the one column here with a sentinel: 287 galaxies carry the value -99, which a finiteness test accepts and which would otherwise enter a probe as an extreme outlier. The declared rule and the resulting count are verified in the test suite. [measured]
 
 Redshift spans 0.0011 to 0.688 with a median of 0.174 and a first-to-ninety-ninth percentile range of 0.025 to 0.384. Sparse-label subsamples are catalog crossmatches rather than random draws and carry their own selection, which is standing caveat 4. [measured]
 

@@ -107,42 +107,97 @@
     },
     "label_coverage": {
       "redshift": {
+        "column": "redshift",
+        "declared_source": "GZ DESI external catalog, photometric-dominated",
+        "source_file": "sample.parquet",
         "n_finite": 48398,
-        "coverage": 1.0
+        "n_valid": 48398,
+        "n_sentinel": 0,
+        "sentinel_min": null,
+        "coverage_valid": 1.0
       },
       "spec_z": {
+        "column": "spec_z",
+        "declared_source": "GZ DESI external catalog, spectroscopic subset",
+        "source_file": "sample.parquet",
         "n_finite": 6699,
-        "coverage": 0.1384
+        "n_valid": 6699,
+        "n_sentinel": 0,
+        "sentinel_min": null,
+        "coverage_valid": 0.1384
       },
       "mag_r_desi": {
+        "column": "mag_r_desi",
+        "declared_source": "Legacy Surveys DR8 catalog",
+        "source_file": "sample.parquet",
         "n_finite": 48398,
-        "coverage": 1.0
+        "n_valid": 48398,
+        "n_sentinel": 0,
+        "sentinel_min": null,
+        "coverage_valid": 1.0
       },
       "elpetro_mass_log": {
+        "column": "elpetro_mass_log",
+        "declared_source": "NSA elpetro crossmatch",
+        "source_file": "sample.parquet",
         "n_finite": 3728,
-        "coverage": 0.077
+        "n_valid": 3728,
+        "n_sentinel": 0,
+        "sentinel_min": null,
+        "coverage_valid": 0.077
       },
       "total_ssfr_median": {
+        "column": "total_ssfr_median",
+        "declared_source": "NSA crossmatch",
+        "source_file": "sample.parquet",
         "n_finite": 4760,
-        "coverage": 0.0984
+        "n_valid": 4473,
+        "n_sentinel": 287,
+        "sentinel_min": -90.0,
+        "coverage_valid": 0.0924
       },
       "sersic_n": {
+        "column": "sersic_n",
+        "declared_source": "NSA crossmatch",
+        "source_file": "sample.parquet",
         "n_finite": 3730,
-        "coverage": 0.0771
+        "n_valid": 3730,
+        "n_sentinel": 0,
+        "sentinel_min": null,
+        "coverage_valid": 0.0771
       },
       "smooth_fraction": {
+        "column": "smooth-or-featured_smooth_fraction",
+        "declared_source": "Galaxy Zoo DESI vote fractions",
+        "source_file": "sample.parquet",
         "n_finite": 48398,
-        "coverage": 1.0
+        "n_valid": 48398,
+        "n_sentinel": 0,
+        "sentinel_min": null,
+        "coverage_valid": 1.0
       },
       "featured_fraction": {
+        "column": "smooth-or-featured_featured-or-disk_fraction",
+        "declared_source": "Galaxy Zoo DESI vote fractions",
+        "source_file": "sample.parquet",
         "n_finite": 48398,
-        "coverage": 1.0
+        "n_valid": 48398,
+        "n_sentinel": 0,
+        "sentinel_min": null,
+        "coverage_valid": 1.0
       },
       "edgeon_fraction": {
+        "column": "disk-edge-on_yes_fraction",
+        "declared_source": "Galaxy Zoo DESI vote fractions",
+        "source_file": "sample.parquet",
         "n_finite": 4948,
-        "coverage": 0.1022
+        "n_valid": 4948,
+        "n_sentinel": 0,
+        "sentinel_min": null,
+        "coverage_valid": 0.1022
       }
     },
+    "label_coverage_note": "n_valid applies the declared sentinel rule; n_finite is what a bare isfinite gives. Every diagnostic masks on n_valid. declared_source is an attribution recorded in config, not a value read from the file, which carries no provenance metadata.",
     "covariates": {
       "psfsize_r": {
         "n_finite": 48290,
@@ -192,11 +247,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-25T21:07:29Z",
+    "utc": "2026-07-25T21:14:28Z",
     "wall_seconds": 1.4,
     "git": {
-      "sha": "60db1720ecb26653830de8af2f53500bcdfc4442",
-      "code_dirty": false,
+      "sha": "1a0758ef818b05b8510ed53af9ca110874898175",
+      "code_dirty": true,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",
