@@ -12,6 +12,7 @@ that already exist and cost two and a quarter hours of GPU time, but only after 
 dtype and row order are checked against the current population.
 """
 import json
+from pathlib import Path
 
 import numpy as np
 
@@ -41,14 +42,23 @@ def read_meta(tag):
 
 
 def cached(tag, params=None):
-    """The array for this tag, or None. A stored entry whose recipe differs is an error."""
+    """The array for this tag, or None. A stored entry whose recipe differs is an error.
+
+    An adopted entry keeps its array where it already lives rather than copying half a
+    gigabyte into the cache, so the array is looked for at the recorded source and not only
+    under CACHE. Checking only CACHE would make every adopted entry invisible here, which
+    would in turn stop the recipe check below from ever running on one.
+    """
     m = read_meta(tag)
-    if m is None or not _array_path(tag).exists() or not m.get("complete", False):
+    if m is None or not m.get("complete", False):
+        return None
+    src = Path(m.get("source") or _array_path(tag))
+    if not src.exists():
         return None
     if params is not None and m["recipe"] != recipe(**params):
         raise ValueError(f"cache entry {tag} was produced by a different recipe:\n"
                          f"  stored:    {m['recipe']}\n  requested: {recipe(**params)}")
-    return np.load(m.get("source") or _array_path(tag), mmap_mode=None)
+    return np.load(src)
 
 
 def row_alignment(reference, candidate, n_probe=200, seed=C.SEED):

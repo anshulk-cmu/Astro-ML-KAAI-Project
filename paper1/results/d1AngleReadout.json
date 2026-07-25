@@ -1041,6 +1041,10 @@
       "plain_linear_probe_raw_angle": {
         "n": 3179,
         "r2": 0.7736382604856948,
+        "r2_ci": [
+          0.7552441495176037,
+          0.7916720754898641
+        ],
         "med_err_deg": 10.329251582720218,
         "med_err_ci": [
           9.853641500403867,
@@ -1238,11 +1242,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-25T22:19:08Z",
+    "utc": "2026-07-25T22:27:57Z",
     "wall_seconds": 128.2,
     "git": {
-      "sha": "788e1fc7bdfaffd63aedf1802e463a47d45abb31",
-      "code_dirty": false,
+      "sha": "e3097c964ec051357157b7f66a6e2ff5512615dd",
+      "code_dirty": true,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",

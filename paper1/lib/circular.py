@@ -63,6 +63,9 @@ def linear_angle_probe(Z, theta_deg, period, mask, seed=C.SEED, n_boot=C.N_BOOT)
     p = m.predict(Z[te])
     d = (p - theta_deg[te] + period / 2) % period - period / 2
     err = np.abs(d)
-    return dict(n=int(len(te)), r2=r2(theta_deg[te], p),
+    rng = np.random.default_rng(seed)
+    boot = [r2(theta_deg[te][b], p[b]) for b in
+            (rng.integers(0, len(te), len(te)) for _ in range(n_boot))]
+    return dict(n=int(len(te)), r2=r2(theta_deg[te], p), r2_ci=ci(boot),
                 med_err_deg=float(np.median(err)), med_err_ci=boot_stat(err, np.median, n_boot, seed),
                 frac_within_20=float((err < 20).mean()), alpha=float(m.alpha_))

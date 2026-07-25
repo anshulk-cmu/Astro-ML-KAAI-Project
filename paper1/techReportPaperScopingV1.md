@@ -199,7 +199,7 @@ One probe pair is fit on a random 80 percent of the elongated population (12,714
 | substrate | median circular error (deg) | 95% CI | loop radius | 95% CI | R2 cos / R2 sin | within 20 deg |
 |---|---|---|---|---|---|---|
 | E_img (image tokens only) | 2.027 | [1.946, 2.116] | 0.9886 | [0.9836, 0.9928] | 0.9703 / 0.9658 | 0.9972 [0.9953, 0.9987] |
-| E_full (robustness line) | 2.146 | [2.063, 2.247] | 0.9866 | | 0.9683 / 0.9638 | |
+| E_full (robustness line) | 2.146 | [2.063, 2.247] | 0.9866 | [0.9812, 0.9908] | 0.9683 / 0.9638 | 0.9975 [0.9956, 0.9991] |
 
 E_full ingests scalar photometry and the catalog redshift but no shape information, and it is reported here only as a robustness line, not as a competing measurement. [measured]
 
@@ -233,8 +233,10 @@ The scoping document's prediction is that a periodic quantity should be stored a
 |---|---|---|---|---|
 | inclination | plain scalar | 0.8445 | [0.8298, 0.8587] | 15,893 |
 | axis ratio b/a | plain scalar | 0.8487 | [0.8338, 0.8627] | 15,893 |
-| edge-on vote fraction | plain scalar | 0.8889 | | 4,948 |
-| position angle | plain scalar on the raw angle | 0.7736 | | 15,893 |
+| edge-on vote fraction | plain scalar | 0.8889 | [0.8717, 0.9044] | 4,948 |
+| position angle | plain scalar on the raw angle | 0.7736 | [0.7552, 0.7917] | 15,893 |
+
+Three of these four rows are measured on the elongated population. The edge-on vote fraction is not: that label covers 4,948 anchor galaxies and is probed over all of them rather than over the elongated subset, so its row is a companion measurement on a different population and is not comparable row for row with the others.
 
 Scored in degrees rather than R2, which puts the two treatments of each quantity on one axis: position angle recovers to 2.027 degrees under the circular treatment and 10.329 degrees [9.854, 10.875] under the plain linear treatment, a factor of 5.1. Inclination recovers to a median absolute error of 1.565 degrees [1.509, 1.635] as a plain scalar, and forcing it through the same circular machinery gives 1.529 degrees in inclination units with loop radius 0.976, which is no material gain. The periodic quantity needs the loop; the bounded one does not. [measured]
 
@@ -647,10 +649,11 @@ python -m pytest paper1/tests -q   convention and null-calibration tests
 
 **Provenance.** Every results file carries the git revision and dirty flag, the UTC timestamp, wall-clock seconds, the seed, interpreter and package versions, the platform, and the SHA-256 and byte count of every input file read. `runAll.py --verify` re-hashes those inputs and reports any that have changed since the run, so a result can never be silently attributed to data it was not computed from.
 
-**Test suite.** Forty-three tests cover the two failure modes that would invalidate results without producing an error: an incorrect convention, and an uncalibrated null. No module is skipped.
+**Test suite.** Fifty-four tests cover the three failure modes that would invalidate results without producing an error: an incorrect convention, an uncalibrated null, and a reused embedding that is not what it claims to be. No module is skipped.
 
 - *Conventions* (`tests/testConventions.py`): the ellipticity identities, the axial-doubling reconstruction, inclination from axis ratio, the exclusion of circular-by-construction models, uniformity of retained position angles, and the inverse-elongation scaling of the catalog angle uncertainty, all checked against the real catalog rather than against documentation.
 - *Nulls and circular machinery* (`tests/testNulls.py`): the analytic chance floors of 45 and 90 degrees for axial and full-circle quantities, wrap symmetry across the seam, collapse of both error and loop radius under shuffled labels, recovery and radius on synthetic data of known signal strength, the loop-radius shrinkage identity at three signal levels, near-orthogonality of random directions in high dimension, determinism of the split, and boundedness of the error by the period.
+- *Cache safety* (`tests/testEncode.py`): that the recorded recipe carries the frozen settings; that an adopted entry round trips; that **a cache hit requested with different parameters raises rather than returning the wrong array**; that adoption rejects a wrong row count, a wrong width, a wrong dtype and any non-finite value; and that the row-alignment statistic returns 1 for an aligned file and collapses when the rows are permuted. These failure paths never fire in a successful run, which is exactly why they are tested rather than assumed.
 - *Input-space operators* (`tests/testTransforms.py`): the rotation sign over a grid of start angles and rotations, on a synthetic bar of known angle and again on real cutouts; shape, dtype and the unresampled identity at a full turn; that the operator applies identically plane by plane on a stack; that the mirror is an exact pixel permutation, an involution, and preserves flux exactly where rotation does not; the mirror's fixed points and antinodes; the composition law; the boundedness of the axial wrap; the calibration of the concentration statistic against uniform and identical inputs; and, on the real catalog, that the array and catalog frames are same-handed with an offset of 90 degrees while the opposite pairing does not concentrate.
 
 **Figure integrity.** Figure scripts read only the results file and the saved projection array, never the embeddings or labels, so no plotted value can differ from the recorded one.
