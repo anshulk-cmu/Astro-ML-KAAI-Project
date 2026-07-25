@@ -192,11 +192,19 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-25T20:57:16Z",
+    "utc": "2026-07-25T21:07:29Z",
     "wall_seconds": 1.4,
     "git": {
-      "sha": "539af0e9d80b97f1b22ed4df6596213743e652af",
-      "dirty": true
+      "sha": "60db1720ecb26653830de8af2f53500bcdfc4442",
+      "code_dirty": false,
+      "code_paths": [
+        "paper1/lib",
+        "paper1/diagnostics",
+        "paper1/config.py",
+        "paper1/runAll.py",
+        "paper1/tests"
+      ],
+      "note": "code_dirty covers the analysis code only; results and report are written by the run"
     },
     "seed": 0,
     "python": "3.11.14",

@@ -1,11 +1,23 @@
 {
-  "utc": "2026-07-25T20:57:17Z",
+  "utc": "2026-07-25T21:09:39Z",
   "runs": [
     {
       "key": "d0",
       "module": "d0DatasetAudit",
       "ok": true,
-      "seconds": 2.6
+      "seconds": 2.5
+    },
+    {
+      "key": "d1",
+      "module": "d1AngleReadout",
+      "ok": true,
+      "seconds": 128.4
+    },
+    {
+      "key": "d1",
+      "module": "d1AngleReadoutFigures",
+      "ok": true,
+      "seconds": 1.3
     }
   ]
 }
