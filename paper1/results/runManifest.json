@@ -1,29 +1,29 @@
 {
-  "utc": "2026-07-26T23:24:13Z",
+  "utc": "2026-07-26T23:31:28Z",
   "runs": [
     {
       "key": "d0",
       "module": "d0DatasetAudit",
       "ok": true,
-      "seconds": 2.5
+      "seconds": 2.3
     },
     {
       "key": "d1",
       "module": "d1AngleReadout",
       "ok": true,
-      "seconds": 133.0
+      "seconds": 127.9
     },
     {
       "key": "d1",
       "module": "d1AngleReadoutFigures",
       "ok": true,
-      "seconds": 1.3
+      "seconds": 1.2
     },
     {
       "key": "d2",
       "module": "d2Equivariance",
       "ok": true,
-      "seconds": 96.8
+      "seconds": 93.0
     },
     {
       "key": "d2",

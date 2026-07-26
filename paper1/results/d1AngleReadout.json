@@ -1242,10 +1242,10 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-26T23:22:33Z",
-    "wall_seconds": 132.7,
+    "utc": "2026-07-26T23:29:53Z",
+    "wall_seconds": 127.5,
     "git": {
-      "sha": "c8a9167c8a50b4f29249d79c952d1aa2feb0740e",
+      "sha": "cd6890ba6ed9e9ced98c0e779dfe3e9df88cb613",
       "code_dirty": false,
       "code_paths": [
         "paper1/lib",

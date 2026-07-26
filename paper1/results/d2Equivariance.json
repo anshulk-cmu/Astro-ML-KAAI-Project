@@ -1576,8 +1576,8 @@
           "median_abs_diff": 0.0,
           "mean_cosine": 1.0,
           "control_rolled_by_one_median_abs_diff": 0.2180984616279602,
-          "encode_seconds": 12.97,
-          "images_per_second": 4.94,
+          "encode_seconds": 12.85,
+          "images_per_second": 4.98,
           "note": "median 0 means bitwise agreement on the majority of components; a small max reflects non-deterministic GPU reduction order, not a different operator. The rolled control is what a one-row misalignment would give."
         },
         "rot_60": {
@@ -1586,8 +1586,8 @@
           "median_abs_diff": 0.0,
           "mean_cosine": 0.9999999403953552,
           "control_rolled_by_one_median_abs_diff": 0.21570229530334473,
-          "encode_seconds": 4.1,
-          "images_per_second": 15.59,
+          "encode_seconds": 3.76,
+          "images_per_second": 17.02,
           "note": "median 0 means bitwise agreement on the majority of components; a small max reflects non-deterministic GPU reduction order, not a different operator. The rolled control is what a one-row misalignment would give."
         },
         "rot_90": {
@@ -1596,8 +1596,8 @@
           "median_abs_diff": 0.0,
           "mean_cosine": 1.0,
           "control_rolled_by_one_median_abs_diff": 0.21324366331100464,
-          "encode_seconds": 4.03,
-          "images_per_second": 15.89,
+          "encode_seconds": 4.14,
+          "images_per_second": 15.48,
           "note": "median 0 means bitwise agreement on the majority of components; a small max reflects non-deterministic GPU reduction order, not a different operator. The rolled control is what a one-row misalignment would give."
         },
         "rot_120": {
@@ -1606,8 +1606,8 @@
           "median_abs_diff": 0.0,
           "mean_cosine": 0.9999998807907104,
           "control_rolled_by_one_median_abs_diff": 0.21333837509155273,
-          "encode_seconds": 3.99,
-          "images_per_second": 16.04,
+          "encode_seconds": 3.8,
+          "images_per_second": 16.86,
           "note": "median 0 means bitwise agreement on the majority of components; a small max reflects non-deterministic GPU reduction order, not a different operator. The rolled control is what a one-row misalignment would give."
         },
         "rot_150": {
@@ -1616,8 +1616,8 @@
           "median_abs_diff": 0.0,
           "mean_cosine": 0.9999992847442627,
           "control_rolled_by_one_median_abs_diff": 0.21450063586235046,
-          "encode_seconds": 4.08,
-          "images_per_second": 15.7,
+          "encode_seconds": 3.81,
+          "images_per_second": 16.81,
           "note": "median 0 means bitwise agreement on the majority of components; a small max reflects non-deterministic GPU reduction order, not a different operator. The rolled control is what a one-row misalignment would give."
         },
         "rot_180": {
@@ -1626,8 +1626,8 @@
           "median_abs_diff": 0.0,
           "mean_cosine": 1.0,
           "control_rolled_by_one_median_abs_diff": 0.20987215638160706,
-          "encode_seconds": 4.1,
-          "images_per_second": 15.62,
+          "encode_seconds": 4.12,
+          "images_per_second": 15.55,
           "note": "median 0 means bitwise agreement on the majority of components; a small max reflects non-deterministic GPU reduction order, not a different operator. The rolled control is what a one-row misalignment would give."
         },
         "flip": {
@@ -1636,8 +1636,8 @@
           "median_abs_diff": 0.0,
           "mean_cosine": 0.9999998807907104,
           "control_rolled_by_one_median_abs_diff": 0.21410560607910156,
-          "encode_seconds": 4.17,
-          "images_per_second": 15.36,
+          "encode_seconds": 3.78,
+          "images_per_second": 16.95,
           "note": "median 0 means bitwise agreement on the majority of components; a small max reflects non-deterministic GPU reduction order, not a different operator. The rolled control is what a one-row misalignment would give."
         },
         "flip_rot30": {
@@ -1646,21 +1646,21 @@
           "median_abs_diff": 0.0,
           "mean_cosine": 1.0,
           "control_rolled_by_one_median_abs_diff": 0.21443265676498413,
-          "encode_seconds": 4.19,
-          "images_per_second": 15.28,
+          "encode_seconds": 3.77,
+          "images_per_second": 16.96,
           "note": "median 0 means bitwise agreement on the majority of components; a small max reflects non-deterministic GPU reduction order, not a different operator. The rolled control is what a one-row misalignment would give."
         }
       },
       "encode_throughput": {
-        "images_per_second_median": 15.605,
+        "images_per_second_median": 16.835,
         "images_per_second_range": [
-          4.94,
-          16.04
+          4.98,
+          17.02
         ],
         "n_batches_timed": 8,
         "images_per_batch": 64,
         "total_images_encoded": 512,
-        "implied_seconds_for_one_full_population_encode": 1018.4556231976931,
+        "implied_seconds_for_one_full_population_encode": 944.045144045144,
         "note": "measured on short bursts that each include the first-batch warm-up, so this is a lower bound on the steady-state rate of a long sweep"
       },
       "reencode_note": "a subsample re-encoded through the frozen model under the operators in lib/transforms.py and compared with the cached rows; this is what establishes that each file is the operator its name claims and is aligned row for row",
@@ -1703,10 +1703,10 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-26T23:27:25Z",
-    "wall_seconds": 90.9,
+    "utc": "2026-07-26T23:31:23Z",
+    "wall_seconds": 88.7,
     "git": {
-      "sha": "c8a9167c8a50b4f29249d79c952d1aa2feb0740e",
+      "sha": "cd6890ba6ed9e9ced98c0e779dfe3e9df88cb613",
       "code_dirty": false,
       "code_paths": [
         "paper1/lib",
