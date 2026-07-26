@@ -535,9 +535,20 @@ def main():
     d1_base = (json.loads(d1p.read_text())["result"]["readout"]["E_img"]["med_err_deg"]
                if d1p.exists() else None)
     rot_errs = [angles[str(a)]["median_abs_error_deg_heldout"] for a in ROT_ANGLES]
+    rate = [v["images_per_second"] for v in reencode.values() if v.get("images_per_second")]
     out["consistency_checks"] = {
         "cached_encodes_adopted": adopted,
         "reencode_verification": reencode,
+        "encode_throughput": {
+            "images_per_second_median": float(np.median(rate)) if rate else None,
+            "images_per_second_range": ([float(np.min(rate)), float(np.max(rate))]
+                                        if rate else None),
+            "n_batches_timed": len(rate), "images_per_batch": N_REENCODE,
+            "total_images_encoded": int(N_REENCODE * len(rate)),
+            "implied_seconds_for_one_full_population_encode":
+                (float(len(idx) / np.median(rate)) if rate else None),
+            "note": ("measured on short bursts that each include the first-batch warm-up, so "
+                     "this is a lower bound on the steady-state rate of a long sweep")},
         "reencode_note": ("a subsample re-encoded through the frozen model under the operators "
                           "in lib/transforms.py and compared with the cached rows; this is what "
                           "establishes that each file is the operator its name claims and is "

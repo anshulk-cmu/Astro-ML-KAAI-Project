@@ -115,7 +115,10 @@ def reencode_check(cubes, operator, legacy_rows, device="cuda", batch=C.ENCODE_B
     same statistic returns when the rows are deliberately offset by one, so the check's power
     to fail is recorded beside its result rather than assumed.
     """
+    import time
+    t0 = time.time()
     got = _encode_array(operator(cubes), device=device, batch=batch)
+    elapsed = time.time() - t0
     d = np.abs(got - legacy_rows)
     num = (got * legacy_rows).sum(1)
     den = np.linalg.norm(got, axis=1) * np.linalg.norm(legacy_rows, axis=1)
@@ -124,6 +127,8 @@ def reencode_check(cubes, operator, legacy_rows, device="cuda", batch=C.ENCODE_B
             "max_abs_diff": float(d.max()), "median_abs_diff": float(np.median(d)),
             "mean_cosine": float(np.mean(num / den)),
             "control_rolled_by_one_median_abs_diff": float(np.median(rolled)),
+            "encode_seconds": round(elapsed, 2),
+            "images_per_second": round(len(got) / elapsed, 2) if elapsed > 0 else None,
             "note": ("median 0 means bitwise agreement on the majority of components; a small "
                      "max reflects non-deterministic GPU reduction order, not a different "
                      "operator. The rolled control is what a one-row misalignment would give.")}

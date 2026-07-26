@@ -354,15 +354,15 @@ A signed shift is the quantity this diagnostic measures, so a sign error would n
 
 **The frame relation.** The cutouts are a north-up, east-left tangent projection from the Legacy Surveys viewer, so east is the -x direction and north the +y direction, and a direction at position angle PA east of north has components (-sin PA, cos PA). The array angle should therefore equal PA + 90, same-handed. This is measured, not quoted. Using the mean resultant length of the doubled angle as the statistic that decides handedness, the same-handed pairing concentrates at **R = 0.9866** while the opposite pairing does not, at **R = 0.0346**; only one pairing can. The offset is **89.854 ± 0.212 degrees** over 493 galaxies whose adaptive-moment fit converged, with a median absolute residual of 0.356 degrees, which is **0.69 standard errors** from exactly 90. [measured]
 
-That offset matters for one element of the group and not the other. Writing the array angle as `theta_arr = theta + c`, a rotation moves both by -phi and c cancels from the difference, so the rotation test is insensitive to it. A reflection does not cancel it:
+That offset matters for one element of the group and not the other. Write the array angle as `theta_arr = theta + c`, so that the catalog angle is recovered as `theta = theta_arr - c`. Under a rotation both angles move by -phi, so c cancels from their difference and the rotation test cannot see it. Under a reflection it does not cancel. The mirror sends `theta_arr` to `-theta_arr`, and reading the catalog angle back out of the reflected image gives
 
-> theta -> theta_arr - c -> -theta_arr - c = -(theta + c) - c = -theta - 2c
+> theta' = (-theta_arr) - c = -(theta + c) - c = -theta - 2c
 
-so with c exactly 90 the reflected readout is -theta modulo 180, and a departure `c = 90 + delta` appears as a constant extra shift of **-2 delta**. Measuring c from the pixels therefore converts the reflection offset from a nuisance fitted to the flip data into a prediction the flip data can contradict. Section 5.6 reports the comparison.
+so with c exactly 90 the reflected readout is `-theta - 180`, which is `-theta` modulo 180, and a departure `c = 90 + delta` leaves a constant extra shift of **-2 delta**. Measuring c from the pixels therefore converts the reflection offset from a nuisance fitted to the flip data into a prediction the flip data can contradict. Section 5.6 reports the comparison.
 
 ### 5.3 The transformed inputs, and how they were verified
 
-Eight transformed encodes are used: rotations by 30, 60, 90, 120, 150 and 180 degrees, the mirror, and the mirror followed by a 30-degree rotation. Each is a (15,893 × 1,024) float32 array over the elongated population in ascending anchor order. They were produced by an earlier run at a cost of about two and a quarter hours of GPU time and are reused rather than recomputed.
+Eight transformed encodes are used: rotations by 30, 60, 90, 120, 150 and 180 degrees, the mirror, and the mirror followed by a 30-degree rotation. Each is a (15,893 × 1,024) float32 array over the elongated population in ascending anchor order. They were produced by an earlier run and are reused rather than recomputed. At the encoding rate measured during this run, **14.6 images per second**, the eight files represent about 127,000 encodes and roughly two and a half hours of GPU time, so reuse is what makes this diagnostic cost minutes instead of hours. [measured]
 
 Reusing them requires proof that each file is the operation its name claims and that its rows correspond to the galaxies the current population mask selects. A structural check cannot establish either. The check used is direct: **64 galaxies were re-encoded through the frozen model under the operators in `lib/transforms.py` and compared with the cached rows**. For all eight files the median absolute difference is **0.0** and the mean cosine is **1.0000000** to seven decimal places, with a largest single-component difference of 0.047 across all eight, which is non-deterministic GPU reduction order rather than a different operator. As a measure of the check's power to fail, the same statistic computed against the legacy rows rolled by one row gives median absolute differences of **0.210 to 0.218**. [measured]
 
@@ -383,7 +383,7 @@ One probe pair, fit once on the untransformed embeddings of the 12,714 training 
 | 150 | -30 | +30 | +29.918 | +29.948 | 2.573 | [2.468, 2.679] |
 | 180 | 0 | 0 | -0.006 | -0.010 | 1.986 | [1.912, 2.082] |
 
-Fitting the median recovered shift against the applied rotation folded into (-90, 90], with 90 degrees excluded, gives a slope of **-0.99896 with interval [-0.99960, -0.99825]** and a largest fit residual of 0.053 degrees. The resampling unit for that interval is the **galaxy**: each resample redraws galaxies, recomputes every angle's median shift on the same redrawn set, and refits, so the interval carries the correlation between angles that a per-angle interval would miss. On held-out galaxies alone the slope is **-0.99902 with interval [-1.00061, -0.99753]**. A slope of -1 is exact equivariance in the verified sign convention. The all-population interval misses -1 by 0.0002 while the held-out interval covers it; the held-out figure is the leakage-free one, so the departure is not resolved where it counts, and in absolute terms it is one part in a thousand of the applied rotation. [measured]
+Fitting the median recovered shift against the applied rotation folded into (-90, 90], with 90 degrees excluded, gives a slope of **-0.99896 with interval [-0.99960, -0.99825]** and a largest fit residual of 0.053 degrees. The resampling unit for that interval is the **galaxy**: each resample redraws galaxies, recomputes every angle's median shift on the same redrawn set, and refits, so the interval carries the correlation between angles that a per-angle interval would miss. On held-out galaxies alone the slope is **-0.99902 with interval [-1.00061, -0.99753]**. A slope of -1 is exact equivariance in the verified sign convention. The all-population interval stops **0.0004** short of -1 while the held-out interval covers it; the held-out figure is the leakage-free one, so the departure is not resolved where it counts, and the point estimate itself sits one part in a thousand away from -1. [measured]
 
 **On 90 degrees.** Plus and minus 90 are the same point on a mod-180 loop, so a *signed* median shift there is not a well-defined quantity, and the scoping document excludes it from the fit for that reason. The plain median returns -50.639, which is an artifact of averaging values that straddle the wrap. The circular mean of the doubled angle does not straddle anything, because doubling maps ±90 to the same point, and it returns **-89.967**: the magnitude is recovered correctly at 90 degrees and only its sign is undetermined. The per-galaxy error there, 2.622 degrees, is as small as at any other angle. [measured]
 
@@ -438,7 +438,9 @@ Stellar mass is reported with its sample size rather than dropped: only 1,058 el
 | featured vote fraction | -0.0025 | -0.0293 | **-0.0261 [-0.0397, -0.0128]** | +0.0007 [-0.0094, +0.0101] |
 | stellar mass | -0.0044 | -0.0127 | +0.0122 [-0.0208, +0.0515] | -0.0149 [-0.0614, +0.0213] |
 
-The intervals separate the two cases rather than leaving the reading to the point estimates. For the two morphology readouts the loss under an off-axis rotation **excludes zero**, while the change under the mirror **covers zero**. The mirror changes orientation as completely as any rotation does, so a readout that survives it unharmed and degrades only when the pixels are resampled is telling us about the resampling, not about invariance. Colour is consistent with no change under either. Stellar mass is consistent with no change under both, but its intervals are wide enough at n = 261 that it constrains little either way, and it is quoted here as such rather than as support. Morphology is eight to twelve times more sensitive than colour, which is consistent with morphology votes depending on fine structure that interpolation blurs while colour is an integrated flux ratio that it barely touches. [measured; the attribution to resampling is interpreted, and rests on the mirror control]
+The intervals separate the two cases rather than leaving the reading to the point estimates. For the two morphology readouts the loss under an off-axis rotation **excludes zero**, while the change under the mirror **covers zero**. The mirror changes orientation as completely as any rotation does, so a readout that survives it unharmed and degrades only when the pixels are resampled is telling us about the resampling, not about invariance. Colour is consistent with no change under either. Stellar mass is consistent with no change under both, but its intervals are wide enough at n = 261 that it constrains little either way, and it is quoted here as such rather than as support.
+
+The two morphology readouts also lose more than colour does, by roughly a factor of nine on the mean off-axis change, -0.0271 and -0.0293 against -0.0030. That comparison is deliberately not quoted as a precise ratio: colour's own change is consistent with zero, so the denominator is consistent with zero, and the per-operation ratios range from 4 to 19 for that reason. The defensible statement is the ordering, not its size, and the ordering is what a physical reading predicts, since morphology votes depend on fine structure that interpolation blurs while colour is an integrated flux ratio that blurring barely touches. [measured; the attribution to resampling is interpreted, and rests on the mirror control]
 
 Measured as movement rather than accuracy, and expressed in units of each readout's own spread so that the physical probe and the null are on one scale, a 30-degree rotation moves the colour readout by 0.144 of its spread and the morphology readouts by 0.220 and 0.220, against **0.456** for random directions; stellar mass moves by 0.157 against 0.505. Every physical readout moves by less than half what an arbitrary direction moves by, and its accuracy is preserved while doing so. [measured]
 
@@ -641,11 +643,14 @@ One row per claim, with its section, key numbers, evidential tier and artifact. 
 **Reproducing the suite.** The environment is pinned in `envInterp.txt` at the repository root (Python 3.11.14, NumPy 1.26.4, SciPy 1.17.0, scikit-learn 1.8.0). With the anchor data present under `data/`:
 
 ```
-python paper1/runAll.py            status and provenance of every diagnostic
-python paper1/runAll.py d1         run one diagnostic and render its figures
-python paper1/runAll.py --verify   re-hash every recorded input and compare
-python -m pytest paper1/tests -q   convention and null-calibration tests
+python -B paper1/runAll.py            status and provenance of every diagnostic
+python -B paper1/runAll.py d1         run one diagnostic and render its figures
+python -B paper1/runAll.py --verify   re-hash every recorded input and compare
+python -B -m pytest paper1/tests -q   convention, null and cache-safety tests
+python -B paper1/auditReport.py       check every number here against its artifact
 ```
+
+The `-B` flag is not optional in practice. `config.py` disables bytecode writing once it is imported, but modules imported before it are already cached by then, so only `-B` at launch leaves the tree clean.
 
 **Provenance.** Every results file carries the git revision and dirty flag, the UTC timestamp, wall-clock seconds, the seed, interpreter and package versions, the platform, and the SHA-256 and byte count of every input file read. `runAll.py --verify` re-hashes those inputs and reports any that have changed since the run, so a result can never be silently attributed to data it was not computed from.
 
@@ -666,6 +671,8 @@ python -B paper1/auditReport.py 5    one section
 ```
 
 The audit exits non-zero if any number in the report fails to match a stored value. Counts are deliberately not quoted here: they change with every edit, and the condition that matters is that the unmatched count is zero.
+
+**What the audit does not do**, stated because relying on it further than this would be a mistake. It checks that a written number exists somewhere in the artifacts at the precision it is written to. It does not check that the number is the right one for the sentence it sits in, so a value that is correct elsewhere in the artifact can pass while being wrong in context. It also cannot check arithmetic performed in the prose, such as a ratio of two stored values or the distance between an interval endpoint and a target. Those are verified by hand, and a claim of that kind that failed such a check is the reason this paragraph exists.
 
 ## Appendix B: glossary
 
@@ -736,7 +743,7 @@ Analysis environment, recorded in every results file rather than described here 
 
 Randomness is seeded throughout at seed 0, and train and test splits use that seed everywhere.
 
-Diagnostics 1 to 9 read the frozen embeddings already on disk; those that transform inputs re-encode through the frozen model on one RTX 5070 Ti laptop GPU at approximately 17 images per second, which is the unit cost for pricing any re-encoding sweep. Diagnostics that only probe existing embeddings are CPU-only.
+Diagnostics 1 to 9 read the frozen embeddings already on disk; those that transform inputs re-encode through the frozen model on one RTX 5070 Ti laptop GPU. The re-encoding rate is measured rather than recalled: Diagnostic 2 times each of its eight verification bursts and records a **median of 14.6 images per second**, ranging from 4.8 on the first burst, which carries the model load, to 15.7 on the fastest. Because every burst includes some warm-up, this is a lower bound on the steady-state rate of a long sweep, and it is the figure to price sweeps with. One full pass over the 15,893 elongated galaxies is about 1,090 seconds at that rate. Diagnostics that only probe existing embeddings are CPU-only.
 
 Per-diagnostic wall-clock cost, from the provenance blocks:
 
@@ -746,7 +753,7 @@ Per-diagnostic wall-clock cost, from the provenance blocks:
 | d1 angle readout characterization | about 2 minutes, including the ten-split sensitivity sweep | CPU |
 | d2 O(2) equivariance | about 90 seconds, of which roughly 50 seconds is the GPU verification of the eight cached encodes | CPU, plus one GPU pass over 512 images |
 
-Diagnostic 2 reuses eight transformed encodes produced earlier at a cost of about two and a quarter hours of GPU time. Recomputing them is unnecessary but not impossible: at the measured throughput the eight files represent about 127,000 image encodes.
+Diagnostic 2 reuses eight transformed encodes produced by an earlier run. Recomputing them is unnecessary but not impossible: the eight files are about 127,000 image encodes, which at the measured rate is roughly two and a half hours of GPU time.
 
 `python paper1/runAll.py` prints the recorded revision, timestamp and cost for every diagnostic; `--verify` re-hashes every input file against the values stored at run time.
 
