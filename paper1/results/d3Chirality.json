@@ -113,7 +113,7 @@
         }
       },
       "EXTENSION_d_pure": {
-        "definition": "E(sandwich(x)) - E(majorflip(x)); both sides carry identical resampling, so this is chirality alone",
+        "definition": "E(sandwich(x)) - E(majorflip(x)); both sides carry the same NUMBER of rotations, which removes the systematic resampling difference but not the stochastic one, since the two paths land on different pixel grids. See EXTENSION_resampling_sensitivity: its absolute size is mostly resampling, and only differences between matched objects are interpretable",
         "by_pool": {
           "spiral_armed": {
             "n": 2432,
@@ -10385,11 +10385,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-27T05:57:45Z",
-    "wall_seconds": 38.3,
+    "utc": "2026-07-27T06:00:49Z",
+    "wall_seconds": 38.4,
     "git": {
-      "sha": "86bdb110ae292822a9c917ab194ed7a0a845eaf0",
-      "code_dirty": true,
+      "sha": "165021d7c58bc7a57b675d0ac310fdbdb28b27be",
+      "code_dirty": false,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",
