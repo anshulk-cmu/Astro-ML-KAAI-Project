@@ -10112,11 +10112,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-27T04:08:50Z",
-    "wall_seconds": 33.6,
+    "utc": "2026-07-27T04:10:09Z",
+    "wall_seconds": 32.9,
     "git": {
-      "sha": "cf9f486fe2b39c7c3b5b8302fe27dec42f276294",
-      "code_dirty": true,
+      "sha": "1e49a3b8331b97c8042363c16f4ea48535306334",
+      "code_dirty": false,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",
