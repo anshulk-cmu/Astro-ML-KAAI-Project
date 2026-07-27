@@ -21,9 +21,6 @@ Verified consequences of the two operators implemented here:
   mirror(imgs)        array_angle -> -array_angle       (mod 180)
 
 Contract (to implement):
-  major_axis_flip(imgs, pa)  rotate the major axis horizontal, flip vertically, rotate back.
-                             Leaves position angle, ellipticity and the elliptical envelope
-                             unchanged; inverts chirality. Diagnostic 3's isolating operator.
   blur(imgs, fwhm_target, fwhm_current)   Moffat convolution to worse seeing
   add_noise(imgs, depth_target)           noise to a target point-source depth
   zero_band(imgs, band)                   band ablation and synthetic band-blanking
@@ -81,6 +78,47 @@ def mirror(imgs):
     intervention in the suite.
     """
     return np.ascontiguousarray(np.flip(np.asarray(imgs), axis=-1))
+
+
+def _per_object(imgs, angles_deg, flip_rows):
+    """Rotate each object to put its major axis horizontal, optionally flip about that axis,
+    then rotate back. Applied object by object because the angle differs per object."""
+    a = np.asarray(imgs, dtype=np.float32)
+    ang = np.asarray(angles_deg, float)
+    if ang.shape != (len(a),):
+        raise ValueError(f"expected one angle per object, got {ang.shape} for {len(a)} objects")
+    out = np.empty_like(a)
+    for i in range(len(a)):
+        r = rotate(a[i], ang[i])
+        if flip_rows:
+            r = np.flip(r, axis=-2)
+        out[i] = rotate(r, -ang[i])
+    return out
+
+
+def major_axis_flip(imgs, pa_deg):
+    """Flip each object about its OWN major axis. Diagnostic 3's isolating operator.
+
+    Rotate the major axis horizontal, flip vertically, rotate back. This leaves the position
+    angle, the ellipticity and the whole elliptical envelope unchanged, and inverts chirality,
+    so the difference it produces contains only what the model sees beyond the ellipse.
+
+    The object's major axis sits at array angle pa + ARRAY_TO_CATALOG_OFFSET_DEG, and
+    rotate(+phi) decreases the array angle by phi, so rotating by that angle brings the major
+    axis to array angle 0, where a flip of the rows leaves it fixed.
+    """
+    return _per_object(imgs, np.asarray(pa_deg, float) + ARRAY_TO_CATALOG_OFFSET_DEG, True)
+
+
+def axis_sandwich(imgs, pa_deg):
+    """The same two rotations as major_axis_flip with the flip omitted.
+
+    Diagnostic 3's matched-interpolation control. Rotation resamples and the resampling
+    damages fine structure more than smooth structure, so an uncontrolled comparison of
+    featured against smooth objects would attribute a resampling difference to chirality.
+    This operator carries exactly the same resampling and inverts nothing.
+    """
+    return _per_object(imgs, np.asarray(pa_deg, float) + ARRAY_TO_CATALOG_OFFSET_DEG, False)
 
 
 def adaptive_moments(im, sigma0=4.0, n_iter=40, tol=1e-4):

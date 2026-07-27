@@ -159,6 +159,26 @@ def _encode_array(arr, device="cuda", batch=C.ENCODE_BATCH):
     return out
 
 
+class BatchTransform:
+    """A lazily transformed view of an image array.
+
+    A full-population sweep at 96 by 96 in four bands is several gigabytes per condition, so
+    the transform is applied batch by batch as the encoder consumes it rather than
+    materialised. `encode` needs only len() and slicing, which is all this provides.
+    """
+
+    def __init__(self, imgs, rows, fn, angles=None):
+        self.imgs, self.rows, self.fn, self.angles = imgs, rows, fn, angles
+
+    def __len__(self):
+        return len(self.rows)
+
+    def __getitem__(self, sl):
+        cube = np.stack([np.asarray(self.imgs[i], np.float32) for i in self.rows[sl]])
+        return cube if self.fn is None else (
+            self.fn(cube) if self.angles is None else self.fn(cube, self.angles[sl]))
+
+
 _LOADED = {}
 
 
