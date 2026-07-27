@@ -79,11 +79,24 @@ def params_for(operator, n):
     return {"operator": operator, "population": POPULATION, "n": int(n)}
 
 
-def ensure_encodes(device="cuda"):
-    """Encode the three conditions over the full population, resuming if interrupted.
+def _twice(fn):
+    """The operator applied twice, for the antisymmetry test."""
+    return lambda cube, angles: fn(fn(cube, angles), angles)
 
-    Kept separate from the analysis so the expensive step runs once and the analysis can be
-    iterated against the cache afterwards.
+
+OPS = {"original": None,
+       "majorflip": T.major_axis_flip,
+       "sandwich": T.axis_sandwich,
+       "majorflip_twice": _twice(T.major_axis_flip),
+       "sandwich_twice": _twice(T.axis_sandwich)}
+
+
+def ensure_encodes(device="cuda", include_twice=True):
+    """Encode every condition over the full population, resuming if interrupted.
+
+    Returns immediately for anything already cached, so calling it from `main` costs nothing
+    on a repeat run and makes the diagnostic reproducible from an empty cache without anyone
+    having to know to run a separate step first.
     """
     df = D.anchor()
     idx = population(df)
@@ -91,16 +104,19 @@ def ensure_encodes(device="cuda"):
     rows = np.load(C.OK_INDEX)[idx]
     imgs = np.load(C.IMAGES, mmap_mode="r")
     n = len(idx)
-    print(f"population {n} galaxies with a defined position angle", flush=True)
+    wanted = dict(TAGS, **TWICE_TAGS) if include_twice else dict(TAGS)
+    missing = [t for t, o in wanted.values() if E.cached(t, params_for(o, n)) is None]
+    if missing:
+        print(f"population {n}; {len(missing)} condition(s) to encode: {missing}", flush=True)
 
-    ops = {"original": None, "majorflip": T.major_axis_flip, "sandwich": T.axis_sandwich}
     out = {}
-    for key, (tag, operator) in TAGS.items():
+    for key, (tag, operator) in wanted.items():
         t0 = time.time()
-        fn = ops[key]
+        fn = OPS[key]
         source = E.BatchTransform(imgs, rows, fn, None if fn is None else pa)
         out[key] = E.encode(source, tag, params_for(operator, n), device=device)
-        print(f"{tag}: {out[key].shape} in {time.time() - t0:.0f}s", flush=True)
+        if tag in missing:
+            print(f"{tag}: {out[key].shape} in {time.time() - t0:.0f}s", flush=True)
     return out
 
 
@@ -239,12 +255,10 @@ def main():
     pa_deg = df["paDeg"].to_numpy(float)[idx]
     ellip = df["ellip"].to_numpy(float)[idx]
 
-    enc = {}
-    for key, (tag, operator) in TAGS.items():
-        hit = E.cached(tag, params_for(operator, n))
-        if hit is None:
-            raise RuntimeError(f"encode {tag} is missing or incomplete; run ensure_encodes()")
-        enc[key] = hit
+    # Produces anything missing and returns the rest from cache, so a clean checkout
+    # reproduces this diagnostic with one command rather than needing a separate step.
+    everything = ensure_encodes()
+    enc = {k: everything[k] for k in TAGS}
 
     ei = np.load(C.E_IMG)
     mu, sd = ei.mean(0), ei.std(0) + 1e-8
@@ -325,7 +339,7 @@ def main():
     # so the residual of the identity is the distance between the original encode and the
     # twice-flipped one. That distance also carries four interpolations, so it is reported
     # beside the same quantity for four rotations with no flip, which is its floor.
-    twice = {k: E.cached(t, params_for(o, n)) for k, (t, o) in TWICE_TAGS.items()}
+    twice = {k: everything.get(k) for k in TWICE_TAGS}
     if all(v is not None for v in twice.values()):
         zt = {k: ((v - mu) / sd).astype(np.float32) for k, v in twice.items()}
         resid = z["original"] - zt["majorflip_twice"]
@@ -593,7 +607,8 @@ def main():
              **{f"pool_{k}": m for k, (m, _) in pl.items()})
 
     inputs = [C.E_IMG, C.OK_INDEX, C.SAMPLE, C.SHAPES, C.COVARIATES, C.IMAGES]
-    inputs += [C.CACHE / f"{TAGS[k][0]}.npy" for k in TAGS]
+    inputs += [C.CACHE / f"{t}.npy" for t, _ in dict(TAGS, **TWICE_TAGS).values()
+               if (C.CACHE / f"{t}.npy").exists()]
     path = provenance.write(NAME, out, inputs, t0)
 
     print(f"n={n}  pools " + ", ".join(f"{k}={v['n']}" for k, v in out['population']['pools'].items()))

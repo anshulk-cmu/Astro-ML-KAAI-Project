@@ -10385,11 +10385,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-27T06:00:49Z",
-    "wall_seconds": 38.4,
+    "utc": "2026-07-27T21:30:51Z",
+    "wall_seconds": 41.3,
     "git": {
-      "sha": "165021d7c58bc7a57b675d0ac310fdbdb28b27be",
-      "code_dirty": false,
+      "sha": "2ba531d7b06b153d17eb1a86a02a5dd2f607ff32",
+      "code_dirty": true,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",
@@ -10451,6 +10451,16 @@
       "d3Sandwich.npy": {
         "path": "D:\\AstroML-Project\\paper1\\cache\\d3Sandwich.npy",
         "sha256": "d503a9541eae30b5128d25b7a1010fdcaaa1e3f07d22b0d98e8fc2506084c333",
+        "bytes": 178880640
+      },
+      "d3MajorFlipTwice.npy": {
+        "path": "D:\\AstroML-Project\\paper1\\cache\\d3MajorFlipTwice.npy",
+        "sha256": "11f2288864f0a42188e1912d4c2ddc5d005a970abc83e73a729aeca28f397963",
+        "bytes": 178880640
+      },
+      "d3SandwichTwice.npy": {
+        "path": "D:\\AstroML-Project\\paper1\\cache\\d3SandwichTwice.npy",
+        "sha256": "7f2fa36047c209affbf1c39b3249dbb6cbf0e0b5b22d5959bba7afbd1f8d9504",
         "bytes": 178880640
       }
     }

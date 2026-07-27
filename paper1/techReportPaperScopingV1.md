@@ -376,7 +376,9 @@ An earlier and weaker idea for this check is recorded here because its failure i
 
 One probe pair, fit once on the untransformed embeddings of the 12,714 training galaxies and never refit, recovers 2.027 degrees on the 3,179 held-out galaxies. That fit is identical to Diagnostic 1's, and reproduces it to **exactly 0.0 degrees**. It is then applied unchanged to each rotated encode. The recovered shift is the circular difference between the transformed and untransformed readouts of the same galaxy.
 
-| applied | folded | expected shift | median recovered shift | circular mean | held-out error (deg) | 95% CI |
+The two summary columns cover different populations, which the scoping document asks to be reported separately. The shift columns are over all 15,893 elongated galaxies, because a shift is a comparison of the model with itself and no label enters it. The error column is over the 3,179 held-out galaxies only, and is the leakage-free one. Both are in the artifact for every angle.
+
+| applied | folded | expected shift | median shift, all | circular mean, all | error, held out (deg) | 95% CI |
 |---|---|---|---|---|---|---|
 | 30 | +30 | -30 | -29.926 | -29.928 | 2.619 | [2.539, 2.737] |
 | 60 | +60 | -60 | -59.979 | -59.938 | 2.691 | [2.573, 2.816] |
