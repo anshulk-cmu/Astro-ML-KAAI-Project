@@ -32,7 +32,7 @@ Tier and status for all nine diagnostics.
 |---|---|---|---|---|---|
 | 1 | Angle readout characterization | I | descriptive | **run 2026-07-25** | 2.027 deg [1.946, 2.116], loop radius 0.9886, n=3,179 held out; chance 45; error scales as ellipticity^-0.97 |
 | 2 | O(2) equivariance | I | **input-space causal** | **run 2026-07-25** | slope -0.99896 [-0.99960, -0.99825] against applied rotation, held-out interval covering -1; half turn returns to -0.006 deg; reflection nodes and antinodes reproduced with a 2.8-3.0 deg residual; physical readouts do not move |
-| 3 | Chirality | I | **input-space causal** | not yet run here | |
+| 3 | Chirality | I | **input-space causal** | **run 2026-07-26** | parity-odd information survives: matched pairs give a +19.4 per cent excess for spiral-armed galaxies, sign test p = 1.6e-33, against -0.441 for the resampling null; but handedness is NOT a single axis, so no self-supervised label |
 | 4 | Nuisance decodability and leakage | II | descriptive | not yet run here | |
 | 5 | Degradation response | II | **input-space causal** | not yet run here | |
 | 6 | Decodability battery | III | descriptive | not yet run here | |
@@ -486,16 +486,124 @@ Not established here: that the model *uses* this coordinate for any downstream p
 
 **Science question.** Does the model encode parity-odd structure, spiral arm handedness, or has it discarded a real physical observable?
 
-**Procedure as implemented.** *pending*
+### 6.1 Why the obvious test fails, and what replaces it
 
-**Nulls.** *pending*: the achiral elliptical population; the same procedure with a rotation instead of a flip.
+Comparing a pool of originals against a pool of mirror images measures nothing. Handedness is roughly even in nature, so the two pools have the same distribution. The test has to be paired, each object against its own reflection.
 
-**Results.** *pending*
+A plain mirror will not do either. Diagnostic 2 established that the readout tracks position angle under reflection almost exactly, so a plain paired difference would be dominated by orientation and would tell us only what Section 5 already did.
 
-**What it tells us.** *pending*: both outcomes are informative, which is why it is worth running. A null means the model discarded a real observable, which is a concrete demonstration that augmentation choices delete physics from representations. A positive result hands over a self-supervised handedness label as a by-product.
+The isolating operation is a flip about the object's **own major axis**: rotate until that axis is horizontal, flip, rotate back. It leaves the position angle, the ellipticity and the entire elliptical envelope unchanged, and inverts chirality. What the difference contains is therefore only what the model sees beyond the ellipse.
 
+### 6.2 What the gate established before anything was encoded
 
-**Artifacts.** `paper1/diagnostics/d3Chirality.py`, `paper1/results/d3Chirality.json`, `paper1/figures/d3*.png`
+The operator is pinned by thirteen tests in `paper1/tests/testMajorAxisFlip.py`, which run before any encoding. The decisive one builds a logarithmic spiral of one handedness, flips it about its major axis, and requires the result to reproduce an **independently constructed** spiral of the opposite handedness rather than anything derived from the first. It also pins that an achiral ellipse is left alone by the flip, that the envelope axis and ellipticity survive, that the operator is an involution, and that the control carries the same interpolation loss to within 1e-3. [measured]
+
+Two facts the gate produced changed the design.
+
+**The flip needs two off-axis rotations, so it resamples.** Diagnostic 2 measured that off-axis rotation costs the morphology readout about 0.027 in R2 while an interpolation-free operation costs nothing, because resampling destroys fine structure. The scoping document treats the smooth pool's displacement as the interpolation floor, but that floor is not shared: featured objects have more fine structure and could lose more from the rotations alone. A per-object **matched-interpolation control** was therefore added, `axis_sandwich`, which applies the same two rotations with the flip omitted. It also serves as the scoping document's own second null, the same procedure with a rotation instead of a flip.
+
+**The flip preserves the envelope axis but not a chiral object's apparent angle.** On synthetic spirals the arms pull the moment angle 5.78 degrees off the envelope axis, and the flip reflects that offset to the other side, so the apparent orientation moves by twice it. Whether the model's readout follows the envelope or the moments is therefore measured here rather than assumed. [measured]
+
+### 6.3 Population and conditions
+
+Every anchor galaxy with a defined position angle, **43,672**, with no subsampling. This is a wider population than Diagnostics 1 and 2 use, deliberately: the operator needs a fitted major axis, which is what a defined position angle means, while chirality is most visible in face-on discs, which are round and would be removed by an ellipticity cut.
+
+| pool | definition | n |
+|---|---|---|
+| spiral armed | has-spiral-arms vote fraction above 0.5 | 2,432 |
+| featured | featured-or-disk vote fraction above 0.7 | 1,943 |
+| edge on | edge-on vote fraction above 0.5 | 1,362 |
+| smooth | smooth vote fraction above 0.7, the achiral control | 30,852 |
+
+Three conditions were encoded through the frozen model over the full population, **131,016 encodes**: the untransformed images, the major-axis flip, and the matched control. Three differences follow, all on embeddings z-scored with the same statistics used in Sections 4 and 5.
+
+| symbol | definition | what it contains |
+|---|---|---|
+| d_spec | E(x) - E(flip(x)) | the scoping document's definition: chirality plus the resampling |
+| d_pure | E(sandwich(x)) - E(flip(x)) | both sides resampled identically, so the flip alone |
+| d_resampling | E(x) - E(sandwich(x)) | the resampling alone, and the declared null |
+
+### 6.4 Does a parity inversion move the representation more for chiral objects
+
+| pool | d_spec | d_pure | d_resampling |
+|---|---|---|---|
+| spiral armed | 13.847 [13.599, 14.053] | **11.270 [11.005, 11.494]** | 7.442 [7.284, 7.582] |
+| featured | 13.953 [13.663, 14.157] | 10.872 [10.667, 11.021] | 7.710 [7.547, 7.862] |
+| edge on | 12.203 [11.910, 12.512] | 9.728 [9.466, 9.997] | 7.334 [7.188, 7.498] |
+| smooth (achiral) | 12.487 [12.434, 12.536] | **10.106 [10.051, 10.167]** | 7.628 [7.594, 7.665] |
+
+Medians of the difference norm in z-scored units, with bootstrap intervals over galaxies. The spiral-to-smooth ratio is 1.109 for the scoping definition and 1.115 once the resampling is matched. [measured]
+
+**The suspected confound was checked and is absent.** The resampling-only ratio is **0.976**, below 1: smooth galaxies lose marginally more to the two rotations than spirals do, not less. The concern that motivated the control turns out not to apply to this statistic, which is worth stating plainly because the control was built to catch it. [measured]
+
+**The pools differ in more than handedness**, so the raw comparison is not enough. Spiral-armed galaxies are larger, brighter and more elongated than smooth ones, and all three change how far any perturbation moves an embedding. Each spiral was therefore matched to a distinct smooth galaxy of the same ellipticity, r magnitude and angular size, giving **2,057 pairs** balanced to 0.199 against 0.186 in ellipticity, 17.45 against 17.52 in magnitude, and 0.561 against 0.523 in log size.
+
+| paired comparison | median excess | 95% CI | pairs with the spiral higher | sign test |
+|---|---|---|---|---|
+| under the flip | **+1.815** | [1.615, 2.107] | 1,301 of 2,057 (63.2 per cent) | p = 1.6e-33 |
+| under the resampling null | -0.441 | [-0.721, -0.226] | 939 of 2,057 (45.6 per cent) | p = 8.6e-5 |
+
+A spiral moves 1.815 further than an otherwise identical smooth galaxy under the flip, which is 19.4 per cent of the smooth median, and the same pairs under the operation that inverts nothing move in the opposite direction. Any residual mismatch in size or brightness would push both rows the same way, so the contrast between them is not explained by imperfect matching. [measured]
+
+**The excess tracks arms rather than being featured.** Galaxies with recorded spiral arms give 11.270 [11.005, 11.494]. Featured galaxies without recorded arms give 9.332 [9.002, 9.836] on 443 objects, below the smooth baseline. Edge-on discs, which carry arms that cannot be resolved as handedness, give 9.728 [9.466, 9.997], also below it. The pool physics predicts to be most symmetric about its major axis is measured as the most symmetric. [measured; the reading is interpreted]
+
+### 6.5 Is it a single axis, and does a handedness label fall out
+
+This is the part of the scoping document's design that does not survive. If handedness were one encoded feature, the difference vectors would lie along plus or minus one direction c, and the sign of each object's projection onto c would be a handedness label at arbitrary sample size.
+
+| pool | leading variance fraction | sign balance | mean norm / median norm | fraction along the leading axis |
+|---|---|---|---|---|
+| spiral armed | 0.2409 | 0.583 | 0.098 | 0.245 |
+| featured | 0.2478 | 0.592 | 0.112 | 0.255 |
+| smooth (achiral) | **0.2966** | 0.577 | 0.128 | 0.263 |
+| edge on | **0.3391** | 0.604 | 0.162 | 0.305 |
+| random direction | 0.000907 | | | |
+
+The leading axis carries far more than a random direction would, which is 1/1024. But it carries **more in the achiral pools than in the chiral one**, and an axis that is stronger where there is no handedness cannot be handedness. Restricting to a well determined major axis does not change this: above ellipticity 0.3 the spiral pool gives 0.2586 and the smooth pool 0.3080. Only a quarter of each difference lies along the leading axis, and the distribution of projections is unimodal at zero rather than the two clusters at plus and minus c that an encoded handedness requires. **No self-supervised handedness label is available from this representation.** [measured]
+
+That a dominant axis exists at all is not evidence to the contrary, and the artifact records why. The statistic is calibrated on every run against three synthetic cases with known answers. A true handedness axis gives a leading fraction of **0.9002** with sign balance 0.521 and a mean-to-median ratio of 0.041. A constant offset shared by every object, which is what a systematic resampling residual looks like, gives a leading fraction of **0.8004**, just as dominant, but sign balance 1.000 and a ratio of 0.895. Structureless noise gives 0.0028. A dominant leading axis therefore separates neither case on its own, and the three columns above have to be read together; they place the observed structure in neither category. [measured]
+
+### 6.6 Controls
+
+**The resampling null has its own axis, and it is a different one.** On the spiral pool the resampling difference gives a leading fraction of 0.3199 with sign balance 0.377 and a mean-to-median ratio of 0.451, the signature of a partly systematic offset. The cosine between the chirality axis and the resampling axis is **0.0154**, so the flip and the resampling write to essentially orthogonal directions. [measured]
+
+**The orientation leak is real, large, and not chirality specific.** Applying the frozen Diagnostic 1 probe to the flipped and control embeddings, the readout shifts by a median of 6.438 degrees for spirals, 5.577 for smooth galaxies, and only 1.818 for edge-on discs. If this were the chirality effect predicted in Section 6.2 it would appear in the chiral pool alone. It does not. It tracks how well the major axis is determined, which is what the ellipticity grading shows.
+
+| catalog ellipticity | n (spiral pool) | median &#124;d_pure&#124; | median &#124;readout shift&#124; (deg) |
+|---|---|---|---|
+| 0.0 to 0.1 | 341 | 11.629 | 15.392 |
+| 0.1 to 0.2 | 799 | 11.453 | 9.256 |
+| 0.2 to 0.3 | 653 | 11.068 | 5.811 |
+| 0.3 to 0.5 | 588 | 10.993 | 3.310 |
+| 0.5 to 1.0 | 51 | 9.725 | 3.978 |
+
+The flip is about the **catalog** major axis, whose uncertainty grows as an object becomes round, and flipping about an axis that is wrong by an angle rotates the object by twice that angle. The leak falls by a factor of nearly five across the range while the difference norm barely moves, and the rank correlation between the two is only +0.120 [0.078, 0.159] in the spiral pool and +0.053 [0.042, 0.064] in the smooth pool. The displacement being measured is therefore not mostly orientation, but the leak is a real limit on how cleanly the operator isolates chirality for round objects, which are exactly the ones whose arms are most visible. [measured; the attribution to catalog angle error is interpreted]
+
+### 6.7 Nulls
+
+| null | type | result | analytic expectation |
+|---|---|---|---|
+| achiral smooth pool | population control | d_pure 10.106 [10.051, 10.167] against 11.270 for spirals | lower than the chiral pool |
+| rotation instead of a flip | population control | spiral-to-smooth ratio 0.976; paired excess -0.441 | no excess for chiral objects |
+| random directions | matched-norm random directions | 0.000907 of the variance | 1/1024 = 0.000977 |
+
+All three behave as they should. The random-direction null reproduces its analytic value, and the rotation null shows no chiral excess on either the pooled or the paired comparison. [measured]
+
+### 6.8 What the result does and does not establish
+
+Established, on this substrate and this population: a parity inversion applied to the input **moves the representation measurably more for galaxies with spiral arms than for otherwise identical galaxies without them**, by 19.4 per cent on matched pairs with a sign test at p = 1.6e-33, while the same pairs under an operation that resamples identically but inverts nothing move the other way. Parity-odd information therefore survives in the frozen embedding rather than having been discarded. The ordering across pools follows the physics: arms above featured-without-arms, and edge-on discs, whose handedness is not resolvable, at the bottom.
+
+Not established, and the scoping document expected it might be: **handedness is not encoded as a single direction**. The leading axis of the difference is stronger in achiral pools than chiral ones, only a quarter of the difference lies along it, and the projections are unimodal. The self-supervised handedness label the design hoped to extract does not exist in this representation, and this diagnostic does not deliver one.
+
+Two limits on the positive result. The matched control equalises ellipticity, brightness and angular size, but not the amount of resolved internal structure; a galaxy with arms has more structure that is asymmetric about its major axis than a smooth galaxy of the same size, so the measurement cannot fully separate "the model encodes handedness" from "the model responds to asymmetry about the major axis, of which arms are the main kind". Because the single-axis test fails, nothing here distinguishes those two readings, and the weaker one is what is claimed. And the operator flips about the catalog axis, so for round objects it inverts parity about a slightly wrong line, which the orientation leak quantifies at up to 15 degrees in the roundest bin.
+
+No external handedness catalogue was used. The scoping document marks that validation optional, and none is held locally.
+
+**Artifacts.** `paper1/diagnostics/d3Chirality.py`, `paper1/diagnostics/d3ChiralityFigures.py`, `paper1/results/d3Chirality.json`, `paper1/results/d3ChiralityArrays.npz`, figures `d3Magnitude.png`, `d3Axis.png`, `d3Controls.png`.
+
+![Magnitude](figures/d3Magnitude.png)
+![Axis](figures/d3Axis.png)
+![Controls](figures/d3Controls.png)
 
 ---
 
@@ -637,6 +745,12 @@ One row per claim, with its section, key numbers, evidential tier and artifact. 
 | 22 | Both declared nulls reproduce their analytic values on both axes | 5.9 | random directions: slope -0.0058 [-0.139, +0.118] against 0, error 44.33 deg [37.88, 47.61] against 45 | input-space causal | d2Equivariance.json |
 | 23 | The cached transformed encodes are the operators they claim and are row aligned | 5.3 | all eight reproduce on re-encoding with median absolute difference 0.0 and mean cosine 1.0000000; rolled control 0.210 to 0.218 | input-space causal | d2Equivariance.json |
 | 24 | Rotation displaces the embedding further than galaxy identity holds it | 5.3 | nearest-neighbour self-match 0.840 at 180 deg, 0.055 at 90 deg, 0.045 at 120 deg | input-space causal | d2Equivariance.json |
+| 25 | A parity inversion moves the representation more for spiral-armed galaxies than for matched non-spirals | 6.4 | +1.815 [1.615, 2.107] on 2,057 matched pairs, 19.4 per cent of the smooth median, 63.2 per cent of pairs positive, sign test p = 1.6e-33 | input-space causal | d3Chirality.json |
+| 26 | That excess is specific to the parity inversion, not to the resampling it carries | 6.4 | the same pairs under the rotation-only null give -0.441 [-0.721, -0.226], the opposite sign | input-space causal | d3Chirality.json |
+| 27 | The excess tracks resolved arms rather than being featured | 6.4 | arms 11.270 [11.005, 11.494]; featured without recorded arms 9.332 [9.002, 9.836]; edge-on discs 9.728 [9.466, 9.997], both below the smooth baseline of 10.106 | input-space causal | d3Chirality.json |
+| 28 | Handedness is NOT encoded as a single direction, so no self-supervised label exists | 6.5 | leading variance fraction 0.2409 for spirals against 0.2966 for the achiral pool; only 0.245 of the difference lies along it; projections unimodal | input-space causal | d3Chirality.json |
+| 29 | The chirality axis and the resampling axis are essentially orthogonal | 6.6 | cosine 0.0154 | input-space causal | d3Chirality.json |
+| 30 | The operator's isolation degrades for round objects, because it flips about the catalog axis | 6.6 | readout shift 15.392 deg in the roundest bin falling to 3.310 deg above ellipticity 0.3; not chirality specific, since the achiral pool leaks 5.577 deg | input-space causal | d3Chirality.json |
 
 ---
 
@@ -656,7 +770,7 @@ The `-B` flag is not optional in practice. `config.py` disables bytecode writing
 
 **Provenance.** Every results file carries the git revision and dirty flag, the UTC timestamp, wall-clock seconds, the seed, interpreter and package versions, the platform, and the SHA-256 and byte count of every input file read. `runAll.py --verify` re-hashes those inputs and reports any that have changed since the run, so a result can never be silently attributed to data it was not computed from.
 
-**Test suite.** Sixty tests cover the three failure modes that would invalidate results without producing an error: an incorrect convention, an uncalibrated null, and a reused embedding that is not what it claims to be. Fifty-four run by default in about four seconds and none of them is skipped. The remaining six need the model weights and a GPU, and are run deliberately with `PAPER1_GPU_TESTS=1`.
+**Test suite.** Seventy-three tests cover the three failure modes that would invalidate results without producing an error: an incorrect convention, an uncalibrated null, and a reused embedding that is not what it claims to be. Sixty-seven run by default in about four seconds and none of them is skipped. The remaining six need the model weights and a GPU, and are run deliberately with `PAPER1_GPU_TESTS=1`.
 
 - *Conventions* (`tests/testConventions.py`): the ellipticity identities, the axial-doubling reconstruction, inclination from axis ratio, the exclusion of circular-by-construction models, uniformity of retained position angles, and the inverse-elongation scaling of the catalog angle uncertainty, all checked against the real catalog rather than against documentation.
 - *Nulls and circular machinery* (`tests/testNulls.py`): the analytic chance floors of 45 and 90 degrees for axial and full-circle quantities, wrap symmetry across the seam, collapse of both error and loop radius under shuffled labels, recovery and radius on synthetic data of known signal strength, the loop-radius shrinkage identity at three signal levels, near-orthogonality of random directions in high dimension, determinism of the split, and boundedness of the error by the period.
@@ -722,7 +836,7 @@ The audit exits non-zero if any number in the report fails to match a stored val
 |---|---|---|---|
 | 1 | `diagnostics/d1AngleReadout.py`, `d1AngleReadoutFigures.py` | `results/d1AngleReadout.json`, `d1AngleReadoutProjection.npy` | `d1Loop`, `d1Elongation`, `d1Nulls`, `d1Invariance`, `d1Heteroscedasticity` |
 | 2 | `diagnostics/d2Equivariance.py`, `d2EquivarianceFigures.py` | `results/d2Equivariance.json`, `d2EquivarianceArrays.npz` | `d2Rotation`, `d2Mirror`, `d2Invariance`, `d2Nulls` |
-| 3 | `diagnostics/d3Chirality.py` | `results/d3Chirality.json` | |
+| 3 | `diagnostics/d3Chirality.py`, `d3ChiralityFigures.py` | `results/d3Chirality.json`, `d3ChiralityArrays.npz` | `d3Magnitude`, `d3Axis`, `d3Controls` |
 | 4 | `diagnostics/d4NuisanceLeakage.py` | `results/d4NuisanceLeakage.json` | |
 | 5 | `diagnostics/d5Degradation.py` | `results/d5Degradation.json` | |
 | 6 | `diagnostics/d6Decodability.py` | `results/d6Decodability.json` | |
@@ -757,6 +871,7 @@ Per-diagnostic wall-clock cost, from the provenance blocks:
 | d0 dataset and substrate audit | about 1 second | CPU |
 | d1 angle readout characterization | about 2 minutes, including the ten-split sensitivity sweep | CPU |
 | d2 O(2) equivariance | about 90 seconds, of which roughly 50 seconds is the GPU verification of the eight cached encodes | CPU, plus one GPU pass over 512 images |
+| d3 chirality | about 30 seconds for the analysis, after roughly 45 minutes of GPU for each of the three conditions | one GPU sweep of 131,016 encodes, then CPU |
 
 Diagnostic 2 reuses eight transformed encodes produced by an earlier run. Recomputing them is unnecessary but not impossible: the eight files are about 127,000 image encodes, which at the measured rate is roughly two and a half hours of GPU time.
 

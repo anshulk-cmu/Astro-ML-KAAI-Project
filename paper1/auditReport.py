@@ -48,6 +48,10 @@ CONSTANTS = {
     "0.085": "half the width of the stored interval [1.945620, 2.116485], which is 0.085433",
     "0.0007": "the shrinkage-identity gap, 0.984608 minus 0.983902, which is 0.000707",
     "1.7": "the displacement slope's shortfall from 1 as a percentage: (1 - 0.9825972) x 100",
+    "5.78": "the moment-angle offset of a synthetic chiral object, measured by "
+            "tests/testMajorAxisFlip.py rather than by a diagnostic; a property of the "
+            "operator, not of the data, and the report names the test",
+    "131016.0": "3 conditions x 43,672 galaxies, arithmetic on two stored values",
 }
 
 SECTION = re.compile(r"^#{2,3}\s+(\d+)(?:\.(\d+))?\.?\s+")
@@ -61,7 +65,8 @@ SECTION = re.compile(r"^#{2,3}\s+(\d+)(?:\.(\d+))?\.?\s+")
 # dimension and the analysis constants may legitimately be cited from any section.
 REFERENCE = "d0DatasetAudit"
 SECTION_SOURCE = {"1": (REFERENCE,), "2": (REFERENCE,), "3": (REFERENCE,),
-                  "4": (REFERENCE, "d1AngleReadout"), "5": (REFERENCE, "d2Equivariance")}
+                  "4": (REFERENCE, "d1AngleReadout"), "5": (REFERENCE, "d2Equivariance"),
+                  "6": (REFERENCE, "d3Chirality", "d2Equivariance")}
 BANNED = ["rerun", "re-run", "defect", "bug", "workaround", "prior work", "old code",
           "pre-harness", "corrections ledger", "TODO", "FIXME"]
 
@@ -174,9 +179,10 @@ def audit(want=None):
                 if any(matches(tok, v) for _, v in allowed):
                     continue
                 # a value written as a percentage of a stored fraction
-                tail = clean[m.end():m.end() + 9].lstrip()
-                if (tail.startswith("%") or tail.startswith("percent")) and \
-                        any(matches(tok, v * 100.0) for _, v in values):
+                tail = clean[m.end():m.end() + 10].lstrip()
+                if (tail.startswith("%") or tail.startswith("percent")
+                    or tail.startswith("per cent")) and \
+                        any(matches(tok, v * 100.0) for _, v in allowed):
                     continue
                 if any(tok in t for t in texts):
                     in_string += 1
