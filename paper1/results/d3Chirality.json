@@ -7832,6 +7832,126 @@
       },
       "reading": "the paired difference is the excess displacement of a spiral over an otherwise identical smooth galaxy. The resampling row is the same comparison for the operation that inverts nothing, on the same pairs, so any residual mismatch in size or brightness would move both rows together. It is what the chirality row has to beat"
     },
+    "EXTENSION_adversarial_checks": {
+      "scale_reference": {
+        "median_distance_between_two_different_galaxies": 43.650718688964844,
+        "median_norm_z_embedding": 28.99997329711914,
+        "flip_displacement_as_fraction_of_that_distance": 0.23152542114257812,
+        "why": "without a scale a displacement of ten is uninterpretable. This says what fraction of the way to a completely different galaxy the flip moves one"
+      },
+      "permutation_null": {
+        "observed_excess": 1.8152885437011719,
+        "null_median": -0.060729026794433594,
+        "null_ci": [
+          -0.339005970954895,
+          0.30863609313964846
+        ],
+        "sigma_above_null": 10.245334376092517,
+        "n_draws": 200,
+        "why": "randomly swaps which member of each pair counts as the spiral. If the excess were an artifact of the pairing it would survive the swap"
+      },
+      "ellipticity_threshold_sweep": {
+        "rows": [
+          {
+            "ellip_above": 0.0,
+            "n_pairs": 2057,
+            "flip_excess": 1.8152885437011719,
+            "flip_excess_ci": [
+              1.6146841049194336,
+              2.1072598218917844
+            ],
+            "fraction_positive": 0.6324744773942635,
+            "p_value": 1.602526822894966e-33,
+            "resampling_excess": -0.4408836364746094
+          },
+          {
+            "ellip_above": 0.3,
+            "n_pairs": 580,
+            "flip_excess": 2.1944704055786133,
+            "flip_excess_ci": [
+              1.5816477775573732,
+              2.6665449142456055
+            ],
+            "fraction_positive": 0.6672413793103448,
+            "p_value": 5.97807995995546e-16,
+            "resampling_excess": 0.3058435916900635
+          },
+          {
+            "ellip_above": 0.4,
+            "n_pairs": 239,
+            "flip_excess": 2.2165446281433105,
+            "flip_excess_ci": [
+              1.6738653182983398,
+              3.0393199920654297
+            ],
+            "fraction_positive": 0.6903765690376569,
+            "p_value": 3.8138925506274404e-09,
+            "resampling_excess": 0.672335147857666
+          }
+        ],
+        "why": "the operator flips about the catalog axis, so it is cleanest for elongated objects. A real effect should not weaken as the operator improves"
+      },
+      "matching_order_robustness": {
+        "rows": [
+          {
+            "order_seed": 0,
+            "n_pairs": 1917,
+            "flip_excess": 1.7761402130126953,
+            "fraction_positive": 0.6291079812206573
+          },
+          {
+            "order_seed": 1,
+            "n_pairs": 1911,
+            "flip_excess": 1.9221858978271484,
+            "fraction_positive": 0.6368393511250654
+          },
+          {
+            "order_seed": 2,
+            "n_pairs": 1915,
+            "flip_excess": 1.8856563568115234,
+            "fraction_positive": 0.6381201044386423
+          },
+          {
+            "order_seed": 3,
+            "n_pairs": 1912,
+            "flip_excess": 1.8866820335388184,
+            "fraction_positive": 0.6317991631799164
+          }
+        ],
+        "why": "greedy assignment has one arbitrary choice, the order sources claim matches"
+      },
+      "percentile_profile": {
+        "percentiles": [
+          10,
+          25,
+          50,
+          75,
+          90
+        ],
+        "spiral": [
+          6.919851303100586,
+          8.903751373291016,
+          11.527917861938477,
+          14.694327354431152,
+          18.455137634277342
+        ],
+        "matched_smooth": [
+          5.769501304626465,
+          7.119361877441406,
+          9.350249290466309,
+          12.702020645141602,
+          16.7450984954834
+        ],
+        "difference": [
+          1.1503499984741206,
+          1.7843894958496094,
+          2.177668571472168,
+          1.9923067092895508,
+          1.7100391387939418
+        ],
+        "why": "shows whether the excess is carried by the bulk or by a tail of outliers"
+      }
+    },
     "EXTENSION_arms_versus_featured": {
       "spiral_armed": {
         "n": 2432,
@@ -10112,11 +10232,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-27T04:10:09Z",
-    "wall_seconds": 32.9,
+    "utc": "2026-07-27T04:49:15Z",
+    "wall_seconds": 36.8,
     "git": {
-      "sha": "1e49a3b8331b97c8042363c16f4ea48535306334",
-      "code_dirty": false,
+      "sha": "95225588e9db95e55a781747075fa372015eba61",
+      "code_dirty": true,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",

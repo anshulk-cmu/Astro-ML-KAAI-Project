@@ -170,6 +170,33 @@ def axis_structure(d, mask, n_random=N_RANDOM_DIR, seed=C.SEED):
             "leading_axis": c.astype(float).tolist()}
 
 
+def match_pairs(fs, src_mask, pool_mask, order_seed=None, n_candidates=40):
+    """Pair each source object with a distinct pool object nearest to it in covariate space.
+
+    Matching is without replacement, so the pool object used for one spiral cannot be reused.
+    `order_seed` randomises the order in which sources claim their match, which is the only
+    arbitrary choice in a greedy assignment and is varied to show the result does not turn on it.
+    """
+    src = np.where(src_mask)[0]
+    pool = np.where(pool_mask)[0]
+    if len(src) == 0 or len(pool) == 0:
+        return np.array([], int), np.array([], int)
+    nn = NearestNeighbors(n_neighbors=1).fit(fs[pool])
+    order = (np.random.default_rng(order_seed).permutation(len(src)) if order_seed is not None
+             else np.argsort(-np.linalg.norm(fs[src], axis=1)))
+    taken, a, b = set(), [], []
+    k = min(n_candidates, len(pool))
+    for j in src[order]:
+        _, who = nn.kneighbors(fs[j][None], n_neighbors=k)
+        for cand in pool[who[0]]:
+            if cand not in taken:
+                taken.add(cand)
+                a.append(j)
+                b.append(cand)
+                break
+    return np.array(a, int), np.array(b, int)
+
+
 def calibrate_axis_statistic(dim=1024, n=2000, seed=C.SEED):
     """What the single-axis statistic returns in three cases with known answers.
 
@@ -345,25 +372,12 @@ def main():
                             np.log10(df["shape_r"].to_numpy(float)[idx] + 1e-3)])
     good = np.isfinite(feat).all(1)
     fs = (feat - np.nanmean(feat[good], 0)) / (np.nanstd(feat[good], 0) + 1e-12)
-    src = np.where(pl["spiral_armed"][0] & good)[0]
-    pool = np.where(pl["smooth"][0] & good)[0]
-    nn = NearestNeighbors(n_neighbors=1).fit(fs[pool])
-    taken, pairs = set(), []
-    order = np.argsort(-np.linalg.norm(fs[src], axis=1))
-    for j in src[order]:
-        dist, who = nn.kneighbors(fs[j][None], n_neighbors=min(40, len(pool)))
-        for cand in pool[who[0]]:
-            if cand not in taken:
-                taken.add(cand)
-                pairs.append((j, cand))
-                break
-    pa_i = np.array([p[0] for p in pairs])
-    pb_i = np.array([p[1] for p in pairs])
     nrm = lambda d, s: np.linalg.norm(d[s], axis=1)
+    pa_i, pb_i = match_pairs(fs, pl["spiral_armed"][0] & good, pl["smooth"][0] & good)
     delta = nrm(d_pure, pa_i) - nrm(d_pure, pb_i)
     delta_rs = nrm(d_resamp, pa_i) - nrm(d_resamp, pb_i)
     out["EXTENSION_matched_control"] = {
-        "n_pairs": int(len(pairs)),
+        "n_pairs": int(len(pa_i)),
         "matched_on": ["catalog ellipticity", "r magnitude", "log angular size shape_r"],
         "balance_after_matching": {
             k: {"spiral": float(np.median(feat[pa_i, i])),
@@ -388,6 +402,65 @@ def main():
                     "comparison for the operation that inverts nothing, on the same pairs, so "
                     "any residual mismatch in size or brightness would move both rows "
                     "together. It is what the chirality row has to beat")}
+
+    # ---- adversarial checks on the paired result ----
+    # Every one of these is an attempt to make the excess go away.
+    rng_p = np.random.default_rng(C.SEED)
+    perm = [float(np.median(np.where(rng_p.random(len(delta)) < 0.5, -delta, delta)))
+            for _ in range(200)]
+    between = np.linalg.norm(
+        z["original"][rng_p.choice(n, 4000)] - z["original"][rng_p.choice(n, 4000)], axis=1)
+    sweep = []
+    for thr in (0.0, C.ELLIP_CUT, 0.4):
+        m = ellip > thr
+        qa, qb = match_pairs(fs, pl["spiral_armed"][0] & good & m, pl["smooth"][0] & good)
+        if len(qa) < 60:
+            continue
+        dl, dr = nrm(d_pure, qa) - nrm(d_pure, qb), nrm(d_resamp, qa) - nrm(d_resamp, qb)
+        sweep.append({"ellip_above": thr, "n_pairs": int(len(dl)),
+                      "flip_excess": float(np.median(dl)), "flip_excess_ci": P.boot_stat(dl, np.median),
+                      "fraction_positive": float((dl > 0).mean()),
+                      "p_value": float(binomtest(int((dl > 0).sum()), len(dl), 0.5).pvalue),
+                      "resampling_excess": float(np.median(dr))})
+    seeds = []
+    for s in range(4):
+        qa, qb = match_pairs(fs, pl["spiral_armed"][0] & good, pl["smooth"][0] & good,
+                             order_seed=s)
+        dl = nrm(d_pure, qa) - nrm(d_pure, qb)
+        seeds.append({"order_seed": s, "n_pairs": int(len(dl)),
+                      "flip_excess": float(np.median(dl)),
+                      "fraction_positive": float((dl > 0).mean())})
+    xs, ys = nrm(d_pure, pa_i), nrm(d_pure, pb_i)
+    out["EXTENSION_adversarial_checks"] = {
+        "scale_reference": {
+            "median_distance_between_two_different_galaxies": float(np.median(between)),
+            "median_norm_z_embedding": float(np.median(np.linalg.norm(z["original"], axis=1))),
+            "flip_displacement_as_fraction_of_that_distance":
+                float(np.median(nrm(d_pure, pl["smooth"][0])) / np.median(between)),
+            "why": ("without a scale a displacement of ten is uninterpretable. This says what "
+                    "fraction of the way to a completely different galaxy the flip moves one")},
+        "permutation_null": {
+            "observed_excess": float(np.median(delta)),
+            "null_median": float(np.median(perm)), "null_ci": P.ci(perm),
+            "sigma_above_null": float((np.median(delta) - np.mean(perm)) / (np.std(perm) + 1e-12)),
+            "n_draws": len(perm),
+            "why": ("randomly swaps which member of each pair counts as the spiral. If the "
+                    "excess were an artifact of the pairing it would survive the swap")},
+        "ellipticity_threshold_sweep": {
+            "rows": sweep,
+            "why": ("the operator flips about the catalog axis, so it is cleanest for "
+                    "elongated objects. A real effect should not weaken as the operator "
+                    "improves")},
+        "matching_order_robustness": {
+            "rows": seeds,
+            "why": "greedy assignment has one arbitrary choice, the order sources claim matches"},
+        "percentile_profile": {
+            "percentiles": [10, 25, 50, 75, 90],
+            "spiral": [float(np.percentile(xs, q)) for q in (10, 25, 50, 75, 90)],
+            "matched_smooth": [float(np.percentile(ys, q)) for q in (10, 25, 50, 75, 90)],
+            "difference": [float(np.percentile(xs, q) - np.percentile(ys, q))
+                           for q in (10, 25, 50, 75, 90)],
+            "why": "shows whether the excess is carried by the bulk or by a tail of outliers"}}
 
     # Is the excess about arms specifically, or about being featured at all?
     fs_mask = pl["featured"][0] & ~pl["spiral_armed"][0]

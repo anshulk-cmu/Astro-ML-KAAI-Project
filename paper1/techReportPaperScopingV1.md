@@ -534,7 +534,7 @@ Three conditions were encoded through the frozen model over the full population,
 
 Medians of the difference norm in z-scored units, with bootstrap intervals over galaxies. The spiral-to-smooth ratio is 1.109 for the scoping definition and 1.115 once the resampling is matched. [measured]
 
-**The suspected confound was checked and is absent.** The resampling-only ratio is **0.976**, below 1: smooth galaxies lose marginally more to the two rotations than spirals do, not less. The concern that motivated the control turns out not to apply to this statistic, which is worth stating plainly because the control was built to catch it. [measured]
+**The suspected confound is absent in the pooled comparison and present, but small, once round objects are removed.** The resampling-only ratio over the whole population is **0.976**, below 1: smooth galaxies lose marginally more to the two rotations than spirals do. On matched pairs the resampling excess is -0.441 for the full sample but turns positive when the sample is restricted to a well determined axis, reaching +0.306 above ellipticity 0.3 and +0.672 above 0.4. So the effect the control was built to catch does exist in the regime where the operator works best; it is roughly a seventh the size of the flip signal there, which is why the conclusion survives it. Stating both halves, because the pooled number on its own would read as a clean exoneration and it is not one. [measured]
 
 **The pools differ in more than handedness**, so the raw comparison is not enough. Spiral-armed galaxies are larger, brighter and more elongated than smooth ones, and all three change how far any perturbation moves an embedding. Each spiral was therefore matched to a distinct smooth galaxy of the same ellipticity, r magnitude and angular size, giving **2,057 pairs** balanced to 0.199 against 0.186 in ellipticity, 17.45 against 17.52 in magnitude, and 0.561 against 0.523 in log size.
 
@@ -543,7 +543,19 @@ Medians of the difference norm in z-scored units, with bootstrap intervals over 
 | under the flip | **+1.815** | [1.615, 2.107] | 1,301 of 2,057 (63.2 per cent) | p = 1.6e-33 |
 | under the resampling null | -0.441 | [-0.721, -0.226] | 939 of 2,057 (45.6 per cent) | p = 8.6e-5 |
 
-A spiral moves 1.815 further than an otherwise identical smooth galaxy under the flip, which is 19.4 per cent of the smooth median, and the same pairs under the operation that inverts nothing move in the opposite direction. Any residual mismatch in size or brightness would push both rows the same way, so the contrast between them is not explained by imperfect matching. [measured]
+A spiral moves 1.815 further than an otherwise identical smooth galaxy under the flip, which is 19.4 per cent of the smooth median, while the same pairs under the operation that inverts nothing move by -0.441. Any residual mismatch in size or brightness would push both rows the same way, so the contrast between them is not explained by imperfect matching. [measured]
+
+**Five attempts to make the excess go away.** Each is recorded in the artifact and recomputed on every execution.
+
+| check | result |
+|---|---|
+| scale reference | the flip moves a smooth galaxy 23.2 per cent of the way to a completely different galaxy, so the displacement is not at the noise level |
+| permutation null | randomly swapping which member of each pair counts as the spiral gives -0.061 [-0.339, +0.309] against the observed +1.815, which sits 10.2 standard deviations above it |
+| well determined axis | the excess **grows** as the operator improves: +1.815 on 2,057 pairs, +2.194 [1.582, 2.667] above ellipticity 0.3 on 580 pairs, +2.217 above 0.4 on 239 pairs, with the sign test at p = 6.0e-16 and 3.8e-9 |
+| matching order | greedy assignment repeated with four randomised orders gives +1.776, +1.922, +1.886 and +1.887 |
+| bulk or tail | the spiral side is higher at every percentile from the 10th to the 90th, by +1.15, +1.78, +2.18, +1.99 and +1.71 |
+
+The excess is not an artifact of the pairing, does not depend on the assignment order, is not carried by outliers, and strengthens rather than weakens in the regime where the operator isolates chirality best. [measured]
 
 **The excess tracks arms rather than being featured.** Galaxies with recorded spiral arms give 11.270 [11.005, 11.494]. Featured galaxies without recorded arms give 9.332 [9.002, 9.836] on 443 objects, below the smooth baseline. Edge-on discs, which carry arms that cannot be resolved as handedness, give 9.728 [9.466, 9.997], also below it. The pool physics predicts to be most symmetric about its major axis is measured as the most symmetric. [measured; the reading is interpreted]
 
