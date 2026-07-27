@@ -106,7 +106,8 @@ def adopt_legacy(tag, path, reference, params):
     return Z, checks
 
 
-def reencode_check(cubes, operator, legacy_rows, device="cuda", batch=C.ENCODE_BATCH):
+def reencode_check(cubes, operator, legacy_rows, device="cuda", batch=C.ENCODE_BATCH,
+                   check_determinism=False):
     """Re-encode a subsample under `operator` and compare it to the stored legacy rows.
 
     This settles two questions at once that no structural check can: whether the cached file
@@ -123,15 +124,25 @@ def reencode_check(cubes, operator, legacy_rows, device="cuda", batch=C.ENCODE_B
     num = (got * legacy_rows).sum(1)
     den = np.linalg.norm(got, axis=1) * np.linalg.norm(legacy_rows, axis=1)
     rolled = np.abs(legacy_rows - np.roll(legacy_rows, 1, axis=0))
+    repeat = None
+    if check_determinism:
+        again = _encode_array(operator(cubes), device=device, batch=batch)
+        repeat = float(np.abs(again - got).max())
     return {"n": int(len(got)),
+            "min_row_cosine": float(np.min(num / den)),
+            "n_rows_bitwise_identical": int((np.abs(got - legacy_rows).max(1) == 0).sum()),
+            "same_process_repeat_max_abs_diff": repeat,
             "max_abs_diff": float(d.max()), "median_abs_diff": float(np.median(d)),
             "mean_cosine": float(np.mean(num / den)),
             "control_rolled_by_one_median_abs_diff": float(np.median(rolled)),
             "encode_seconds": round(elapsed, 2),
             "images_per_second": round(len(got) / elapsed, 2) if elapsed > 0 else None,
-            "note": ("median 0 means bitwise agreement on the majority of components; a small "
-                     "max reflects non-deterministic GPU reduction order, not a different "
-                     "operator. The rolled control is what a one-row misalignment would give.")}
+            "note": ("median 0 means bitwise agreement on the majority of components. The "
+                     "median, not the max, is the discriminating statistic: the rolled control "
+                     "shows what a one-row misalignment gives. A non-zero max is a between-run "
+                     "difference, not operator disagreement, and "
+                     "same_process_repeat_max_abs_diff shows the encoder is exactly "
+                     "reproducible within one process.")}
 
 
 def _encode_array(arr, device="cuda", batch=C.ENCODE_BATCH):

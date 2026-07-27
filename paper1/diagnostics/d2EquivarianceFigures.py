@@ -24,8 +24,9 @@ plt.rcParams.update({"figure.dpi": 150, "savefig.dpi": 200, "font.size": 9,
                      "axes.grid": True, "grid.alpha": 0.25})
 
 BLUE, RED, MID, GREEN = "#25506e", "#b8442e", "#4878a8", "#5a8f4a"
-GRID_ALIGNED = set(R["EXTENSION_resampling_split"]["rationale"] and
-                   ["mirror", "rotate_90", "rotate_180"])
+GRID_ALIGNED = frozenset(R["EXTENSION_resampling_split"]["by_label"]
+                         [next(iter(R["EXTENSION_resampling_split"]["by_label"]))]
+                         ["grid_aligned_ops"])
 
 
 def save(fig, stem):
@@ -146,13 +147,12 @@ def fig_invariance():
     fig, ax = plt.subplots(1, 2, figsize=(11.5, 4.3))
     w = 0.8 / len(probes)
     xa = np.arange(len(ops))
-    aligned = {"rotate_90", "rotate_180", "mirror"}
     for i, (k, v) in enumerate(probes.items()):
         ax[0].bar(xa + i * w - 0.4 + w / 2,
                   [v["under_transform"][o]["delta_r2"] for o in ops], w,
                   color=cols[i], label=f"{labels[k]} (n = {v['n_heldout']:,})")
     for j, o in enumerate(ops):
-        if o in aligned:
+        if o in GRID_ALIGNED:
             ax[0].axvspan(j - 0.5, j + 0.5, color=GREEN, alpha=0.08, zorder=0)
     ax[0].axhline(0, color="0.3", lw=1)
     ax[0].set_xticks(xa, short, fontsize=8)

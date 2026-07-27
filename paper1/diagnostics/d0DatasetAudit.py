@@ -88,14 +88,14 @@ def main():
     for k, c in labels.items():
         if c not in df:
             continue
-        ok, v = D.valid(df, c)
+        valid, v = D.valid(df, c)
         fin = int(np.isfinite(v).sum())
         src, f = C.LABEL_SOURCES.get(c, ("undeclared", "unknown"))
         cover[k] = {"column": c, "declared_source": src, "source_file": f,
-                    "n_finite": fin, "n_valid": int(ok.sum()),
-                    "n_sentinel": fin - int(ok.sum()),
+                    "n_finite": fin, "n_valid": int(valid.sum()),
+                    "n_sentinel": fin - int(valid.sum()),
                     "sentinel_min": C.SENTINEL_MIN.get(c),
-                    "coverage_valid": round(float(ok.mean()), 4)}
+                    "coverage_valid": round(float(valid.mean()), 4)}
     out["label_coverage"] = cover
     out["label_coverage_note"] = ("n_valid applies the declared sentinel rule; n_finite is what a "
                                   "bare isfinite gives. Every diagnostic masks on n_valid. "

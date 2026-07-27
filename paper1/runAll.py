@@ -32,8 +32,10 @@ DIAGNOSTICS = {
 }
 
 
+sys.path.insert(0, str(C.PAPER1 / "diagnostics"))
+
+
 def load(module):
-    sys.path.insert(0, str(C.PAPER1 / "diagnostics"))
     return importlib.import_module(module)
 
 
@@ -81,7 +83,9 @@ def run(keys, figures_only=False):
             t0 = time.time()
             print(f"\n=== {k} {title} :: {name} ===", flush=True)
             try:
-                load(name).main() if hasattr(load(name), "main") else None
+                module = load(name)
+                if hasattr(module, "main"):
+                    module.main()
                 ok = True
             except NotImplementedError as e:
                 print(f"  not implemented: {e}")

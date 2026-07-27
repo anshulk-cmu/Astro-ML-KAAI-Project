@@ -45,9 +45,23 @@ CONSTANTS = {
     "179.0": "a worked example of the wrap, not a measurement",
     "178.0": "a worked example of the wrap, not a measurement",
     "5.1": "the ratio of two stored values, 10.329 over 2.027",
+    "0.085": "half the width of the stored interval [1.945620, 2.116485], which is 0.085433",
+    "0.0007": "the shrinkage-identity gap, 0.984608 minus 0.983902, which is 0.000707",
+    "1.7": "the displacement slope's shortfall from 1 as a percentage: (1 - 0.9825972) x 100",
 }
 
 SECTION = re.compile(r"^#{2,3}\s+(\d+)(?:\.(\d+))?\.?\s+")
+
+# Which artifact a section is allowed to draw its numbers from. Without this a number can
+# match some unrelated value elsewhere in the results and pass while being wrong in context,
+# which is how a stale figure survived one earlier pass. Sections not listed here (the
+# findings index and the appendices) restate numbers from every diagnostic and are matched
+# against all artifacts; that remains a known weaker check.
+# d0 is the reference audit, so shared facts such as the anchor size, the embedding
+# dimension and the analysis constants may legitimately be cited from any section.
+REFERENCE = "d0DatasetAudit"
+SECTION_SOURCE = {"1": (REFERENCE,), "2": (REFERENCE,), "3": (REFERENCE,),
+                  "4": (REFERENCE, "d1AngleReadout"), "5": (REFERENCE, "d2Equivariance")}
 BANNED = ["rerun", "re-run", "defect", "bug", "workaround", "prior work", "old code",
           "pre-harness", "corrections ledger", "TODO", "FIXME"]
 
@@ -144,6 +158,9 @@ def audit(want=None):
     for (num, heading), body in sections_of(text):
         if want and num != want:
             continue
+        source = SECTION_SOURCE.get(num)
+        allowed = [(p, v) for p, v in values
+                   if source is None or p.startswith(source)]  # source is a tuple of prefixes
         for line in body:
             if line.strip().startswith("![") or line.strip().startswith("```"):
                 continue
@@ -154,7 +171,7 @@ def audit(want=None):
                 if str(float(tok.replace(",", ""))) in CONSTANTS or tok in CONSTANTS:
                     declared += 1
                     continue
-                if any(matches(tok, v) for _, v in values):
+                if any(matches(tok, v) for _, v in allowed):
                     continue
                 # a value written as a percentage of a stored fraction
                 tail = clean[m.end():m.end() + 9].lstrip()
@@ -164,16 +181,19 @@ def audit(want=None):
                 if any(tok in t for t in texts):
                     in_string += 1
                     continue
+                elsewhere = [p for p, v in values if matches(tok, v)]
                 unmatched += 1
-                problems.append((num, tok, line.strip()[:150]))
+                problems.append((num, tok, line.strip()[:130],
+                                 elsewhere[0] if elsewhere else None))
 
     print(f"numeric tokens checked: {checked}")
     print(f"  matched to an artifact value: {checked - unmatched - declared - in_string}")
     print(f"  matched inside a recorded string (versions, paths): {in_string}")
     print(f"  declared constants:           {declared}")
     print(f"  UNMATCHED:                    {unmatched}")
-    for num, tok, line in problems:
-        print(f"    section {num}: {tok!r} in: {line}")
+    for num, tok, line, elsewhere in problems:
+        where = f"  [matches only {elsewhere}]" if elsewhere else ""
+        print(f"    section {num}: {tok!r} in: {line}{where}")
 
     bad_words = [(w, ln.strip()[:120]) for ln in text.splitlines()
                  for w in BANNED if w.lower() in ln.lower()]

@@ -181,7 +181,8 @@ def main():
 
     def verify(tag, Z, op):
         try:
-            reencode[tag] = E.reencode_check(cubes, op, Z[chk])
+            reencode[tag] = E.reencode_check(cubes, op, Z[chk],
+                                             check_determinism=not reencode)
         except Exception as exc:
             reencode[tag] = {"error": f"{type(exc).__name__}: {exc}"}
 
