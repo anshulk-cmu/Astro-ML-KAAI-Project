@@ -520,8 +520,10 @@ Three conditions were encoded through the frozen model over the full population,
 | symbol | definition | what it contains |
 |---|---|---|
 | d_spec | E(x) - E(flip(x)) | the scoping document's definition: chirality plus the resampling |
-| d_pure | E(sandwich(x)) - E(flip(x)) | both sides resampled identically, so the flip alone |
+| d_pure | E(sandwich(x)) - E(flip(x)) | both sides carry the same number of rotations |
 | d_resampling | E(x) - E(sandwich(x)) | the resampling alone, and the declared null |
+
+Section 6.7 shows that d_pure is **not** the flip alone, which was the intention behind it. Giving both sides the same number of rotations removes the systematic part of the resampling but not the stochastic part, because the two paths land on different pixel grids. Its absolute size is therefore mostly resampling, and only comparisons between matched objects, where the same resampling applies to both sides, carry a conclusion. That is why the matched-pair result below and not the pooled magnitude is the finding.
 
 ### 6.4 Does a parity inversion move the representation more for chiral objects
 
@@ -591,7 +593,43 @@ That a dominant axis exists at all is not evidence to the contrary, and the arti
 
 The flip is about the **catalog** major axis, whose uncertainty grows as an object becomes round, and flipping about an axis that is wrong by an angle rotates the object by twice that angle. The leak falls by a factor of nearly five across the range while the difference norm barely moves, and the rank correlation between the two is only +0.120 [0.078, 0.159] in the spiral pool and +0.053 [0.042, 0.064] in the smooth pool. The displacement being measured is therefore not mostly orientation, but the leak is a real limit on how cleanly the operator isolates chirality for round objects, which are exactly the ones whose arms are most visible. [measured; the attribution to catalog angle error is interpreted]
 
-### 6.7 Nulls
+### 6.7 The antisymmetry identity, and what it revealed about the encoder
+
+The scoping document states that the difference vector is "antisymmetric by construction", meaning d(flip(x)) = -d(x). That follows if the flip is an involution, which it is in pixel space: `tests/testMajorAxisFlip.py` verifies it to a correlation above 0.999. Whether it survives the **encoder** is a different question, and it was asserted rather than measured. Adding the two differences gives
+
+> d(x) + d(flip(x)) = E(x) - E(flip(flip(x)))
+
+so the residual of the identity is the distance between the original encode and the twice-flipped one. Two further conditions were encoded over the full population to measure it, along with the same four rotations carrying no flip, which is its floor.
+
+| quantity | median |
+|---|---|
+| antisymmetry residual, E(x) against the twice-flipped encode | 11.232 [11.199, 11.266] |
+| matched floor, four rotations with no flip | 10.149 [10.112, 10.182] |
+| ratio of the two | 1.107 |
+| the residual as a fraction of d_spec | 0.885 |
+
+The identity does **not** hold in embedding space. The residual is 88.5 per cent of the size of the quantity the diagnostic measures. But the reason is not that the flip fails to undo itself: the floor is 10.149, so almost all of the residual is present when no flip happens at all. [measured]
+
+**That floor is the substantive finding.** Four bilinear rotations that return an image almost exactly to where it started still move the embedding by 10.149, which is **23.3 per cent of the distance between two unrelated galaxies**. The encoder is strongly sensitive to resampling.
+
+| displacement | median | note |
+|---|---|---|
+| two rotations | 7.587 | |
+| four rotations | 10.149 | ratio to two rotations 1.338, against 1.414 if each resampling contributed independently |
+| d_pure | 10.352 | |
+| two independent resampling draws would give | 10.730 | d_pure reaches **0.965** of this |
+
+So d_pure, which compares two different two-rotation states, lands within four per cent of what two independent resampling draws alone would produce. Its absolute magnitude is therefore mostly the encoder reacting to interpolation, not chirality. [measured; the attribution is interpreted, and rests on the four-rotation floor]
+
+Three consequences, stated because they qualify the rest of this section.
+
+First, the pooled magnitudes in Section 6.4 cannot be read as chirality. Only the matched-pair comparison carries a conclusion, because there the same resampling applies to both members and the resampling-only control is measured on the same pairs.
+
+Second, it explains the otherwise puzzling result in Section 6.5. The leading axis of d_pure is stronger in the achiral pools than the chiral one, which was hard to interpret; if most of d_pure is resampling response, then most of the structure that analysis found is resampling structure, and there is no reason for it to be weaker where there is no handedness.
+
+Third, it qualifies every diagnostic that intervenes by interpolating, which is this one and Diagnostics 5 and 9. Any such measurement carries a resampling displacement of this size, and designs that compare an interpolated condition against a non-interpolated one will be dominated by it.
+
+### 6.8 Nulls
 
 | null | type | result | analytic expectation |
 |---|---|---|---|
@@ -601,13 +639,15 @@ The flip is about the **catalog** major axis, whose uncertainty grows as an obje
 
 All three behave as they should. The random-direction null reproduces its analytic value, and the rotation null shows no chiral excess on either the pooled or the paired comparison. [measured]
 
-### 6.8 What the result does and does not establish
+### 6.9 What the result does and does not establish
 
 Established, on this substrate and this population: a parity inversion applied to the input **moves the representation measurably more for galaxies with spiral arms than for otherwise identical galaxies without them**, by 19.4 per cent on matched pairs with a sign test at p = 1.6e-33, while the same pairs under an operation that resamples identically but inverts nothing move the other way. Parity-odd information therefore survives in the frozen embedding rather than having been discarded. The ordering across pools follows the physics: arms above featured-without-arms, and edge-on discs, whose handedness is not resolvable, at the bottom.
 
 Not established, and the scoping document expected it might be: **handedness is not encoded as a single direction**. The leading axis of the difference is stronger in achiral pools than chiral ones, only a quarter of the difference lies along it, and the projections are unimodal. The self-supervised handedness label the design hoped to extract does not exist in this representation, and this diagnostic does not deliver one.
 
-Two limits on the positive result. The matched control equalises ellipticity, brightness and angular size, but not the amount of resolved internal structure; a galaxy with arms has more structure that is asymmetric about its major axis than a smooth galaxy of the same size, so the measurement cannot fully separate "the model encodes handedness" from "the model responds to asymmetry about the major axis, of which arms are the main kind". Because the single-axis test fails, nothing here distinguishes those two readings, and the weaker one is what is claimed. And the operator flips about the catalog axis, so for round objects it inverts parity about a slightly wrong line, which the orientation leak quantifies at up to 15 degrees in the roundest bin.
+Also established, and not anticipated by the design: **the frozen encoder is strongly sensitive to resampling**. Four bilinear rotations returning an image almost exactly to itself move the embedding 23.3 per cent of the way to an unrelated galaxy. This is why the pooled magnitudes here carry no conclusion on their own, why the leading-axis structure appears in achiral pools too, and why the antisymmetry identity the scoping document treats as automatic fails in embedding space while holding in pixel space. It also sets a floor for Diagnostics 5 and 9, which intervene by interpolating.
+
+Three limits on the positive result. The matched control equalises ellipticity, brightness and angular size, but not the amount of resolved internal structure; a galaxy with arms has more structure that is asymmetric about its major axis than a smooth galaxy of the same size, so the measurement cannot fully separate "the model encodes handedness" from "the model responds to asymmetry about the major axis, of which arms are the main kind". Because the single-axis test fails, nothing here distinguishes those two readings, and the weaker one is what is claimed. The operator flips about the catalog axis, so for round objects it inverts parity about a slightly wrong line, which the orientation leak quantifies at up to 15 degrees in the roundest bin. And the excess is measured against a resampling background of comparable size, so it is a differential result and would not survive being restated as an absolute one.
 
 No external handedness catalogue was used. The scoping document marks that validation optional, and none is held locally.
 
@@ -763,6 +803,9 @@ One row per claim, with its section, key numbers, evidential tier and artifact. 
 | 28 | Handedness is NOT encoded as a single direction, so no self-supervised label exists | 6.5 | leading variance fraction 0.2409 for spirals against 0.2966 for the achiral pool; only 0.245 of the difference lies along it; projections unimodal | input-space causal | d3Chirality.json |
 | 29 | The chirality axis and the resampling axis are essentially orthogonal | 6.6 | cosine 0.0154 | input-space causal | d3Chirality.json |
 | 30 | The operator's isolation degrades for round objects, because it flips about the catalog axis | 6.6 | readout shift 15.392 deg in the roundest bin falling to 3.310 deg above ellipticity 0.3; not chirality specific, since the achiral pool leaks 5.577 deg | input-space causal | d3Chirality.json |
+| 31 | The frozen encoder is strongly sensitive to resampling | 6.7 | four rotations returning an image almost to itself move the embedding 10.149, which is 23.3 per cent of the distance between two unrelated galaxies | input-space causal | d3Chirality.json |
+| 32 | The antisymmetry the scoping document treats as automatic holds in pixel space but not in embedding space | 6.7 | residual 11.232 against a four-rotation floor of 10.149, ratio 1.107, and 0.885 of d_spec; pixel-space involution verified above 0.999 correlation | input-space causal | d3Chirality.json |
+| 33 | The absolute size of the flip difference is mostly resampling, so only matched differentials are interpretable | 6.7 | d_pure 10.352 against 10.730 for two independent resampling draws, reaching 0.965 of it | input-space causal | d3Chirality.json |
 
 ---
 

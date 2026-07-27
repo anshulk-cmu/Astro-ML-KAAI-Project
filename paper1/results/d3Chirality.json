@@ -262,6 +262,159 @@
       },
       "reading": "a ratio above 1 in the resampling row is the confound measured directly; the d_pure row is the same comparison with that confound removed"
     },
+    "EXTENSION_antisymmetry": {
+      "identity": "d(majorflip(x)) = -d(x), asserted by the scoping document",
+      "derivation": "adding the two differences gives d(x) + d(flip(x)) = E(x) - E(flip(flip(x))), so the residual of the identity is the distance between the original encode and the twice-flipped one",
+      "residual": {
+        "spiral_armed": {
+          "n": 2432,
+          "median_norm": 10.84842300415039,
+          "median_norm_ci": [
+            10.633251905441284,
+            11.039850187301635
+          ],
+          "mean_norm": 12.303182601928711,
+          "p10_p90": [
+            7.02214469909668,
+            18.204721832275393
+          ]
+        },
+        "featured": {
+          "n": 1943,
+          "median_norm": 11.069727897644043,
+          "median_norm_ci": [
+            10.812557697296143,
+            11.269118309020996
+          ],
+          "mean_norm": 12.839856147766113,
+          "p10_p90": [
+            7.141448211669922,
+            20.38570289611816
+          ]
+        },
+        "smooth": {
+          "n": 30852,
+          "median_norm": 11.304579734802246,
+          "median_norm_ci": [
+            11.260795795917511,
+            11.341452300548553
+          ],
+          "mean_norm": 11.804217338562012,
+          "p10_p90": [
+            7.696391201019288,
+            16.202422523498537
+          ]
+        },
+        "edge_on": {
+          "n": 1362,
+          "median_norm": 10.954389572143555,
+          "median_norm_ci": [
+            10.769067764282227,
+            11.154232025146484
+          ],
+          "mean_norm": 11.539438247680664,
+          "p10_p90": [
+            7.3746381282806395,
+            15.920338439941407
+          ]
+        },
+        "all": {
+          "n": 43672,
+          "median_norm": 11.231931686401367,
+          "median_norm_ci": [
+            11.199140167236328,
+            11.266122961044312
+          ],
+          "mean_norm": 11.850576400756836,
+          "p10_p90": [
+            7.581312894821167,
+            16.325599670410156
+          ]
+        }
+      },
+      "matched_floor_four_rotations_no_flip": {
+        "spiral_armed": {
+          "n": 2432,
+          "median_norm": 9.817717552185059,
+          "median_norm_ci": [
+            9.634592056274414,
+            9.952859878540039
+          ],
+          "mean_norm": 11.137588500976562,
+          "p10_p90": [
+            6.293657875061036,
+            16.850856781005863
+          ]
+        },
+        "featured": {
+          "n": 1943,
+          "median_norm": 9.978123664855957,
+          "median_norm_ci": [
+            9.842069625854492,
+            10.231483459472656
+          ],
+          "mean_norm": 11.638826370239258,
+          "p10_p90": [
+            6.4460419654846195,
+            18.66948432922363
+          ]
+        },
+        "smooth": {
+          "n": 30852,
+          "median_norm": 10.203350067138672,
+          "median_norm_ci": [
+            10.159787607192992,
+            10.242125701904296
+          ],
+          "mean_norm": 10.770014762878418,
+          "p10_p90": [
+            6.837673044204712,
+            15.119978046417238
+          ]
+        },
+        "edge_on": {
+          "n": 1362,
+          "median_norm": 9.903670310974121,
+          "median_norm_ci": [
+            9.744297528266907,
+            10.082339763641357
+          ],
+          "mean_norm": 10.572093963623047,
+          "p10_p90": [
+            6.606465244293213,
+            14.708769607543946
+          ]
+        },
+        "all": {
+          "n": 43672,
+          "median_norm": 10.149089813232422,
+          "median_norm_ci": [
+            10.112313079833985,
+            10.1821639418602
+          ],
+          "mean_norm": 10.797715187072754,
+          "p10_p90": [
+            6.741607522964478,
+            15.18631525039673
+          ]
+        }
+      },
+      "residual_over_floor": 1.1066934959780463,
+      "residual_over_d_spec": 0.8852683503516333,
+      "pixel_space_involution": "verified separately in tests/testMajorAxisFlip.py, correlation above 0.999 against the control applied twice",
+      "reading": "a residual at the floor means the identity holds as exactly as four interpolations allow, and the excess over the floor is what the flip itself fails to undo. A residual small against d_spec means the identity is good relative to the quantity being measured"
+    },
+    "EXTENSION_resampling_sensitivity": {
+      "displacement_two_rotations": 7.587434768676758,
+      "displacement_four_rotations": 10.149089813232422,
+      "ratio_four_over_two": 1.3376180649527238,
+      "sqrt_two": 1.4142135623730951,
+      "d_pure_median": 10.352262496948242,
+      "independent_resampling_prediction_for_d_pure": 10.730253153483838,
+      "d_pure_over_that_prediction": 0.9647733701033072,
+      "displacement_as_fraction_of_between_galaxy_distance": 0.23256555748292554,
+      "reading": "the encoder is strongly sensitive to resampling. Four bilinear rotations that return an image almost exactly to itself still move the embedding by nearly as much as the quantities this diagnostic measures. d_pure compares two different two-rotation states and lands close to what two independent resampling draws would give, so its ABSOLUTE size is mostly resampling and not chirality. Only differential comparisons, where the same resampling applies to both sides, are interpretable, which is why the matched-pair result and not the pooled magnitude carries the conclusion"
+    },
     "axis_statistic_calibration": {
       "true_handedness_axis": {
         "leading_variance_fraction": 0.9002394080162048,
@@ -7834,9 +7987,9 @@
     },
     "EXTENSION_adversarial_checks": {
       "scale_reference": {
-        "median_distance_between_two_different_galaxies": 43.650718688964844,
+        "median_distance_between_two_different_galaxies": 43.63969421386719,
         "median_norm_z_embedding": 28.99997329711914,
-        "flip_displacement_as_fraction_of_that_distance": 0.23152542114257812,
+        "flip_displacement_as_fraction_of_that_distance": 0.23158390820026398,
         "why": "without a scale a displacement of ten is uninterpretable. This says what fraction of the way to a completely different galaxy the flip moves one"
       },
       "permutation_null": {
@@ -10232,10 +10385,10 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-27T04:49:15Z",
-    "wall_seconds": 36.8,
+    "utc": "2026-07-27T05:57:45Z",
+    "wall_seconds": 38.3,
     "git": {
-      "sha": "95225588e9db95e55a781747075fa372015eba61",
+      "sha": "86bdb110ae292822a9c917ab194ed7a0a845eaf0",
       "code_dirty": true,
       "code_paths": [
         "paper1/lib",

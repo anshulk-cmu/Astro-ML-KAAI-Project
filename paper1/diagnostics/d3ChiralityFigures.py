@@ -26,7 +26,7 @@ BLUE, RED, MID, GREEN, GREY = "#25506e", "#b8442e", "#4878a8", "#5a8f4a", "#8a8a
 POOLS = ["spiral_armed", "featured", "edge_on", "smooth"]
 LABEL = {"spiral_armed": "spiral armed", "featured": "featured", "edge_on": "edge on",
          "smooth": "smooth (achiral)", "all": "all"}
-KINDS = [("EXTENSION_d_pure", "chirality alone\n(matched interpolation)", BLUE),
+KINDS = [("EXTENSION_d_pure", "flip against its matched\nrotation control", BLUE),
          ("d_spec", "scoping definition\nE(x) - E(flip)", MID),
          ("NULL_d_resampling", "resampling null\nE(x) - E(sandwich)", RED)]
 

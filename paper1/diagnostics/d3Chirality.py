@@ -64,6 +64,11 @@ TAGS = {"original": ("d3Original", "identity"),
         "majorflip": ("d3MajorFlip", "major_axis_flip"),
         "sandwich": ("d3Sandwich", "axis_sandwich")}
 
+# Applying each operator twice, used only to test the antisymmetry identity the scoping
+# document asserts. Optional: the diagnostic reports without them if they are absent.
+TWICE_TAGS = {"majorflip_twice": ("d3MajorFlipTwice", "major_axis_flip_twice"),
+              "sandwich_twice": ("d3SandwichTwice", "axis_sandwich_twice")}
+
 
 def population(df):
     """Every galaxy the operator is defined for: it needs a fitted major axis."""
@@ -251,6 +256,12 @@ def main():
     d_pure = z["sandwich"] - z["majorflip"]
     d_resamp = z["original"] - z["sandwich"]
 
+    # The scale every displacement below is judged against: how far apart two unrelated
+    # galaxies sit in the same z-scored space.
+    rng_scale = np.random.default_rng(C.SEED)
+    between = np.linalg.norm(z["original"][rng_scale.choice(n, 4000)]
+                             - z["original"][rng_scale.choice(n, 4000)], axis=1)
+
     pl = pools(df, idx)
     out = {"population": {
         "n": int(n), "definition": "every anchor galaxy with a defined position angle",
@@ -272,7 +283,13 @@ def main():
 
     kinds = {"d_spec": (d_spec, "E(x) - E(majorflip(x)), the scoping document's definition"),
              "EXTENSION_d_pure": (d_pure, "E(sandwich(x)) - E(majorflip(x)); both sides carry "
-                                          "identical resampling, so this is chirality alone"),
+                                          "the same NUMBER of rotations, which removes the "
+                                          "systematic resampling difference but not the "
+                                          "stochastic one, since the two paths land on "
+                                          "different pixel grids. See "
+                                          "EXTENSION_resampling_sensitivity: its absolute size "
+                                          "is mostly resampling, and only differences between "
+                                          "matched objects are interpretable"),
              "NULL_d_resampling": (d_resamp, "E(x) - E(sandwich(x)); the same procedure with a "
                                              "rotation instead of a flip, so it carries the "
                                              "resampling and no parity inversion")}
@@ -300,6 +317,66 @@ def main():
         "reading": ("a ratio above 1 in the resampling row is the confound measured directly; "
                     "the d_pure row is the same comparison with that confound removed")}
 
+    # The scoping document asserts that the difference vector is "antisymmetric by
+    # construction", d(majorflip(x)) = -d(x). That holds only if the flip is an involution
+    # THROUGH THE ENCODER, which the pixel-space test cannot establish. Adding the two
+    # differences gives
+    #     d(x) + d(flip(x)) = E(x) - E(flip(flip(x)))
+    # so the residual of the identity is the distance between the original encode and the
+    # twice-flipped one. That distance also carries four interpolations, so it is reported
+    # beside the same quantity for four rotations with no flip, which is its floor.
+    twice = {k: E.cached(t, params_for(o, n)) for k, (t, o) in TWICE_TAGS.items()}
+    if all(v is not None for v in twice.values()):
+        zt = {k: ((v - mu) / sd).astype(np.float32) for k, v in twice.items()}
+        resid = z["original"] - zt["majorflip_twice"]
+        floor = z["original"] - zt["sandwich_twice"]
+        allm = np.ones(n, bool)
+        r_med = float(np.median(np.linalg.norm(resid, axis=1)))
+        f_med = float(np.median(np.linalg.norm(floor, axis=1)))
+        out["EXTENSION_antisymmetry"] = {
+            "identity": "d(majorflip(x)) = -d(x), asserted by the scoping document",
+            "derivation": ("adding the two differences gives d(x) + d(flip(x)) = E(x) - "
+                           "E(flip(flip(x))), so the residual of the identity is the distance "
+                           "between the original encode and the twice-flipped one"),
+            "residual": {k: norm_stats(resid, m) for k, (m, _) in pl.items()},
+            "matched_floor_four_rotations_no_flip": {k: norm_stats(floor, m)
+                                                     for k, (m, _) in pl.items()},
+            "residual_over_floor": r_med / f_med,
+            "residual_over_d_spec": r_med / float(np.median(np.linalg.norm(d_spec, axis=1))),
+            "pixel_space_involution": ("verified separately in tests/testMajorAxisFlip.py, "
+                                       "correlation above 0.999 against the control applied twice"),
+            "reading": ("a residual at the floor means the identity holds as exactly as four "
+                        "interpolations allow, and the excess over the floor is what the flip "
+                        "itself fails to undo. A residual small against d_spec means the "
+                        "identity is good relative to the quantity being measured")}
+
+        # How much of any of these differences is the encoder simply reacting to resampling?
+        # Two rotations displace the embedding by one amount; four displace it by another. If
+        # each resampling contributes an independent displacement the second should be about
+        # sqrt(2) times the first, and d_pure, which compares two DIFFERENT two-rotation
+        # states, should be about sqrt(2) times the two-rotation displacement as well.
+        two = float(np.median(np.linalg.norm(d_resamp, axis=1)))
+        four = f_med
+        pure = float(np.median(np.linalg.norm(d_pure, axis=1)))
+        out["EXTENSION_resampling_sensitivity"] = {
+            "displacement_two_rotations": two,
+            "displacement_four_rotations": four,
+            "ratio_four_over_two": four / two,
+            "sqrt_two": float(np.sqrt(2.0)),
+            "d_pure_median": pure,
+            "independent_resampling_prediction_for_d_pure": float(np.sqrt(2.0) * two),
+            "d_pure_over_that_prediction": pure / (np.sqrt(2.0) * two),
+            "displacement_as_fraction_of_between_galaxy_distance":
+                four / float(np.median(between)),
+            "reading": (
+                "the encoder is strongly sensitive to resampling. Four bilinear rotations that "
+                "return an image almost exactly to itself still move the embedding by nearly "
+                "as much as the quantities this diagnostic measures. d_pure compares two "
+                "different two-rotation states and lands close to what two independent "
+                "resampling draws would give, so its ABSOLUTE size is mostly resampling and "
+                "not chirality. Only differential comparisons, where the same resampling "
+                "applies to both sides, are interpretable, which is why the matched-pair "
+                "result and not the pooled magnitude carries the conclusion")}
     out["axis_statistic_calibration"] = calibrate_axis_statistic()
     out["single_axis"] = {k: axis_structure(d_pure, m) for k, (m, _) in pl.items()}
     out["single_axis_NULL_resampling"] = {k: axis_structure(d_resamp, pl[k][0])
@@ -408,8 +485,6 @@ def main():
     rng_p = np.random.default_rng(C.SEED)
     perm = [float(np.median(np.where(rng_p.random(len(delta)) < 0.5, -delta, delta)))
             for _ in range(200)]
-    between = np.linalg.norm(
-        z["original"][rng_p.choice(n, 4000)] - z["original"][rng_p.choice(n, 4000)], axis=1)
     sweep = []
     for thr in (0.0, C.ELLIP_CUT, 0.4):
         m = ellip > thr
