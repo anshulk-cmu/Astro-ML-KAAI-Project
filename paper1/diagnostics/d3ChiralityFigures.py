@@ -60,7 +60,7 @@ def fig_magnitude():
 
     ratios = R["EXTENSION_confound_budget"]["spiral_over_smooth_ratio"]
     keys = ["d_spec", "d_pure", "d_resampling"]
-    names = ["scoping definition", "chirality alone", "resampling null"]
+    names = ["scoping definition", "flip vs matched control", "resampling null"]
     cols = [MID, BLUE, RED]
     ax[1].bar(np.arange(3), [ratios[k] for k in keys], 0.6, color=cols)
     ax[1].axhline(1.0, color="0.3", ls="--", lw=1.2, label="no difference between pools")
@@ -68,8 +68,11 @@ def fig_magnitude():
         ax[1].text(i, ratios[k] + 0.02, f"{ratios[k]:.2f}", ha="center", fontsize=9)
     ax[1].set_xticks(np.arange(3), names, fontsize=8)
     ax[1].set_ylabel("spiral median / smooth median")
-    ax[1].set_title("the suspected interpolation confound was checked\n"
-                    "and is absent: the null sits below 1, not above", fontsize=9)
+    sw = R["EXTENSION_adversarial_checks"]["ellipticity_threshold_sweep"]["rows"]
+    ax[1].set_title("pooled, the interpolation confound is absent (null below 1).\n"
+                    "On matched pairs it appears once round objects go: the\n"
+                    f"resampling excess runs {sw[0]['resampling_excess']:+.2f} to "
+                    f"{sw[-1]['resampling_excess']:+.2f} as ellipticity rises", fontsize=8.5)
     ax[1].legend(fontsize=8, loc="lower left")
     save(fig, "d3Magnitude")
 

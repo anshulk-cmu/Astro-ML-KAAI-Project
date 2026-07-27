@@ -565,6 +565,8 @@ The excess is not an artifact of the pairing, does not depend on the assignment 
 
 This is the part of the scoping document's design that does not survive. If handedness were one encoded feature, the difference vectors would lie along plus or minus one direction c, and the sign of each object's projection onto c would be a handedness label at arbitrary sample size.
 
+Read this subsection together with Section 6.7. The vectors being decomposed here are dominated in magnitude by the encoder's response to resampling rather than by the flip, so most of the structure found below is resampling structure. That does not weaken the conclusion, which is negative, and it explains why the achiral pools show more of it than the chiral one.
+
 | pool | leading variance fraction | sign balance | mean norm / median norm | fraction along the leading axis |
 |---|---|---|---|---|
 | spiral armed | 0.2409 | 0.583 | 0.098 | 0.245 |
