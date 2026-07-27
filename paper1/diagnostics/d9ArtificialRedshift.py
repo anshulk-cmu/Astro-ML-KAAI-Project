@@ -18,6 +18,14 @@ Procedure (from paperScopingV1.md, to implement)
     - selectivity: do intrinsic quantities hold still while observed quantities move
     - on-manifold validation: are transformed objects embedded near REAL objects at that redshift
 
+Carry-forward from Diagnostic 3, standing caveat 6
+    Artificial redshifting rescales angular size, so it RESAMPLES. Diagnostic 3 measured the
+    encoder's response to resampling directly and found it large: four bilinear rotations that
+    return an image almost exactly to itself still move the embedding by 23.3 per cent of the
+    distance between two unrelated galaxies. A design that compares a redshifted condition
+    against a non-redshifted one on whole-vector distances will be dominated by that, not by
+    redshift. Read targeted probes, or compare conditions that carry the same resampling.
+
 Nulls
     - matched-norm random directions
     - the untransformed baseline

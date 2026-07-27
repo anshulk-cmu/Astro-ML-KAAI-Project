@@ -32,7 +32,7 @@ Tier and status for all nine diagnostics.
 |---|---|---|---|---|---|
 | 1 | Angle readout characterization | I | descriptive | **run 2026-07-25** | 2.027 deg [1.946, 2.116], loop radius 0.9886, n=3,179 held out; chance 45; error scales as ellipticity^-0.97 |
 | 2 | O(2) equivariance | I | **input-space causal** | **run 2026-07-25** | slope -0.99896 [-0.99960, -0.99825] against applied rotation, held-out interval covering -1; half turn returns to -0.006 deg; reflection nodes and antinodes reproduced with a 2.8-3.0 deg residual; physical readouts do not move |
-| 3 | Chirality | I | **input-space causal** | **run 2026-07-26** | parity-odd information survives: matched pairs give a +19.4 per cent excess for spiral-armed galaxies, sign test p = 1.6e-33, against -0.441 for the resampling null; but handedness is NOT a single axis, so no self-supervised label |
+| 3 | Chirality | I | **input-space causal** | **run 2026-07-26** | parity-odd information survives: matched pairs give a +19.4 per cent excess for spiral-armed galaxies, sign test p = 1.6e-33; but handedness is NOT a single axis, so no self-supervised label. Separately, the encoder is strongly resampling-sensitive: four cancelling rotations move the embedding 23.3 per cent of the way to an unrelated galaxy |
 | 4 | Nuisance decodability and leakage | II | descriptive | not yet run here | |
 | 5 | Degradation response | II | **input-space causal** | not yet run here | |
 | 6 | Decodability battery | III | descriptive | not yet run here | |
@@ -444,6 +444,8 @@ The intervals separate the two cases rather than leaving the reading to the poin
 
 The two morphology readouts also lose more than colour does, by roughly a factor of nine on the mean off-axis change, -0.0271 and -0.0293 against -0.0030. That comparison is deliberately not quoted as a precise ratio: colour's own change is consistent with zero, so the denominator is consistent with zero, and the per-operation ratios range from 4 to 19 for that reason. The defensible statement is the ordering, not its size, and the ordering is what a physical reading predicts, since morphology votes depend on fine structure that interpolation blurs while colour is an integrated flux ratio that blurring barely touches. [measured; the attribution to resampling is interpreted, and rests on the mirror control]
 
+Section 6.7 corroborates that attribution from a different direction. Diagnostic 3 measures the encoder's response to resampling directly, using rotations that cancel, and finds it large: four rotations returning an image almost to itself displace the embedding by 23.3 per cent of the distance to an unrelated galaxy. An operator that resamples therefore has a substantial effect available to explain the small losses seen here, and the mirror control shows those losses are absent when nothing is resampled.
+
 Measured as movement rather than accuracy, and expressed in units of each readout's own spread so that the physical probe and the null are on one scale, a 30-degree rotation moves the colour readout by 0.144 of its spread and the morphology readouts by 0.220 and 0.220, against **0.456** for random directions; stellar mass moves by 0.157 against 0.505. Every physical readout moves by less than half what an arbitrary direction moves by, and its accuracy is preserved while doing so. [measured]
 
 ### 5.9 Nulls
@@ -629,7 +631,9 @@ First, the pooled magnitudes in Section 6.4 cannot be read as chirality. Only th
 
 Second, it explains the otherwise puzzling result in Section 6.5. The leading axis of d_pure is stronger in the achiral pools than the chiral one, which was hard to interpret; if most of d_pure is resampling response, then most of the structure that analysis found is resampling structure, and there is no reason for it to be weaker where there is no handedness.
 
-Third, it qualifies every diagnostic that intervenes by interpolating, which is this one and Diagnostics 5 and 9. Any such measurement carries a resampling displacement of this size, and designs that compare an interpolated condition against a non-interpolated one will be dominated by it.
+Third, it qualifies any diagnostic that intervenes by interpolating. Among those still to run that is Diagnostic 9, whose artificial redshifting rescales angular size; Diagnostic 5's perturbations do not move light onto a new pixel grid and are not subject to this specific effect. Designs that compare an interpolated condition against a non-interpolated one will be dominated by the displacement measured here.
+
+It does **not** undercut Diagnostic 2, and the contrast between the two is itself informative. Section 5.4 rotates the input and recovers the angle to between 2.573 and 2.758 degrees against an untransformed baseline of 2.027, so the angle coordinate survives rotation nearly intact. Yet the same class of operation moves the embedding as a whole by the amounts above. The orientation information is therefore carried in a part of the representation that resampling barely disturbs, while the bulk of the embedding is disturbed considerably. A diagnostic reading one targeted coordinate can be robust where a diagnostic reading whole-vector distances is not, which is the practical lesson for the diagnostics still to come. [interpreted, from the two measurements together]
 
 ### 6.8 Nulls
 
@@ -647,7 +651,7 @@ Established, on this substrate and this population: a parity inversion applied t
 
 Not established, and the scoping document expected it might be: **handedness is not encoded as a single direction**. The leading axis of the difference is stronger in achiral pools than chiral ones, only a quarter of the difference lies along it, and the projections are unimodal. The self-supervised handedness label the design hoped to extract does not exist in this representation, and this diagnostic does not deliver one.
 
-Also established, and not anticipated by the design: **the frozen encoder is strongly sensitive to resampling**. Four bilinear rotations returning an image almost exactly to itself move the embedding 23.3 per cent of the way to an unrelated galaxy. This is why the pooled magnitudes here carry no conclusion on their own, why the leading-axis structure appears in achiral pools too, and why the antisymmetry identity the scoping document treats as automatic fails in embedding space while holding in pixel space. It also sets a floor for Diagnostics 5 and 9, which intervene by interpolating.
+Also established, and not anticipated by the design: **the frozen encoder is strongly sensitive to resampling**. Four bilinear rotations returning an image almost exactly to itself move the embedding 23.3 per cent of the way to an unrelated galaxy. This is why the pooled magnitudes here carry no conclusion on their own, why the leading-axis structure appears in achiral pools too, and why the antisymmetry identity the scoping document treats as automatic fails in embedding space while holding in pixel space. It also sets a floor for Diagnostic 9, which rescales angular size and therefore resamples, and it is recorded as standing caveat 6.
 
 Three limits on the positive result. The matched control equalises ellipticity, brightness and angular size, but not the amount of resolved internal structure; a galaxy with arms has more structure that is asymmetric about its major axis than a smooth galaxy of the same size, so the measurement cannot fully separate "the model encodes handedness" from "the model responds to asymmetry about the major axis, of which arms are the main kind". Because the single-axis test fails, nothing here distinguishes those two readings, and the weaker one is what is claimed. The operator flips about the catalog axis, so for round objects it inverts parity about a slightly wrong line, which the orientation leak quantifies at up to 15 degrees in the roundest bin. And the excess is measured against a resampling background of comparable size, so it is a differential result and would not survive being restated as an absolute one.
 
@@ -903,13 +907,14 @@ The audit exits non-zero if any number in the report fails to match a stored val
 
 ## Appendix D: standing caveats
 
-These five apply to the whole suite and are not repeated in every section.
+The first five are declared in the scoping document and apply to the whole suite. The sixth was measured by this suite rather than anticipated, and is recorded here because it constrains every diagnostic that intervenes by interpolating.
 
 1. **Label noise.** Catalog labels are measurements with their own errors, not truth. Where a diagnostic scores the model on recovery of noisy labels, the achievable ceiling is unknown. The image interventions are the exception: those transformations are exactly controlled, which is why the causal diagnostics carry disproportionate weight.
 2. **Bootstrap intervals** on held-out predictions capture test-set sampling only, not refitting or resplitting variation. They are narrower than total uncertainty.
 3. **Photometric redshift labels** are largely colour-derived, so any image-to-redshift result partly rides through image-to-colour.
 4. **Sparse-label subsamples** are catalog crossmatches, not random draws, and carry their own selection.
 5. **Inference-time configuration** (token budget, pooling) differs from pretraining. Results are properties of the documented recipe and are labelled that way.
+6. **Resampling sensitivity**, measured in Section 6.7. The encoder responds strongly to interpolation: four bilinear rotations that return an image almost exactly to itself still move the embedding by 23.3 per cent of the distance between two unrelated galaxies. Any intervention that resamples the input therefore carries a displacement of that order before the intended physical change is counted. Whole-vector distances between an interpolated condition and a non-interpolated one are dominated by it and cannot be read as a physical effect; comparisons in which both sides are resampled identically, or which read one targeted coordinate rather than the whole vector, are not. Of the diagnostics still to run, **Diagnostic 9 is directly subject** to it, because artificial redshifting rescales angular size and therefore resamples. Diagnostic 5 is not: its perturbations are convolution, noise, band ablation, flux scaling, reddening and an additive pedestal, none of which move light onto a new pixel grid. Diagnostic 5 inherits only the weaker and more general lesson, that this encoder moves a long way under input changes which leave the physics almost untouched, so severity should be read from targeted probes rather than from whole-vector distances.
 
 ## Appendix E: environment and provenance
 

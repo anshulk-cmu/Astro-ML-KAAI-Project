@@ -154,6 +154,25 @@ def sections_of(text):
     return out
 
 
+def cross_references(text):
+    """Every 'Section X.Y' must point at a heading that exists.
+
+    Renumbering a subsection is the easiest way to leave a reference pointing nowhere, and no
+    numeric check would notice because the number itself is real.
+    """
+    headings = set()
+    for line in text.splitlines():
+        m = re.match(r"^#{2,4}\s+(\d+(?:\.\d+)?)\.?\s+", line)
+        if m:
+            headings.add(m.group(1))
+    bad = []
+    for m in re.finditer(r"Sections?\s+(\d+(?:\.\d+)?)(?:\s*(?:to|and|,)\s*(\d+(?:\.\d+)?))*", text):
+        for ref in [g for g in m.groups() if g]:
+            if ref not in headings:
+                bad.append(ref)
+    return sorted(set(bad)), sorted(headings, key=lambda s: [int(p) for p in s.split(".")])
+
+
 def audit(want=None):
     text = REPORT.read_text(encoding="utf-8")
     values, texts = load_values()
@@ -209,7 +228,11 @@ def audit(want=None):
 
     pend = [ln.strip()[:90] for ln in text.splitlines() if "*pending*" in ln]
     print(f"pending markers: {len(pend)}")
-    return unmatched + len(bad_words)
+
+    dangling, headings = cross_references(text)
+    print(f"dangling cross-references: {len(dangling)}"
+          + (f" -> {dangling}" if dangling else ""))
+    return unmatched + len(bad_words) + len(dangling)
 
 
 if __name__ == "__main__":

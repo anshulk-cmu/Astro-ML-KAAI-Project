@@ -16,6 +16,12 @@ Procedure (from paperScopingV1.md, to implement)
     - background pedestal: additive constant; should damage morphology and size and leave colour
     - sweep each perturbation over several severity levels and report the half-accuracy severity as an operating limit
 
+Carry-forward from Diagnostic 3
+    None of these perturbations moves light onto a new pixel grid, so the resampling result of
+    standing caveat 6 does not apply directly. The weaker lesson does: this encoder travels a
+    long way under input changes that leave the physics almost untouched, so severity should be
+    read from the targeted probes rather than from whole-vector distances.
+
 Nulls
     - unperturbed baseline
     - perturbations applied to a matched random subset of pixels rather than physically
