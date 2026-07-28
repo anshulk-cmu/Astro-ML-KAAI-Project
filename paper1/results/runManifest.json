@@ -1,17 +1,17 @@
 {
-  "utc": "2026-07-28T14:42:04Z",
+  "utc": "2026-07-28T15:37:29Z",
   "runs": [
     {
       "key": "d1",
       "module": "d1AngleReadout",
       "ok": true,
-      "seconds": 205.9
+      "seconds": 210.2
     },
     {
       "key": "d1",
       "module": "d1AngleReadoutFigures",
       "ok": true,
-      "seconds": 1.5
+      "seconds": 2.1
     }
   ]
 }

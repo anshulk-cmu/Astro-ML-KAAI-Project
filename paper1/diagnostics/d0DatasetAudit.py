@@ -102,8 +102,31 @@ def main():
                                   "declared_source is an attribution recorded in config, not a "
                                   "value read from the file, which carries no provenance metadata.")
 
-    cov = {"psfsize_r": "psfsize_r", "psfdepth_r": "psfdepth_r", "ebv": "ebv"}
-    out["covariates"] = {k: describe(df[c].to_numpy(float)) for k, c in cov.items() if c in df}
+    # Every observing-condition column, not just the r band. The northern surveys observe
+    # g, r and z but not i, so the i-band columns carry a -9999 sentinel on exactly the
+    # northern galaxies, which makes it collinear with the instrument.
+    fpa = df["footprint"].astype(str).to_numpy()
+    cov = {}
+    for c in C.COVARIATES_ALL:
+        if c not in df:
+            continue
+        v = df[c].to_numpy(float)
+        sent = v <= C.COVARIATE_SENTINEL_MIN
+        cov[c] = {**describe(v[~sent]),
+                  "n_sentinel": int(sent.sum()),
+                  "n_exactly_zero": int((v == 0).sum()),
+                  "sentinel_value_observed": (float(np.unique(v[sent])[0])
+                                              if sent.any() and len(np.unique(v[sent])) == 1
+                                              else None),
+                  "sentinel_by_footprint": ({t: int((sent & (fpa == t)).sum())
+                                             for t in sorted(set(fpa))} if sent.any() else None)}
+    out["covariates"] = cov
+    out["covariate_note"] = (
+        f"values at or below {C.COVARIATE_SENTINEL_MIN} mean 'not observed' and are excluded "
+        "from the distributions above. BASS and MzLS cover g, r and z but not i, so the "
+        "i-band columns are sentinelled for exactly the northern galaxies. That makes the "
+        "sentinel perfectly collinear with the instrument, and any control that partials on "
+        "raw observing conditions without masking it is partialling on hemisphere.")
     fp = df["footprint"].astype(str)
     out["covariates"]["footprint_counts"] = {t: int((fp == t).sum()) for t in sorted(fp.unique())}
 

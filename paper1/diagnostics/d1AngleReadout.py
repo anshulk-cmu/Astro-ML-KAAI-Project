@@ -166,6 +166,13 @@ def main():
             "occupied_fraction_of_the_ra_circle":
                 float((np.histogram(ra, bins=24, range=(0, 360))[0] > 0).mean()),
             "dec_range_deg": [float(dec.min()), float(dec.max())],
+            "ra_counts_per_15deg_bin": [int(v) for v in
+                                        np.histogram(ra, bins=24, range=(0, 360))[0]],
+            "ra_bin_count_min_max": [int(np.histogram(ra, bins=24, range=(0, 360))[0].min()),
+                                     int(np.histogram(ra, bins=24, range=(0, 360))[0].max())],
+            "coverage_note": ("the circle is spanned but not evenly, which matters for the "
+                              "shuffled-label null: a label drawn from a clumped distribution "
+                              "beats a uniform guess slightly, so that null sits below 90"),
             "note": ("the circular claim is only testable because the sample spans the whole "
                      "circle; a footprint that stopped short of the seam could not test it")},
         "right_ascension_circular": ra_circ,
@@ -386,6 +393,18 @@ def main():
 
     np.save(C.RESULTS / f"{NAME}Projection.npy",
             np.column_stack([pa_deg[te], pc_te, ps_te, err_te, ellip[te]]))
+
+    # The RA and Dec predictions themselves, so the figure can SHOW the circle rather than
+    # summarise it: a periodic coordinate should trace a ring, a bounded one a line.
+    ra_pr, ra_tr, ra_te, _ = fit_evaluate(Zi, np.radians(ra), 1, allrows)
+    rc, rs = ra_pr.predict(Zi[ra_te])
+    dec_tr, dec_te_i = P.split(allrows)
+    dec_m = RidgeCV(alphas=C.ALPHAS).fit(Zi[dec_tr], dec[dec_tr])
+    np.savez(C.RESULTS / f"{NAME}SkyProjection.npz",
+             ra_true=ra[ra_te].astype(np.float32),
+             ra_cos=rc.astype(np.float32), ra_sin=rs.astype(np.float32),
+             dec_true=dec[dec_te_i].astype(np.float32),
+             dec_pred=dec_m.predict(Zi[dec_te_i]).astype(np.float32))
     inputs = [p_img, p_full, C.OK_INDEX, C.SAMPLE, C.SHAPES, C.COVARIATES]
     inputs += [p for p in (TRACK_A_RADEC, TRACK_A_RA, TRACK_A_UNSUP, TRACK_A_CROSS)
                if p.exists()]

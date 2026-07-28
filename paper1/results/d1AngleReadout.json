@@ -507,6 +507,37 @@
           -65.80289130142876,
           84.60913910413294
         ],
+        "ra_counts_per_15deg_bin": [
+          2965,
+          3269,
+          2821,
+          2014,
+          1793,
+          1251,
+          746,
+          1413,
+          2319,
+          2352,
+          2526,
+          2834,
+          2722,
+          2701,
+          2584,
+          2323,
+          2096,
+          1614,
+          951,
+          230,
+          752,
+          1748,
+          2132,
+          2242
+        ],
+        "ra_bin_count_min_max": [
+          230,
+          3269
+        ],
+        "coverage_note": "the circle is spanned but not evenly, which matters for the shuffled-label null: a label drawn from a clumped distribution beats a uniform guess slightly, so that null sits below 90",
         "note": "the circular claim is only testable because the sample spans the whole circle; a footprint that stopped short of the seam could not test it"
       },
       "right_ascension_circular": {
@@ -1576,10 +1607,10 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-28T15:20:48Z",
+    "utc": "2026-07-28T15:37:27Z",
     "wall_seconds": 209.0,
     "git": {
-      "sha": "d7ab2dc2abd020d98c84b935b45f12ef9e99111d",
+      "sha": "251fa40f1c2c982a63e96d815e94fbd2d628fa82",
       "code_dirty": true,
       "code_paths": [
         "paper1/lib",

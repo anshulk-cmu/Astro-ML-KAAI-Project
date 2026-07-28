@@ -58,6 +58,14 @@ ELLIP_CUT = 0.3
 # np.isfinite does not catch. A label is valid only if it is finite and above its sentinel.
 SENTINEL_MIN = {"total_ssfr_median": -90.0}
 
+# The same trap in the observing-condition columns. The northern surveys (BASS and MzLS)
+# observe g, r and z but not i, so psfsize_i and psfdepth_i are -9999 for every northern
+# galaxy. That sentinel is therefore perfectly collinear with which telescope took the image,
+# and any regression that treats it as a number is partialling on the hemisphere.
+COVARIATE_SENTINEL_MIN = -9990.0
+COVARIATES_ALL = ("ebv", "psfsize_g", "psfsize_r", "psfsize_i", "psfsize_z",
+                  "psfdepth_g", "psfdepth_r", "psfdepth_i", "psfdepth_z")
+
 # Declared provenance of each label column. The counts are measured; these attributions are
 # declared here rather than read from the files, which carry no provenance metadata.
 LABEL_SOURCES = {

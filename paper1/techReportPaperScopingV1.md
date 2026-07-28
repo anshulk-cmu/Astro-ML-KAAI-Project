@@ -84,6 +84,8 @@ Redshift spans 0.0011 to 0.688 with a median of 0.174 and a first-to-ninety-nint
 
 Each galaxy carries the conditions under which it was observed, which Pillar II treats as the confound budget for everything in Pillar III. Over the 48,290 matched galaxies, r-band seeing has percentiles 1.06 / 1.38 / 2.17 arcsec at the 1st, 50th and 99th; r-band point-source depth in inverse nanomaggies squared has percentiles 121 / 621 / 12,433; and Galactic extinction E(B-V) has percentiles 0.0081 / 0.0307 / 0.1481. By hemisphere, **35,919 are south and 12,371 are north**, with 108 unmatched. The two hemispheres are different instruments, so this split is an instrument boundary rather than a geographic one. [measured]
 
+**A sentinel in the observing conditions, and why it is dangerous.** All nine condition columns are now audited, not only the r band. Seven are clean. The two i-band columns are not: `psfsize_i` and `psfdepth_i` hold **-9999 for 12,371 galaxies, all of them north, and none in the south**. That is not corrupt data. BASS and MzLS observe g, r and z and do not observe i at all, so there is no i-band measurement to record. The danger is that the sentinel count equals the northern count exactly, which makes it a **perfect stand-in for which telescope took the image**. Any analysis that feeds raw observing conditions into a regression is then partialling on the instrument while appearing to partial on the weather. The rule is declared once in `config.py` and the counts are in the D0 artifact. A further 8,804 and 8,812 rows hold an exact zero in those columns, which is a separate and milder flag. [measured]
+
 **Artifacts.** `paper1/diagnostics/d0DatasetAudit.py`, `paper1/results/d0DatasetAudit.json`
 
 ## 2. The model and the embeddings
@@ -246,19 +248,25 @@ The bounded arm of this contrast is **underpowered by design and must be quoted 
 
 The circular claim is only testable because the footprint spans the whole circle. It does: all twenty-four 15-degree bins are occupied, and 5,207 galaxies sit within 15 degrees of RA = 0 on one side or the other. A survey stopping short of the seam could not test this at all.
 
-| quantity | treatment | result | chance |
-|---|---|---|---|
-| right ascension | circular, period 360 | **37.28 deg**, loop radius 0.5257 | 90 deg |
-| right ascension | plain straight line | 54.63 deg | 90 deg |
-| right ascension | shuffled labels | 84.88 deg, radius 0.0733 | 90 deg |
-| declination | plain scalar | median error 11.38 deg, R2 0.7583 | |
-| declination | forced through the circle | median error 11.15 deg | |
+| quantity | treatment | result | R2 on the two axes | chance |
+|---|---|---|---|---|
+| right ascension | circular, period 360 | **37.28 deg**, loop radius 0.5257 | 0.4146 and 0.1745 | 90 deg |
+| right ascension | plain straight line | 54.63 deg | 0.1698 | 90 deg |
+| right ascension | shuffled labels | 84.88 deg, radius 0.0733 | | 90 deg |
+| declination | plain scalar | median error 11.38 deg, R2 0.7583 | | |
+| declination | forced through the circle | median error 11.15 deg | | |
 
-The prediction holds on both arms. The periodic coordinate **needs** the loop: treating RA as a circle recovers it 17 degrees better than treating it as a line, and both beat chance. The bounded coordinate gains **nothing** from the loop, 11.15 degrees against 11.38 as a plain scalar. Unlike the inclination arm this one is not underpowered, because RA has a real seam for a straight-line fit to fail at, and it does fail there. [measured]
+**The bounded arm behaves exactly as predicted, and the periodic arm only partly does.** Declination gains **nothing** from the circle, 11.15 degrees against 11.38 degrees as a plain number, which is the clean negative the prediction asks for. Right ascension does keep the wrap: treating it as a circle recovers it 17 degrees better than treating it as a line, and a straight-line fit has a seam to fail at where a bounded quantity has none, so unlike the inclination arm this comparison is not underpowered.
+
+But RA is **not** the clean ring that position angle is, and the figure shows why. Its loop radius is 0.5257, so predictions collapse about halfway toward the origin instead of landing on the rim, where position angle sits at 0.9886. Its two axes are also very unequal, R2 0.4146 against 0.1745, so the recovered structure is stretched rather than round. The honest summary is that the model represents right ascension weakly and anisotropically while still respecting its periodicity, and represents declination as a plain bounded quantity. [measured]
+
+**One number in that table needs a remark.** The shuffled-label null returns 84.88 degrees with interval [83.31, 86.70], which sits below the 90-degree chance floor rather than covering it. The axial null in Section 4.9 lands on its floor of 45 within its interval, so this one is different. The likely cause is that the sample does not cover the sky uniformly: the RA distribution is far from flat, ranging from 230 to 3,269 galaxies across the 24 bins, and a shuffled label drawn from a clumped distribution beats a uniform guess slightly. The null is doing its job of collapsing the loop radius to 0.0733; the floor it should be read against is the sample's own, not 90. [measured; the explanation is interpreted]
 
 **This is a systematic, not a physical result, and the controls say so.** Nothing about a galaxy's own physics tells you where it sits on the sky. Sky position decodes because the survey varies across the sky: depth, seeing, extinction, and the instrument itself. North is BASS and MzLS, south is DECam. Reading which hemisphere an image came from gives **R2 0.7869**, and declination decodability falls from 0.7583 over the whole sample to 0.6089 within the south and **0.1307 within the north**. Much of the declination signal is the telescope. Right ascension is less affected, 34.36 degrees within the south against 37.28 overall. This is a preview of Diagnostic 4, which measures the confound budget properly. [measured; the attribution to the survey is interpreted]
 
-**Two earlier results are carried across, and they answer different questions.** The Track A work fed RA and Dec to the model as its own catalog tokens and recovered them from the resulting embedding, getting 2.865 degrees for RA and R2 0.9881 for Dec. That is a **different substrate**: it confirms the coordinate tokeniser preserves the circle, and says nothing about whether an image carries sky position. Track A also probed RA from the image and found cos RA at R2 0.41465 with about 42 per cent of it removable by partialling out observing conditions. The value recomputed here from a separate implementation is **0.4146**, agreeing to five significant figures across two codebases. [measured]
+**Two earlier results are carried across, and they answer different questions.** The Track A work fed RA and Dec to the model as its own catalog tokens and recovered them from the resulting embedding, getting 2.865 degrees for RA and R2 0.9881 for Dec. That is a **different substrate**: it confirms the coordinate tokeniser preserves the circle, and says nothing about whether an image carries sky position. Track A also probed RA from the image and found cos RA at R2 0.4146489919766265. Recomputing it here through a separate implementation returns **the identical value**, bit for bit, so the two codebases agree exactly rather than approximately.
+
+**One number from that earlier control is withdrawn.** Track A reported that partialling out observing conditions removed about 42 per cent of the RA signal, and an earlier draft of this section repeated it. That control partialled on nine columns including `psfsize_i` and `psfdepth_i`. Those two are **-9999 for exactly the 12,371 northern galaxies and for no southern one**, because BASS and MzLS observe g, r and z but not i. The sentinel is therefore perfectly collinear with which telescope took the image, and a regression treating it as a number is partialling on hemisphere. Given that hemisphere alone reads from the image at R2 0.7869, the reported 42 per cent cannot be attributed to seeing, depth and extinction as the phrase implies. The figure is withdrawn until the control is recomputed on sentinel-masked covariates, which belongs to Diagnostic 4. Section 1.5 records the sentinel counts. [measured]
 
 ### 4.7 Stress axis 3: population invariance
 
@@ -272,7 +280,7 @@ One globally-fit probe, held fixed, evaluated separately on each stratum's held-
 | smooth | 1,817 | 1.970 | [1.84, 2.09] | 0.9841 | 2.104 |
 | featured | 176 | 2.471 | [2.06, 3.08] | 0.9603 | 2.466 |
 
-Every stratum's interval overlaps the all-galaxy value of 2.027, and the featured stratum, which is both the smallest (n = 176) and the highest, has an interval reaching 3.08. One coordinate system serves every stratum tested at this resolution. [measured]
+Four of the five strata have intervals that contain the all-galaxy value of 2.027. The featured stratum does not: its interval runs [2.060, 3.085], so it starts just above that value. It is also by far the smallest stratum at n = 176, and its interval is more than eight times wider than any other. So the fair statement is that one coordinate system serves every stratum tested, with the featured stratum sitting slightly and not significantly higher on a sample too small to say more. It is not the case that every interval covers the headline value, and the earlier wording claiming so was wrong. [measured]
 
 ### 4.8 Stress axis 4: heteroscedasticity
 
@@ -333,13 +341,15 @@ Established, on this substrate and this population: the model carries a mod-180 
 
 Not established here: that the model *uses* this coordinate for anything downstream, which no probe can show; that the coordinate transforms correctly under operations on the input, which is Diagnostic 2; and that the readout would survive on a survey with different observing conditions, which Diagnostics 4 and 5 bound. This diagnostic is descriptive in tier, and all four of its stress axes are correlational statements about a frozen representation.
 
-**Artifacts.** `paper1/diagnostics/d1AngleReadout.py`, `paper1/diagnostics/d1AngleReadoutFigures.py`, `paper1/results/d1AngleReadout.json`, `paper1/results/d1AngleReadoutProjection.npy`, figures `d1Loop.png`, `d1Elongation.png`, `d1Nulls.png`, `d1Invariance.png`, `d1Heteroscedasticity.png`.
+**Artifacts.** `paper1/diagnostics/d1AngleReadout.py`, `paper1/diagnostics/d1AngleReadoutFigures.py`, `paper1/results/d1AngleReadout.json`, `paper1/results/d1AngleReadoutProjection.npy`, `paper1/results/d1AngleReadoutSkyProjection.npz`, figures `d1Loop.png`, `d1Elongation.png`, `d1Nulls.png`, `d1Invariance.png`, `d1Heteroscedasticity.png`, `d1SkyShape.png`, `d1SkyPosition.png`.
 
 ![Loop](figures/d1Loop.png)
 ![Elongation grading](figures/d1Elongation.png)
 ![Nulls](figures/d1Nulls.png)
 ![Invariance](figures/d1Invariance.png)
 ![Heteroscedasticity](figures/d1Heteroscedasticity.png)
+![Sky position, shape](figures/d1SkyShape.png)
+![Sky position, confounds](figures/d1SkyPosition.png)
 
 ## 5. Diagnostic 2: O(2) equivariance · *input-space causal*
 
@@ -559,11 +569,11 @@ Three conditions were encoded through the frozen model over the full population,
 | **the matched difference** (d_pure) | E(sandwich(x)) - E(flip(x)) | flip against a control that blurs the same amount but reverses nothing |
 | **the blur difference** (d_resampling) | E(x) - E(sandwich(x)) | the blurring on its own, and the scoping document's second null |
 
-Section 6.7 shows that d_pure is **not** the flip alone, which was the intention behind it. Giving both sides the same number of rotations removes the systematic part of the resampling but not the stochastic part, because the two paths land on different pixel grids. Its absolute size is therefore mostly resampling, and only comparisons between matched objects, where the same resampling applies to both sides, carry a conclusion. That is why the matched-pair result below and not the pooled magnitude is the finding.
+One warning before the numbers, because it changes how they should be read. The matched difference was meant to be the flip on its own. Section 6.7 shows it is not. Giving both sides the same *number* of rotations removes the systematic part of the blurring, but not the random part, because the two routes land on different pixel grids. So its size is mostly blurring. Only comparisons between matched objects, where the same blurring falls on both sides, support a conclusion. That is why the matched-pair result below carries the finding and the pooled sizes do not.
 
 ### 6.4 Does a parity inversion move the representation more for chiral objects
 
-| pool | d_spec | d_pure | d_resampling |
+| pool | flip difference | matched difference | blur difference |
 |---|---|---|---|
 | spiral armed | 13.847 [13.599, 14.053] | **11.270 [11.005, 11.494]** | 7.442 [7.284, 7.582] |
 | featured | 13.953 [13.663, 14.157] | 10.872 [10.667, 11.021] | 7.710 [7.547, 7.862] |

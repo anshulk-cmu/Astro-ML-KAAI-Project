@@ -22,8 +22,8 @@ def anchor():
 
     cv = pd.read_parquet(C.COVARIATES)
     cv["dr8_id"] = cv["dr8_id"].astype(str)
-    df = df.merge(cv[["dr8_id", "psfsize_r", "psfdepth_r", "ebv", "footprint"]]
-                  .drop_duplicates("dr8_id"), on="dr8_id", how="left")
+    keep = ["dr8_id", "footprint"] + [c for c in C.COVARIATES_ALL if c in cv.columns]
+    df = df.merge(cv[keep].drop_duplicates("dr8_id"), on="dr8_id", how="left")
 
     assert len(df) == len(ok), "merge changed row count"
     return df

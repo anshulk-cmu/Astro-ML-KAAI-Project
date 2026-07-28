@@ -199,6 +199,34 @@
     },
     "label_coverage_note": "n_valid applies the declared sentinel rule; n_finite is what a bare isfinite gives. Every diagnostic masks on n_valid. declared_source is an attribution recorded in config, not a value read from the file, which carries no provenance metadata.",
     "covariates": {
+      "ebv": {
+        "n_finite": 48290,
+        "percentiles": {
+          "1": 0.00810590443,
+          "50": 0.030671936,
+          "99": 0.14810808890000002
+        },
+        "min": 0.0026861113,
+        "max": 0.45212784,
+        "n_sentinel": 0,
+        "n_exactly_zero": 0,
+        "sentinel_value_observed": null,
+        "sentinel_by_footprint": null
+      },
+      "psfsize_g": {
+        "n_finite": 48290,
+        "percentiles": {
+          "1": 1.169364181,
+          "50": 1.5485582500000001,
+          "99": 2.37373737
+        },
+        "min": 0.0,
+        "max": 3.430579,
+        "n_sentinel": 0,
+        "n_exactly_zero": 3,
+        "sentinel_value_observed": null,
+        "sentinel_by_footprint": null
+      },
       "psfsize_r": {
         "n_finite": 48290,
         "percentiles": {
@@ -207,7 +235,57 @@
           "99": 2.1707363799999997
         },
         "min": 0.0,
-        "max": 3.530564
+        "max": 3.530564,
+        "n_sentinel": 0,
+        "n_exactly_zero": 5,
+        "sentinel_value_observed": null,
+        "sentinel_by_footprint": null
+      },
+      "psfsize_i": {
+        "n_finite": 35919,
+        "percentiles": {
+          "1": 0.0,
+          "50": 1.1691728,
+          "99": 1.7915543779999998
+        },
+        "min": 0.0,
+        "max": 2.809431,
+        "n_sentinel": 12371,
+        "n_exactly_zero": 8804,
+        "sentinel_value_observed": -9999.0,
+        "sentinel_by_footprint": {
+          "nan": 0,
+          "north": 12371,
+          "south": 0
+        }
+      },
+      "psfsize_z": {
+        "n_finite": 48290,
+        "percentiles": {
+          "1": 0.9748015136,
+          "50": 1.23643265,
+          "99": 1.8225736100000003
+        },
+        "min": 0.0,
+        "max": 2.383084,
+        "n_sentinel": 0,
+        "n_exactly_zero": 7,
+        "sentinel_value_observed": null,
+        "sentinel_by_footprint": null
+      },
+      "psfdepth_g": {
+        "n_finite": 48290,
+        "percentiles": {
+          "1": 357.4873558,
+          "50": 1748.4652999999998,
+          "99": 20020.44618000009
+        },
+        "min": 0.0,
+        "max": 222902.39,
+        "n_sentinel": 0,
+        "n_exactly_zero": 8,
+        "sentinel_value_observed": null,
+        "sentinel_by_footprint": null
       },
       "psfdepth_r": {
         "n_finite": 48290,
@@ -217,17 +295,43 @@
           "99": 12433.082250000018
         },
         "min": 0.0,
-        "max": 60974.555
+        "max": 60974.555,
+        "n_sentinel": 0,
+        "n_exactly_zero": 7,
+        "sentinel_value_observed": null,
+        "sentinel_by_footprint": null
       },
-      "ebv": {
+      "psfdepth_i": {
+        "n_finite": 35919,
+        "percentiles": {
+          "1": 0.0,
+          "50": 330.71735,
+          "99": 4814.041791999999
+        },
+        "min": 0.0,
+        "max": 33282.316,
+        "n_sentinel": 12371,
+        "n_exactly_zero": 8812,
+        "sentinel_value_observed": -9999.0,
+        "sentinel_by_footprint": {
+          "nan": 0,
+          "north": 12371,
+          "south": 0
+        }
+      },
+      "psfdepth_z": {
         "n_finite": 48290,
         "percentiles": {
-          "1": 0.00810590443,
-          "50": 0.030671936,
-          "99": 0.14810808890000002
+          "1": 33.8848614,
+          "50": 134.28548999999998,
+          "99": 1126.244713
         },
-        "min": 0.0026861113,
-        "max": 0.45212784
+        "min": 0.0,
+        "max": 13755.819,
+        "n_sentinel": 0,
+        "n_exactly_zero": 23,
+        "sentinel_value_observed": null,
+        "sentinel_by_footprint": null
       },
       "footprint_counts": {
         "nan": 108,
@@ -235,6 +339,7 @@
         "south": 35919
       }
     },
+    "covariate_note": "values at or below -9990.0 mean 'not observed' and are excluded from the distributions above. BASS and MzLS cover g, r and z but not i, so the i-band columns are sentinelled for exactly the northern galaxies. That makes the sentinel perfectly collinear with the instrument, and any control that partials on raw observing conditions without masking it is partialling on hemisphere.",
     "redshift": {
       "n_finite": 48398,
       "percentiles": {
@@ -247,11 +352,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-27T01:30:41Z",
-    "wall_seconds": 1.4,
+    "utc": "2026-07-28T15:27:31Z",
+    "wall_seconds": 1.3,
     "git": {
-      "sha": "b3e820a85eddb91527f010e9ce094fb35e11f3f6",
-      "code_dirty": false,
+      "sha": "251fa40f1c2c982a63e96d815e94fbd2d628fa82",
+      "code_dirty": true,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",

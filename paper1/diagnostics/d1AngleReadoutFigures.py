@@ -196,6 +196,40 @@ def fig_hetero():
     save(fig, "d1Heteroscedasticity")
 
 
+def fig_sky_shape():
+    """Show the circle rather than summarise it. A periodic coordinate should trace a ring;
+    a bounded one should trace a line."""
+    S = np.load(C.RESULTS / f"{NAME}SkyProjection.npz")
+    s = R["EXTENSION_sky_position_topology"]
+    fig, ax = plt.subplots(1, 2, figsize=(9.6, 4.4))
+
+    t = np.linspace(0, 2 * np.pi, 400)
+    ax[0].plot(np.cos(t), np.sin(t), color="0.6", lw=1, zorder=1)
+    sc = ax[0].scatter(S["ra_cos"], S["ra_sin"], c=S["ra_true"], cmap="hsv", s=2,
+                       alpha=0.45, zorder=2)
+    ax[0].set_aspect("equal")
+    ax[0].set_xlabel(r"predicted $\cos$ RA")
+    ax[0].set_ylabel(r"predicted $\sin$ RA")
+    ax[0].set_title("RA keeps the wrap but only partly traces the ring:\n"
+                    f"radius {s['right_ascension_circular']['loop_radius']:.2f} not 1, and "
+                    f"$R^2$ {s['right_ascension_circular']['r2_cos']:.2f} against "
+                    f"{s['right_ascension_circular']['r2_sin']:.2f} on the two axes",
+                    fontsize=8.5)
+    plt.colorbar(sc, ax=ax[0], label="true RA (deg)", ticks=[0, 90, 180, 270, 360])
+
+    ax[1].scatter(S["dec_true"], S["dec_pred"], s=2, alpha=0.3, color="#25506e")
+    lo, hi = S["dec_true"].min(), S["dec_true"].max()
+    ax[1].plot([lo, hi], [lo, hi], color="#b8442e", lw=1.2, ls="--", label="exact recovery")
+    ax[1].set_xlabel("true declination (deg)")
+    ax[1].set_ylabel("predicted declination (deg)")
+    ax[1].set_title("declination follows a line, not a ring, and the banding\n"
+                    "is the survey showing through rather than a coordinate\n"
+                    f"median error {s['declination_scalar']['med_abs_err']:.2f}$\\degree$, "
+                    f"$R^2$ {s['declination_scalar']['r2']:.3f}", fontsize=8.5)
+    ax[1].legend(fontsize=8)
+    save(fig, "d1SkyShape")
+
+
 def fig_sky():
     s = R["EXTENSION_sky_position_topology"]
     cc = s["confound_controls"]
@@ -241,6 +275,7 @@ def fig_sky():
 
 def main():
     fig_loop()
+    fig_sky_shape()
     fig_sky()
     fig_elongation()
     fig_nulls()
