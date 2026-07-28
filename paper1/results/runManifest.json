@@ -1,17 +1,47 @@
 {
-  "utc": "2026-07-28T15:37:29Z",
+  "utc": "2026-07-28T15:46:44Z",
   "runs": [
+    {
+      "key": "d0",
+      "module": "d0DatasetAudit",
+      "ok": true,
+      "seconds": 2.4
+    },
     {
       "key": "d1",
       "module": "d1AngleReadout",
       "ok": true,
-      "seconds": 210.2
+      "seconds": 227.5
     },
     {
       "key": "d1",
       "module": "d1AngleReadoutFigures",
       "ok": true,
       "seconds": 2.1
+    },
+    {
+      "key": "d2",
+      "module": "d2Equivariance",
+      "ok": true,
+      "seconds": 94.5
+    },
+    {
+      "key": "d2",
+      "module": "d2EquivarianceFigures",
+      "ok": true,
+      "seconds": 1.0
+    },
+    {
+      "key": "d3",
+      "module": "d3Chirality",
+      "ok": true,
+      "seconds": 46.4
+    },
+    {
+      "key": "d3",
+      "module": "d3ChiralityFigures",
+      "ok": true,
+      "seconds": 0.6
     }
   ]
 }
