@@ -1421,6 +1421,72 @@
         }
       ]
     },
+    "EXTENSION_unsupervised_discovery": {
+      "question": "the probes above are told the answer and asked to find it. This asks whether the ring is already present among directions found without any labels at all, which is the stronger claim and the one Matt's original method proposed",
+      "n_components_scanned": 50,
+      "best_single_component_abs_corr": 0.7832017013733655,
+      "best_component_pair": [
+        10,
+        15
+      ],
+      "best_pair_ring_r2": 0.40623522785786836,
+      "ring_r2_definition": "for a pair of components, fit both cos 2 theta and sin 2 theta from that pair and take the SMALLER of the two R2 values, because a ring needs both coordinates, not one",
+      "supervised_comparison": {
+        "full_embedding_med_err_deg": 2.0266658091947662,
+        "top_2_components_med_err_deg": 43.19801403724908
+      },
+      "CARRIED_FROM_TRACK_A": {
+        "pca_scan": {
+          "n_pcs_scanned": 50,
+          "best_single_pc_corr": 0.7831845945244501,
+          "best_pc_pair": [
+            10,
+            15
+          ],
+          "best_pc_pair_ring_r2": 0.40624060223557823
+        },
+        "sae_check": {
+          "n_features": 4096,
+          "embedding": "E_full (Phase 1 dictionary)",
+          "best_single_feature_corr_c2": 0.5006019548208746,
+          "best_single_feature_corr_s2": 0.4972341633250399,
+          "n_features_corr_gt_0p3_either": 15
+        }
+      },
+      "reading": "a high single-component correlation with one of the two coordinates is not a ring. The pair statistic is the one that matters, and it has to be read against the supervised readout on the full embedding"
+    },
+    "CARRIED_crossmodal_image_versus_shape_tokens": {
+      "values": {
+        "n_elong_with_shapes": 15893,
+        "n_test": 3179,
+        "img_vs_true": {
+          "med_err_deg": 2.0266658091947662,
+          "ci": [
+            1.9454188726211046,
+            2.1045739400674948
+          ]
+        },
+        "shape_vs_true": {
+          "med_err_deg": 2.832916703768617,
+          "ci": [
+            2.7167266564408465,
+            2.960156893007033
+          ]
+        },
+        "img_vs_shape": {
+          "med_err_deg": 3.5521798133850098,
+          "ci": [
+            3.414537453651428,
+            3.723714005947113
+          ]
+        },
+        "claim_note": "both readouts come from SEPARATELY target-trained probes; their agreement shows both modalities decode PA consistently, NOT that the two raw modalities occupy one shared oriented 2-D subspace (no cross-probe/Procrustes test was run)"
+      },
+      "substrate": "E_shape, the model's own catalog shape tokens, not E_img and not E_full",
+      "recomputed_here": false,
+      "why_not": "shape_e1 and shape_e2 are what DEFINE the catalog position angle, so recovering the angle from them measures the tokeniser, not the representation. The image side of the comparison is already reproduced exactly by the headline readout above",
+      "note": "the original file carries its own caveat, kept verbatim in the values block: the two readouts come from separately trained probes, so their agreement shows both modalities decode the angle consistently and NOT that they share one oriented subspace"
+    },
     "EXTENSION_split_sensitivity": {
       "n_seeds": 10,
       "seeds": [
@@ -1510,11 +1576,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-28T14:42:02Z",
-    "wall_seconds": 204.7,
+    "utc": "2026-07-28T15:20:48Z",
+    "wall_seconds": 209.0,
     "git": {
-      "sha": "3a208a0162a83ff5b337709d82f4073647c875e5",
-      "code_dirty": false,
+      "sha": "d7ab2dc2abd020d98c84b935b45f12ef9e99111d",
+      "code_dirty": true,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",
@@ -1572,6 +1638,16 @@
         "path": "D:\\AstroML-Project\\results\\trackA_ra.json",
         "sha256": "6b6fc6609ebd01371ec31e6cc793df029773b750a94a8387ca840abfd0ed9f2a",
         "bytes": 1084
+      },
+      "trackA_unsupervised.json": {
+        "path": "D:\\AstroML-Project\\results\\trackA_unsupervised.json",
+        "sha256": "f72edf5786508e041608c2fa17703929176435be8590b3bcf819930e471dc9dd",
+        "bytes": 452
+      },
+      "trackA_crossmodal.json": {
+        "path": "D:\\AstroML-Project\\results\\trackA_crossmodal.json",
+        "sha256": "b1af0d9049430a26e91bcd3e828aad12771c2b5425b44df0c866a2fc931fcb7c",
+        "bytes": 724
       }
     }
   }

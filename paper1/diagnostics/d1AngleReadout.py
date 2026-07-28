@@ -16,6 +16,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 
 import json
+from itertools import combinations
+
 import numpy as np
 from scipy.stats import kstest
 from sklearn.linear_model import RidgeCV
@@ -30,6 +32,14 @@ from circular import circ_error, evaluate, fit_evaluate, linear_angle_probe, rad
 NAME = "d1AngleReadout"
 TRACK_A_RADEC = C.ROOT / "results" / "trackA_radec.json"
 TRACK_A_RA = C.ROOT / "results" / "trackA_ra.json"
+TRACK_A_UNSUP = C.ROOT / "results" / "trackA_unsupervised.json"
+TRACK_A_CROSS = C.ROOT / "results" / "trackA_crossmodal.json"
+
+
+def r2_of(y, X):
+    """R2 of the least-squares fit of y on the columns of X."""
+    beta = np.linalg.lstsq(X, y, rcond=None)[0]
+    return float(1 - ((y - X @ beta) ** 2).sum() / ((y - y.mean()) ** 2).sum())
 ELLIP_BINS = [0.0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.50, 0.60, 0.70, 1.00]
 PC_SWEEP = [2, 5, 10, 20, 50, 100, 200, 512]
 
@@ -274,6 +284,61 @@ def main():
                     "chance_floor_deg": 45.0,
                     "EXTENSION_pc_sweep": sweep}
 
+    # EXTENSION, carried from Track A and recomputed here. Everything above asks whether the
+    # loop is linearly DECODABLE, which uses the true angles to build the readout. A different
+    # and harder question is whether the loop is DISCOVERABLE without them: does any pair of
+    # unsupervised principal directions already trace the ring?
+    c2, s2 = np.cos(2 * pa[elong]), np.sin(2 * pa[elong])
+    pc50 = pcs[elong][:, :50]
+    corr_c = np.array([abs(np.corrcoef(pc50[:, i], c2)[0, 1]) for i in range(50)])
+    corr_s = np.array([abs(np.corrcoef(pc50[:, i], s2)[0, 1]) for i in range(50)])
+    best_pair, best_ring = None, -1.0
+    for i, j in combinations(range(50), 2):
+        Xd = np.column_stack([np.ones(len(pc50)), pc50[:, [i, j]]])
+        r2c = r2_of(c2, Xd)
+        r2s = r2_of(s2, Xd)
+        both = min(r2c, r2s)
+        if both > best_ring:
+            best_ring, best_pair = both, (i, j)
+    legacy_unsup = C.ROOT / "results" / "trackA_unsupervised.json"
+    out["EXTENSION_unsupervised_discovery"] = {
+        "question": ("the probes above are told the answer and asked to find it. This asks "
+                     "whether the ring is already present among directions found without any "
+                     "labels at all, which is the stronger claim and the one Matt's original "
+                     "method proposed"),
+        "n_components_scanned": 50,
+        "best_single_component_abs_corr": float(max(corr_c.max(), corr_s.max())),
+        "best_component_pair": [int(best_pair[0]), int(best_pair[1])],
+        "best_pair_ring_r2": float(best_ring),
+        "ring_r2_definition": ("for a pair of components, fit both cos 2 theta and sin 2 theta "
+                               "from that pair and take the SMALLER of the two R2 values, "
+                               "because a ring needs both coordinates, not one"),
+        "supervised_comparison": {"full_embedding_med_err_deg": head["med_err_deg"],
+                                  "top_2_components_med_err_deg": pc2["med_err_deg"]},
+        "CARRIED_FROM_TRACK_A": (json.loads(legacy_unsup.read_text())
+                                 if legacy_unsup.exists() else None),
+        "reading": ("a high single-component correlation with one of the two coordinates is "
+                    "not a ring. The pair statistic is the one that matters, and it has to be "
+                    "read against the supervised readout on the full embedding")}
+
+    # Carried from Track A and NOT recomputed, with the reason recorded. That check fed the
+    # catalog shape parameters through the model as its own tokens and compared the resulting
+    # angle readout with the image one. It sits on a third substrate, and on that substrate
+    # the input defines the label, so it is a readback rather than a measurement of what an
+    # image carries. It is cited here rather than rebuilt.
+    out["CARRIED_crossmodal_image_versus_shape_tokens"] = {
+        "values": (json.loads(TRACK_A_CROSS.read_text()) if TRACK_A_CROSS.exists() else None),
+        "substrate": "E_shape, the model's own catalog shape tokens, not E_img and not E_full",
+        "recomputed_here": False,
+        "why_not": ("shape_e1 and shape_e2 are what DEFINE the catalog position angle, so "
+                    "recovering the angle from them measures the tokeniser, not the "
+                    "representation. The image side of the comparison is already reproduced "
+                    "exactly by the headline readout above"),
+        "note": ("the original file carries its own caveat, kept verbatim in the values block: "
+                 "the two readouts come from separately trained probes, so their agreement "
+                 "shows both modalities decode the angle consistently and NOT that they share "
+                 "one oriented subspace")}
+
     # EXTENSION: is the readout a property of the representation or of one lucky split
     sens = [fit_evaluate(Zi, pa, 2, elong, seed=s, n_boot=200)[3] for s in range(10)]
     se = np.array([r["med_err_deg"] for r in sens])
@@ -322,7 +387,8 @@ def main():
     np.save(C.RESULTS / f"{NAME}Projection.npy",
             np.column_stack([pa_deg[te], pc_te, ps_te, err_te, ellip[te]]))
     inputs = [p_img, p_full, C.OK_INDEX, C.SAMPLE, C.SHAPES, C.COVARIATES]
-    inputs += [p for p in (TRACK_A_RADEC, TRACK_A_RA) if p.exists()]
+    inputs += [p for p in (TRACK_A_RADEC, TRACK_A_RA, TRACK_A_UNSUP, TRACK_A_CROSS)
+               if p.exists()]
     path = provenance.write(NAME, out, inputs, t0)
 
     h = out["readout"]["E_img"]
