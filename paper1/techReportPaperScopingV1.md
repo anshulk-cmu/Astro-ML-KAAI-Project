@@ -188,6 +188,8 @@ Position angle is defined only where the catalog fits an ellipticity. The DESI L
 
 > epsilon = epsilon_1 + i epsilon_2 = ((a - b) / (a + b)) exp(2 i phi)
 
+Here a and b are the major and minor axis lengths of the fitted ellipse and phi is its position angle, so the magnitude of epsilon says how elongated the source is and its argument says which way it points. The two catalogue columns `shape_e1` and `shape_e2` are the real and imaginary parts.
+
 from which |epsilon| = hypot(e1, e2), b/a = (1 - |epsilon|) / (1 + |epsilon|) and phi = (1/2) atan2(e2, e1). The factor of two in the exponent is the same axial doubling as Section 4.1: the catalog itself stores the orientation on the doubled circle, and our angle, ellipticity, axis ratio and inclination columns are derived from these expressions. Appendix F records the numerical verification of each identity against the catalog columns.
 
 Three tractor model types carry no ellipticity freedom: the round exponential (REX), the point source (PSF) and the duplicate-source model (DUP). For these, shape_e1 and shape_e2 are identically zero, so the derived angle is a constant rather than a measurement, and such sources cannot enter a position-angle analysis.
@@ -207,7 +209,7 @@ E_full ingests scalar photometry and the catalog redshift but no shape informati
 
 ### 4.5 Stress axis 1: elongation grading
 
-One probe, fit once as above, evaluated on every galaxy with a defined position angle that the probe never saw, binned by catalog ellipticity. Bins extend well below the working cut into the regime where the axis is genuinely ill-defined. `sigma_PA` is the catalog's own propagated uncertainty (Section 4.8); the KS p-value tests the catalog angles in that bin against a uniform distribution, guarding against a repeat of the placeholder-label problem.
+One probe, fit once as above, evaluated on every galaxy with a defined position angle that the probe never saw, binned by catalog ellipticity. Bins extend well below the working cut into the regime where the axis is genuinely ill-defined. `sigma_PA` is the catalog's own propagated uncertainty (Section 4.8); the last column is a Kolmogorov-Smirnov p-value, which tests whether the catalogue angles in that bin are spread uniformly around the circle as an isotropic sky requires. It is there because a bin whose angles pile up at one value would signal a placeholder rather than a measurement, which is the trap Section 4.3 removes by excluding the circular-by-construction model types.
 
 | ellipticity | n | median error (deg) | 95% CI | loop radius | catalog sigma_PA (deg) | label uniformity KS p |
 |---|---|---|---|---|---|---|
@@ -240,7 +242,7 @@ The scoping document's prediction is that a periodic quantity should be stored a
 
 Three of these four rows are measured on the elongated population. The edge-on vote fraction is not: that label covers 4,948 anchor galaxies and is probed over all of them rather than over the elongated subset, so its row is a companion measurement on a different population and is not comparable row for row with the others.
 
-Scored in degrees rather than R2, which puts the two treatments of each quantity on one axis: position angle recovers to 2.027 degrees under the circular treatment and 10.329 degrees [9.854, 10.875] under the plain linear treatment, a factor of 5.1. Inclination recovers to a median absolute error of 1.565 degrees [1.509, 1.635] as a plain scalar, and forcing it through the same circular machinery gives 1.529 degrees in inclination units with loop radius 0.976, which is no material gain. The periodic quantity needs the loop; the bounded one does not. [measured]
+Scoring in degrees rather than in R2 puts both treatments of each quantity on one axis. Position angle recovers to 2.027 degrees under the circular treatment and 10.329 degrees [9.854, 10.875] under the plain linear treatment, a factor of 5.1. Inclination recovers to a median absolute error of 1.565 degrees [1.509, 1.635] as a plain scalar, and forcing it through the same circular machinery gives 1.529 degrees in inclination units with loop radius 0.976, which is no material gain. The periodic quantity needs the loop; the bounded one does not. [measured]
 
 The bounded arm of this contrast is **underpowered by design and must be quoted as such**: a bounded quantity has no wrap seam for a linear encoding to fail at, so the circular treatment of inclination cannot fail the way the linear treatment of position angle does. The informative half is the position-angle half.
 
@@ -294,7 +296,7 @@ Per-galaxy errors on the held-out set, against apparent magnitude and angular si
 
 Brightness has no detectable effect on the readout across the sample's magnitude range. Angular size has a small raw effect that does not survive controlling for ellipticity, so it is attributable to the elongation dependence rather than to size itself. Elongation is the one covariate that matters, which is the same conclusion the grading reaches by a different route. [measured]
 
-**Label-noise floor (extension beyond the scoping document).** The catalog's own position-angle uncertainty follows from the ellipticity component variances: with phi = atan2(e2, e1), Var(phi) = (e2^2 Var(e1) + e1^2 Var(e2)) / (e1^2 + e2^2)^2 and sigma_PA = sigma_phi / 2. Over the elongated population the median sigma_PA is **0.111 degrees**, interquartile range [0.060, 0.194]. The readout's 2.027 degrees is about eighteen times that, so this measurement is **not** label-noise limited: the error is the model's own, not the catalog's. [measured]
+**Label-noise floor (extension beyond the scoping document).** The catalog's own position-angle uncertainty follows from the ellipticity component variances: writing psi = atan2(e2, e1) for the DOUBLED angle, so that the position angle is phi = psi / 2, error propagation gives Var(psi) = (e2^2 Var(e1) + e1^2 Var(e2)) / (e1^2 + e2^2)^2 and sigma_PA = sigma_psi / 2. Over the elongated population the median sigma_PA is **0.111 degrees**, interquartile range [0.060, 0.194]. The readout's 2.027 degrees is about eighteen times that, so this measurement is **not** label-noise limited: the error is the model's own, not the catalog's. [measured]
 
 ### 4.9 Nulls
 
@@ -591,13 +593,13 @@ Medians of the difference norm in z-scored units, with bootstrap intervals over 
 | under the flip | **+1.815** | [1.615, 2.107] | 1,301 of 2,057 (63.2 per cent) | p = 1.6e-33 |
 | under the resampling null | -0.441 | [-0.721, -0.226] | 939 of 2,057 (45.6 per cent) | p = 8.6e-5 |
 
-A spiral moves 1.815 further than an otherwise identical smooth galaxy under the flip, which is 19.4 per cent of the smooth median, while the same pairs under the operation that inverts nothing move by -0.441. Any residual mismatch in size or brightness would push both rows the same way, so the contrast between them is not explained by imperfect matching. [measured]
+A spiral moves 1.815 further than an otherwise identical smooth galaxy under the flip, which is 19.4 per cent of the median for the matched smooth galaxies themselves, 9.350, and not of the 10.106 quoted for the whole smooth pool above. The same pairs under the operation that inverts nothing move by -0.441. Any residual mismatch in size or brightness would push both rows the same way, so the contrast between them is not explained by imperfect matching. [measured]
 
 **Five attempts to make the excess go away.** Each is recorded in the artifact and recomputed on every execution.
 
 | check | result |
 |---|---|
-| scale reference | the flip moves a smooth galaxy 23.2 per cent of the way to a completely different galaxy, so the displacement is not at the noise level |
+| scale reference | the matched difference for a smooth galaxy is 23.2 per cent of the distance between two unrelated galaxies, so it is far above the noise level. Section 6.7 gives the separate and similar-looking figure for four cancelling rotations |
 | permutation null | randomly swapping which member of each pair counts as the spiral gives -0.061 [-0.339, +0.309] against the observed +1.815, which sits 10.2 standard deviations above it |
 | well determined axis | the excess **grows** as the operator improves: +1.815 on 2,057 pairs, +2.194 [1.582, 2.667] above ellipticity 0.3 on 580 pairs, +2.217 above 0.4 on 239 pairs, with the sign test at p = 6.0e-16 and 3.8e-9 |
 | matching order | greedy assignment repeated with four randomised orders gives +1.776, +1.922, +1.886 and +1.887 |
@@ -605,7 +607,7 @@ A spiral moves 1.815 further than an otherwise identical smooth galaxy under the
 
 The excess is not an artifact of the pairing, does not depend on the assignment order, is not carried by outliers, and strengthens rather than weakens in the regime where the operator isolates chirality best. [measured]
 
-**The excess tracks arms rather than being featured.** Galaxies with recorded spiral arms give 11.270 [11.005, 11.494]. Featured galaxies without recorded arms give 9.332 [9.002, 9.836] on 443 objects, below the smooth baseline. Edge-on discs, which carry arms that cannot be resolved as handedness, give 9.728 [9.466, 9.997], also below it. The pool physics predicts to be most symmetric about its major axis is measured as the most symmetric. [measured; the reading is interpreted]
+**The excess tracks arms rather than being featured.** Galaxies with recorded spiral arms give 11.270 [11.005, 11.494]. Featured galaxies without recorded arms give 9.332 [9.002, 9.836] on 443 objects, below the smooth baseline. Edge-on discs, which carry arms that cannot be resolved as handedness, give 9.728 [9.466, 9.997], also below it. Physics predicts that edge-on discs are the most symmetric about their own major axis, and they are measured as the most symmetric. [measured; the reading is interpreted]
 
 ### 6.5 Is it a single axis, and does a handedness label fall out
 
@@ -613,7 +615,13 @@ This is the part of the scoping document's design that does not survive. If hand
 
 Read this subsection together with Section 6.7. The vectors being decomposed here are dominated in magnitude by the encoder's response to resampling rather than by the flip, so most of the structure found below is resampling structure. That does not weaken the conclusion, which is negative, and it explains why the achiral pools show more of it than the chiral one.
 
-| pool | leading variance fraction | sign balance | mean norm / median norm | fraction along the leading axis |
+Three numbers describe the answer and they have to be read together.
+
+- **Leading variance fraction.** Take the strongest single direction among the difference vectors and ask what share of their total spread it accounts for. A random direction would get one part in 1,024.
+- **Sign balance.** The fraction of objects falling on the positive side of that direction. Real handedness is roughly even in nature, so this should sit near 0.5. A value near 1 means every object moved the same way, which is an offset and not a handedness.
+- **Length of the mean vector, over the median length.** If the differences cancel when averaged, this is near 0, which is what plus-and-minus handedness gives. If they all point the same way it is near 1.
+
+| pool | leading variance fraction | sign balance | length of the mean vector, over the median length | fraction along the leading axis |
 |---|---|---|---|---|
 | spiral armed | 0.2409 | 0.583 | 0.098 | 0.245 |
 | featured | 0.2478 | 0.592 | 0.112 | 0.255 |
@@ -627,7 +635,7 @@ That a dominant axis exists at all is not evidence to the contrary, and the arti
 
 ### 6.6 Controls
 
-**The resampling null has its own axis, and it is a different one.** On the spiral pool the resampling difference gives a leading fraction of 0.3199 with sign balance 0.377 and a mean-to-median ratio of 0.451, the signature of a partly systematic offset. The cosine between the chirality axis and the resampling axis is **0.0154**, so the flip and the resampling write to essentially orthogonal directions. [measured]
+**The resampling null has its own axis, and it is a different one.** On the spiral pool the blur difference gives a leading fraction of 0.3199, a sign balance of 0.377 and a mean-vector ratio of 0.451. Read by the three rules above, that last value is the signature of a partly systematic offset, which is what a blurring residual should look like. The cosine between the chirality axis and the resampling axis is **0.0154**, so the flip and the resampling write to essentially orthogonal directions. [measured]
 
 **The orientation leak is real, large, and not chirality specific.** Applying the frozen Diagnostic 1 probe to the flipped and control embeddings, the readout shifts by a median of 6.438 degrees for spirals, 5.577 for smooth galaxies, and only 1.818 for edge-on discs. If this were the chirality effect predicted in Section 6.2 it would appear in the chiral pool alone. It does not. It tracks how well the major axis is determined, which is what the ellipticity grading shows.
 
@@ -936,6 +944,14 @@ The audit exits non-zero if any number in the report fails to match a stored val
 | antinode | An angle a transformation displaces maximally: 45 and 135 degrees under the mirror |
 | adaptive moments | Second moments of an image computed with a Gaussian weight re-derived from the moments themselves each pass, so the window adapts to the source |
 | interpolation-free operation | An image operation that permutes pixels without resampling, so it carries no interpolation error: the mirror, and to good approximation rotations by 90 and 180 degrees |
+| chirality | Handedness: the property that tells a shape from its mirror image, such as which way a spiral winds |
+| parity inversion | Replacing a shape by its mirror image |
+| major-axis flip | Flipping an object about its own long axis, which changes handedness and leaves the outline alone |
+| matched control | The same operation with the part under test removed, applied to the same object, so the two differ only in that part |
+| matched pair | A galaxy paired with another chosen to have the same size, brightness and shape, so the two differ mainly in the property being tested |
+| resampling | Recomputing pixel values on a new grid, as any rotation by an odd angle must, which blurs fine detail slightly |
+| sign test | Counting how often one member of a pair beats the other, with no assumption about the size of the difference |
+| permutation null | Randomly swapping the labels within each pair to see what the statistic returns when the labelling carries no information |
 
 ## Appendix C: artifact index
 
