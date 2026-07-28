@@ -498,6 +498,274 @@
         "note": "underpowered by design: a bounded quantity has no wrap seam for a linear encoding to fail at, so this control cannot fail the way the angle case can"
       }
     },
+    "EXTENSION_sky_position_topology": {
+      "why": "right ascension wraps at 360 degrees and declination does not, so this is the topology prediction in its purest form: the periodic coordinate should need the loop and the bounded one should not",
+      "footprint_covers_the_wrap": {
+        "n_within_15deg_of_ra_zero": 5207,
+        "occupied_fraction_of_the_ra_circle": 1.0,
+        "dec_range_deg": [
+          -65.80289130142876,
+          84.60913910413294
+        ],
+        "note": "the circular claim is only testable because the sample spans the whole circle; a footprint that stopped short of the seam could not test it"
+      },
+      "right_ascension_circular": {
+        "n": 9680,
+        "med_err_deg": 37.28411317091941,
+        "med_err_ci": [
+          36.35328515609956,
+          38.18571472511443
+        ],
+        "loop_radius": 0.5257108807563782,
+        "loop_radius_ci": [
+          0.5173422992229462,
+          0.5315274886786938
+        ],
+        "loop_radius_rms": 0.5785672068595886,
+        "frac_within_20": 0.2953512396694215,
+        "frac_within_20_ci": [
+          0.28645661157024793,
+          0.30465650826446283
+        ],
+        "r2_cos": 0.4146489919766265,
+        "r2_sin": 0.17446326292456293,
+        "chance_floor_deg": 90.0,
+        "alpha_cos_sin": [
+          10.0,
+          100.0
+        ],
+        "n_train": 38718,
+        "n_pool": 48398
+      },
+      "right_ascension_plain_linear": {
+        "n": 9680,
+        "r2": 0.16981379728451984,
+        "r2_ci": [
+          0.15455522980333095,
+          0.18666616418009868
+        ],
+        "med_err_deg": 54.63349604289378,
+        "med_err_ci": [
+          53.356150339076656,
+          55.96936999592371
+        ],
+        "frac_within_20": 0.1819214876033058,
+        "alpha": 1000.0
+      },
+      "right_ascension_shuffled_null": {
+        "n": 9680,
+        "med_err_deg": 84.88263477324497,
+        "med_err_ci": [
+          83.30619254757642,
+          86.70250361952475
+        ],
+        "loop_radius": 0.07332815229892731,
+        "loop_radius_ci": [
+          0.0727032832801342,
+          0.0740290716290474
+        ],
+        "loop_radius_rms": 0.08272174745798111,
+        "frac_within_20": 0.11549586776859504,
+        "frac_within_20_ci": [
+          0.10898502066115702,
+          0.12149018595041322
+        ],
+        "r2_cos": -0.003059647114483477,
+        "r2_sin": -0.0003611663598339643,
+        "chance_floor_deg": 90.0,
+        "alpha_cos_sin": [
+          10000.0,
+          10000.0
+        ],
+        "n_train": 38718,
+        "n_pool": 48398
+      },
+      "declination_scalar": {
+        "r2": 0.7583345650443752,
+        "r2_ci": [
+          0.7503485824452002,
+          0.7658029035115839
+        ],
+        "n": 48398,
+        "n_test": 9680,
+        "alpha": 0.1,
+        "med_abs_err": 11.376095139017993,
+        "med_abs_err_ci": [
+          11.095644245366774,
+          11.654955657959613
+        ]
+      },
+      "declination_forced_circular": {
+        "n": 9680,
+        "med_err_deg": 22.30240192157671,
+        "med_err_ci": [
+          21.813743751344177,
+          22.771668487023682
+        ],
+        "loop_radius": 0.8423425555229187,
+        "loop_radius_ci": [
+          0.838898054510355,
+          0.8454683169722557
+        ],
+        "loop_radius_rms": 0.8503813743591309,
+        "frac_within_20": 0.45609504132231404,
+        "frac_within_20_ci": [
+          0.44586776859504135,
+          0.46539256198347106
+        ],
+        "r2_cos": 0.4411208683871535,
+        "r2_sin": 0.7600197758279971,
+        "chance_floor_deg": 90.0,
+        "alpha_cos_sin": [
+          0.1,
+          10.0
+        ],
+        "n_train": 38718,
+        "n_pool": 48398,
+        "med_err_deg_in_declination_units": 11.151200960788355
+      },
+      "chance_floor_deg_full_circle": 90.0,
+      "INTERPRETATION_WARNING": "decoding sky position from pixels is not physics. It is the survey: depth, seeing, extinction and the instrument itself all vary across the footprint. A high score here is a systematic, and the confound controls below separate the topology claim from the leakage claim",
+      "confound_controls": {
+        "hemisphere_from_image": {
+          "r2": 0.7868988678899298,
+          "r2_ci": [
+            0.7779440678425396,
+            0.7960028520261869
+          ],
+          "n": 48398,
+          "n_test": 9680,
+          "alpha": 0.01
+        },
+        "declination_within_south": {
+          "r2": 0.6088849144549815,
+          "r2_ci": [
+            0.5950018158824316,
+            0.6221620458910003
+          ],
+          "n": 35919,
+          "n_test": 7184,
+          "alpha": 100.0,
+          "med_abs_err": 10.638203592517172,
+          "med_abs_err_ci": [
+            10.33937835472694,
+            10.873003041770795
+          ]
+        },
+        "declination_within_north": {
+          "r2": 0.13074525193257758,
+          "r2_ci": [
+            0.10643920527544441,
+            0.1538754570412795
+          ],
+          "n": 12371,
+          "n_test": 2475,
+          "alpha": 100.0,
+          "med_abs_err": 9.288356910881305,
+          "med_abs_err_ci": [
+            8.97620873039817,
+            9.800562778884556
+          ]
+        },
+        "right_ascension_within_south": {
+          "n": 7184,
+          "med_err_deg": 34.35789261356328,
+          "med_err_ci": [
+            33.18160383315288,
+            35.54391014003731
+          ],
+          "loop_radius": 0.5180367827415466,
+          "loop_radius_ci": [
+            0.5091032780706882,
+            0.5264594279229641
+          ],
+          "loop_radius_rms": 0.5851201415061951,
+          "frac_within_20": 0.326141425389755,
+          "frac_within_20_ci": [
+            0.31556236080178174,
+            0.3368596881959911
+          ],
+          "r2_cos": 0.3541103137611784,
+          "r2_sin": 0.20438189098756343,
+          "chance_floor_deg": 90.0,
+          "alpha_cos_sin": [
+            10.0,
+            1000.0
+          ],
+          "n_train": 28735,
+          "n_pool": 35919
+        },
+        "note": "north is BASS and MzLS, south is DECam, so the hemispheres are different instruments. If declination decodes only because the instrument does, the within-hemisphere refits collapse"
+      },
+      "CARRIED_FROM_TRACK_A": {
+        "substrate_warning": "the codec-readback block is NOT the image substrate. RA and Dec were supplied to the model as catalog tokens and recovered from the resulting embedding, so a high score there confirms the tokeniser preserves the coordinate and says nothing about whether an image carries it",
+        "codec_readback": {
+          "n": 48398,
+          "ra_loop_k1": {
+            "med_err_deg": 2.8646920227749773,
+            "ci": [
+              2.7782938296949764,
+              2.938795890081596
+            ],
+            "r2_cos": 0.9888833295498257,
+            "r2_sin": 0.9785353233774767
+          },
+          "dec_scalar": {
+            "r2": 0.9880850101717313,
+            "ci": [
+              0.9875577815714052,
+              0.988686401091823
+            ]
+          },
+          "dec_loop_k1_control": {
+            "med_err_deg": 1.6744536350062091,
+            "ci": [
+              1.6357029970733448,
+              1.7147207573402194
+            ],
+            "r2_cos": 0.9929910170479135,
+            "r2_sin": 0.9883573583675356
+          }
+        },
+        "image_leakage_control": {
+          "covariates": [
+            "ebv",
+            "psfsize_g",
+            "psfsize_r",
+            "psfsize_i",
+            "psfsize_z",
+            "psfdepth_g",
+            "psfdepth_r",
+            "psfdepth_i",
+            "psfdepth_z"
+          ],
+          "cosRA": {
+            "r2_from_Eimg": 0.4146489919766265,
+            "r2_from_covariates": 0.2835602908650735,
+            "r2_residual_from_Eimg": 0.24139194954951826,
+            "r2_drop_frac": 0.4178402595438473
+          },
+          "sinRA": {
+            "r2_from_Eimg": 0.17446326292456293,
+            "r2_from_covariates": 0.09210685667827978,
+            "r2_residual_from_Eimg": 0.08387579370736653,
+            "r2_drop_frac": 0.5192352114632064
+          },
+          "drop_note": "r2_drop_frac compares R2 on targets with different variances (raw vs condition-residualized RA); it is a crude drop measure, NOT a mediation fraction of the RA signal explained by observing conditions",
+          "cond_in_Eimg": {
+            "ebv": 0.30293559061325637,
+            "psfdepth_r": 0.4405145883174054,
+            "psfsize_r": 0.6852774274777458
+          },
+          "align_cosRA_dir": {
+            "ebv": 0.4192736744880676,
+            "psfdepth_r": 0.052466511726379395,
+            "psfsize_r": 0.21141469478607178
+          }
+        },
+        "reading": "Track A found RA only weakly decodable from the image, and about half of that traceable to observing conditions, while the conditions themselves decode strongly. That is a preview of Diagnostic 4 and the reason sky position cannot be read as a physical result"
+      }
+    },
     "population_invariance": {
       "fixed_global_probe": {
         "bright": {
@@ -1242,11 +1510,11 @@
     }
   },
   "provenance": {
-    "utc": "2026-07-27T01:32:51Z",
-    "wall_seconds": 129.7,
+    "utc": "2026-07-28T14:34:41Z",
+    "wall_seconds": 186.6,
     "git": {
-      "sha": "b3e820a85eddb91527f010e9ce094fb35e11f3f6",
-      "code_dirty": false,
+      "sha": "45bb7747feeab58660a78b7a0fb9d497a6668c80",
+      "code_dirty": true,
       "code_paths": [
         "paper1/lib",
         "paper1/diagnostics",
@@ -1294,6 +1562,16 @@
         "path": "D:\\AstroML-Project\\data\\anchorCovariates.parquet",
         "sha256": "3fdecaf8e47afab423af237b223283ec39c1aa536f93b122444842e47bb4b6cb",
         "bytes": 8316582
+      },
+      "trackA_radec.json": {
+        "path": "D:\\AstroML-Project\\results\\trackA_radec.json",
+        "sha256": "f628922b4a28216dd5500073bbc865bfff374d456d3d781d104aa353bb1199f4",
+        "bytes": 570
+      },
+      "trackA_ra.json": {
+        "path": "D:\\AstroML-Project\\results\\trackA_ra.json",
+        "sha256": "6b6fc6609ebd01371ec31e6cc793df029773b750a94a8387ca840abfd0ed9f2a",
+        "bytes": 1084
       }
     }
   }

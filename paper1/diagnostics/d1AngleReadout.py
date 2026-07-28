@@ -28,6 +28,8 @@ import provenance
 from circular import circ_error, evaluate, fit_evaluate, linear_angle_probe, radius
 
 NAME = "d1AngleReadout"
+TRACK_A_RADEC = C.ROOT / "results" / "trackA_radec.json"
+TRACK_A_RA = C.ROOT / "results" / "trackA_ra.json"
 ELLIP_BINS = [0.0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.50, 0.60, 0.70, 1.00]
 PC_SWEEP = [2, 5, 10, 20, 50, 100, 200, 512]
 
@@ -127,6 +129,83 @@ def main():
         "med_err_deg_in_inclination_units": inc_circ["med_err_deg"] / 2.0,
         "note": ("underpowered by design: a bounded quantity has no wrap seam for a linear "
                  "encoding to fail at, so this control cannot fail the way the angle case can")}
+
+    # EXTENSION, at Matt's request: sky position is the cleanest possible topology pair.
+    # Right ascension is genuinely circular, wrapping at 360 degrees, while declination is
+    # bounded and has no seam. Both are defined for every galaxy, so this runs on the whole
+    # anchor rather than the elongated cut.
+    ra = df["ra"].to_numpy(float)
+    dec = df["dec"].to_numpy(float)
+    allrows = np.ones(len(df), bool)
+    fp = df["footprint"].astype(str).to_numpy()
+    south, north = fp == "south", fp == "north"
+
+    ra_circ = fit_evaluate(Zi, np.radians(ra), 1, allrows)[3]
+    ra_lin = linear_angle_probe(Zi, ra, 360.0, allrows)
+    ra_shuf = fit_evaluate(Zi, N.shuffled(np.radians(ra), allrows), 1, allrows)[3]
+    # declination forced through the circular machinery: the 180 degree range is stretched
+    # onto a full circle, so an error in that coordinate is twice the error in degrees of arc
+    dec_forced = fit_evaluate(Zi, np.radians((dec + 90.0) * 2.0), 1, allrows)[3]
+
+    out["EXTENSION_sky_position_topology"] = {
+        "why": ("right ascension wraps at 360 degrees and declination does not, so this is the "
+                "topology prediction in its purest form: the periodic coordinate should need "
+                "the loop and the bounded one should not"),
+        "footprint_covers_the_wrap": {
+            "n_within_15deg_of_ra_zero": int(((ra < 15) | (ra > 345)).sum()),
+            "occupied_fraction_of_the_ra_circle":
+                float((np.histogram(ra, bins=24, range=(0, 360))[0] > 0).mean()),
+            "dec_range_deg": [float(dec.min()), float(dec.max())],
+            "note": ("the circular claim is only testable because the sample spans the whole "
+                     "circle; a footprint that stopped short of the seam could not test it")},
+        "right_ascension_circular": ra_circ,
+        "right_ascension_plain_linear": ra_lin,
+        "right_ascension_shuffled_null": ra_shuf,
+        "declination_scalar": {**P.probe(Zi, dec, allrows), **scalar_abs_err(Zi, dec, allrows)},
+        "declination_forced_circular": {
+            **dec_forced,
+            "med_err_deg_in_declination_units": dec_forced["med_err_deg"] / 2.0},
+        "chance_floor_deg_full_circle": 90.0,
+        "INTERPRETATION_WARNING": (
+            "decoding sky position from pixels is not physics. It is the survey: depth, "
+            "seeing, extinction and the instrument itself all vary across the footprint. A "
+            "high score here is a systematic, and the confound controls below separate the "
+            "topology claim from the leakage claim")}
+
+    # Declination tracks which telescope took the image, so a declination probe could be
+    # reading the instrument rather than the coordinate. Refit inside each hemisphere.
+    out["EXTENSION_sky_position_topology"]["confound_controls"] = {
+        "hemisphere_from_image": P.probe(Zi, north.astype(float), allrows),
+        "declination_within_south": {**P.probe(Zi, dec, south),
+                                     **scalar_abs_err(Zi, dec, south)},
+        "declination_within_north": {**P.probe(Zi, dec, north),
+                                     **scalar_abs_err(Zi, dec, north)},
+        "right_ascension_within_south": fit_evaluate(Zi, np.radians(ra), 1, south)[3],
+        "note": ("north is BASS and MzLS, south is DECam, so the hemispheres are different "
+                 "instruments. If declination decodes only because the instrument does, the "
+                 "within-hemisphere refits collapse")}
+
+    # Carried over from the Track A work, and kept because it answers a DIFFERENT question on
+    # a DIFFERENT substrate. There the coordinates were fed to the model as its own catalog
+    # tokens and read back out, so the topology prediction is tested where the answer is known
+    # in advance. Here they are read from the image, where nothing guarantees they are present
+    # at all. Both are recorded; neither is a substitute for the other.
+    carried = {}
+    for name, p in [("codec_readback", TRACK_A_RADEC), ("image_leakage", TRACK_A_RA)]:
+        if p.exists():
+            carried[name] = json.loads(p.read_text())
+    out["EXTENSION_sky_position_topology"]["CARRIED_FROM_TRACK_A"] = {
+        "substrate_warning": ("the codec-readback block is NOT the image substrate. RA and Dec "
+                              "were supplied to the model as catalog tokens and recovered from "
+                              "the resulting embedding, so a high score there confirms the "
+                              "tokeniser preserves the coordinate and says nothing about "
+                              "whether an image carries it"),
+        "codec_readback": carried.get("codec_readback"),
+        "image_leakage_control": carried.get("image_leakage"),
+        "reading": ("Track A found RA only weakly decodable from the image, and about half of "
+                    "that traceable to observing conditions, while the conditions themselves "
+                    "decode strongly. That is a preview of Diagnostic 4 and the reason sky "
+                    "position cannot be read as a physical result")}
 
     magr = df["mag_r_desi"].to_numpy(float)
     smooth = df["smooth-or-featured_smooth_fraction"].to_numpy(float)
@@ -242,8 +321,9 @@ def main():
 
     np.save(C.RESULTS / f"{NAME}Projection.npy",
             np.column_stack([pa_deg[te], pc_te, ps_te, err_te, ellip[te]]))
-    path = provenance.write(NAME, out, [p_img, p_full, C.OK_INDEX, C.SAMPLE, C.SHAPES,
-                                        C.COVARIATES], t0)
+    inputs = [p_img, p_full, C.OK_INDEX, C.SAMPLE, C.SHAPES, C.COVARIATES]
+    inputs += [p for p in (TRACK_A_RADEC, TRACK_A_RA) if p.exists()]
+    path = provenance.write(NAME, out, inputs, t0)
 
     h = out["readout"]["E_img"]
     print(f"n_elong={out['population']['n_elongated']}  n_test={h['n']}")

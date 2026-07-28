@@ -196,8 +196,52 @@ def fig_hetero():
     save(fig, "d1Heteroscedasticity")
 
 
+def fig_sky():
+    s = R["EXTENSION_sky_position_topology"]
+    cc = s["confound_controls"]
+    fig, ax = plt.subplots(1, 2, figsize=(10, 4.0))
+
+    rows = [("right ascension\ncircular treatment", s["right_ascension_circular"]["med_err_deg"], "#25506e"),
+            ("right ascension\nplain straight line", s["right_ascension_plain_linear"]["med_err_deg"], "#8a7a3a"),
+            ("right ascension\nshuffled labels", s["right_ascension_shuffled_null"]["med_err_deg"], "#9a9a9a")]
+    yp = np.arange(len(rows))[::-1]
+    for yi, (lab, v, col) in zip(yp, rows):
+        ax[0].barh(yi, v, color=col, height=0.6)
+        ax[0].text(v + 1.5, yi, f"{v:.1f}", va="center", fontsize=9)
+    ax[0].axvline(s["chance_floor_deg_full_circle"], color="0.3", ls="--", lw=1.2)
+    ax[0].text(s["chance_floor_deg_full_circle"] - 2, -0.45, "chance 90$\\degree$",
+               fontsize=8, color="0.3", ha="right")
+    ax[0].set_yticks(yp, [r[0] for r in rows], fontsize=8)
+    ax[0].set_xlim(0, 100)
+    ax[0].set_xlabel("median circular error (deg)")
+    ax[0].set_title("RA wraps at 360, so it needs the loop:\n"
+                    "the circular treatment beats the straight line", fontsize=9)
+
+    names = ["declination\nall galaxies", "declination\nsouth only",
+             "declination\nnorth only", "which hemisphere\n(the instrument)"]
+    vals = [s["declination_scalar"]["r2"], cc["declination_within_south"]["r2"],
+            cc["declination_within_north"]["r2"], cc["hemisphere_from_image"]["r2"]]
+    cols = ["#25506e", "#5a8f4a", "#b8442e", "#7a5c99"]
+    ax[1].bar(np.arange(len(names)), vals, 0.62, color=cols)
+    for i, v in enumerate(vals):
+        ax[1].text(i, v + 0.015, f"{v:.3f}", ha="center", fontsize=8.5)
+    ax[1].set_xticks(np.arange(len(names)), names, fontsize=7.5)
+    ax[1].set_ylabel("held-out $R^2$")
+    ax[1].set_ylim(0, 1.0)
+    ax[1].text(0.5, 0.93,
+               f"forcing the loop onto Dec gains nothing: "
+               f"{s['declination_forced_circular']['med_err_deg_in_declination_units']:.2f}$\\degree$ "
+               f"against {s['declination_scalar']['med_abs_err']:.2f}$\\degree$ as a plain scalar",
+               transform=ax[1].transAxes, ha="center", fontsize=8, color="#25506e",
+               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="#25506e", lw=0.8))
+    ax[1].set_title("Dec is bounded, so the loop adds nothing. And much of\n"
+                    "what does decode is the telescope, not the coordinate", fontsize=9)
+    save(fig, "d1SkyPosition")
+
+
 def main():
     fig_loop()
+    fig_sky()
     fig_elongation()
     fig_nulls()
     fig_invariance()

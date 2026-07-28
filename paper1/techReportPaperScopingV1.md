@@ -242,6 +242,24 @@ Scored in degrees rather than R2, which puts the two treatments of each quantity
 
 The bounded arm of this contrast is **underpowered by design and must be quoted as such**: a bounded quantity has no wrap seam for a linear encoding to fail at, so the circular treatment of inclination cannot fail the way the linear treatment of position angle does. The informative half is the position-angle half.
 
+**Sky position, the cleanest available topology pair (added at Matt's request).** Inclination is a weak bounded companion because it is derived from the same shape fit as the angle itself. Right ascension and declination are better: RA genuinely wraps at 360 degrees, Dec genuinely does not, they are independent of galaxy shape, and both are defined for every galaxy, so this runs on the whole anchor rather than the elongated cut.
+
+The circular claim is only testable because the footprint spans the whole circle. It does: all twenty-four 15-degree bins are occupied, and 5,207 galaxies sit within 15 degrees of RA = 0 on one side or the other. A survey stopping short of the seam could not test this at all.
+
+| quantity | treatment | result | chance |
+|---|---|---|---|
+| right ascension | circular, period 360 | **37.28 deg**, loop radius 0.5257 | 90 deg |
+| right ascension | plain straight line | 54.63 deg | 90 deg |
+| right ascension | shuffled labels | 84.88 deg, radius 0.0733 | 90 deg |
+| declination | plain scalar | median error 11.38 deg, R2 0.7583 | |
+| declination | forced through the circle | median error 11.15 deg | |
+
+The prediction holds on both arms. The periodic coordinate **needs** the loop: treating RA as a circle recovers it 17 degrees better than treating it as a line, and both beat chance. The bounded coordinate gains **nothing** from the loop, 11.15 degrees against 11.38 as a plain scalar. Unlike the inclination arm this one is not underpowered, because RA has a real seam for a straight-line fit to fail at, and it does fail there. [measured]
+
+**This is a systematic, not a physical result, and the controls say so.** Nothing about a galaxy's own physics tells you where it sits on the sky. Sky position decodes because the survey varies across the sky: depth, seeing, extinction, and the instrument itself. North is BASS and MzLS, south is DECam. Reading which hemisphere an image came from gives **R2 0.7869**, and declination decodability falls from 0.7583 over the whole sample to 0.6089 within the south and **0.1307 within the north**. Much of the declination signal is the telescope. Right ascension is less affected, 34.36 degrees within the south against 37.28 overall. This is a preview of Diagnostic 4, which measures the confound budget properly. [measured; the attribution to the survey is interpreted]
+
+**Two earlier results are carried across, and they answer different questions.** The Track A work fed RA and Dec to the model as its own catalog tokens and recovered them from the resulting embedding, getting 2.865 degrees for RA and R2 0.9881 for Dec. That is a **different substrate**: it confirms the coordinate tokeniser preserves the circle, and says nothing about whether an image carries sky position. Track A also probed RA from the image and found cos RA at R2 0.41465 with about 42 per cent of it removable by partialling out observing conditions. The value recomputed here from a separate implementation is **0.4146**, agreeing to five significant figures across two codebases. [measured]
+
 ### 4.7 Stress axis 3: population invariance
 
 One globally-fit probe, held fixed, evaluated separately on each stratum's held-out rows. Per-stratum refits measure within-stratum decodability and are secondary. Brightness tertiles are cut at r = 18.089 and r = 18.664.
@@ -490,6 +508,15 @@ Not established here: that the model *uses* this coordinate for any downstream p
 
 **Science question.** Does the model encode parity-odd structure, spiral arm handedness, or has it discarded a real physical observable?
 
+### 6.0 What this section concludes, before the machinery
+
+This section is the longest in the report because the measurement needs three controls, so the four conclusions are stated first and the evidence follows.
+
+1. **The model has not discarded parity.** Flipping a galaxy into its mirror image moves the representation measurably more for galaxies with spiral arms than for otherwise identical galaxies without them. Section 6.4.
+2. **But handedness is not stored as a readable feature.** There is no single direction whose sign gives a handedness label, so the free labelling the design hoped for does not exist. Section 6.5.
+3. **The encoder is strongly sensitive to resampling.** Rotations that cancel out, returning an image almost exactly to itself, still move the embedding a long way. This was not anticipated, it constrains how the remaining causal diagnostics must be built, and it is why conclusion 1 rests on a matched comparison rather than on raw sizes. Section 6.7.
+4. **Reading 1 and 2 together:** the model kept parity information but did not organise it. Section 6.9 gives the interpretation this invites.
+
 ### 6.1 Why the obvious test fails, and what replaces it
 
 Comparing a pool of originals against a pool of mirror images measures nothing. Handedness is roughly even in nature, so the two pools have the same distribution. The test has to be paired, each object against its own reflection.
@@ -521,11 +548,11 @@ Every anchor galaxy with a defined position angle, **43,672**, with no subsampli
 
 Three conditions were encoded through the frozen model over the full population, **131,016 encodes**: the untransformed images, the major-axis flip, and the matched control. Three differences follow, all on embeddings z-scored with the same statistics used in Sections 4 and 5.
 
-| symbol | definition | what it contains |
+| name | definition | in plain terms |
 |---|---|---|
-| d_spec | E(x) - E(flip(x)) | the scoping document's definition: chirality plus the resampling |
-| d_pure | E(sandwich(x)) - E(flip(x)) | both sides carry the same number of rotations |
-| d_resampling | E(x) - E(sandwich(x)) | the resampling alone, and the declared null |
+| **the flip difference** (d_spec) | E(x) - E(flip(x)) | the scoping document's definition: the flip, plus the blurring the flip brings with it |
+| **the matched difference** (d_pure) | E(sandwich(x)) - E(flip(x)) | flip against a control that blurs the same amount but reverses nothing |
+| **the blur difference** (d_resampling) | E(x) - E(sandwich(x)) | the blurring on its own, and the scoping document's second null |
 
 Section 6.7 shows that d_pure is **not** the flip alone, which was the intention behind it. Giving both sides the same number of rotations removes the systematic part of the resampling but not the stochastic part, because the two paths land on different pixel grids. Its absolute size is therefore mostly resampling, and only comparisons between matched objects, where the same resampling applies to both sides, carry a conclusion. That is why the matched-pair result below and not the pooled magnitude is the finding.
 
@@ -650,6 +677,8 @@ All three behave as they should. The random-direction null reproduces its analyt
 ### 6.9 What the result does and does not establish
 
 Established, on this substrate and this population: a parity inversion applied to the input **moves the representation measurably more for galaxies with spiral arms than for otherwise identical galaxies without them**, by 19.4 per cent on matched pairs with a sign test at p = 1.6e-33, while the same pairs under an operation that resamples identically but inverts nothing move the other way. Parity-odd information therefore survives in the frozen embedding rather than having been discarded. The ordering across pools follows the physics: arms above featured-without-arms, and edge-on discs, whose handedness is not resolvable, at the bottom.
+
+**An interpretation this invites, contributed by Matt.** A null on chirality is not surprising and would not have been a failure of the suite. Handedness is not a strongly scientifically loaded property, and it is very unlikely to appear among the galaxy properties AION was aligned against during training. Read that way, the pair of results is the interesting thing: the model **keeps information that serves its training objective and does not organise information that does not**. Parity survives in the representation, because a mirror image is visibly a different image, but nothing shaped it into a usable coordinate, because nothing in training ever asked for one. That reading is consistent with everything measured here and is not established by it: this suite never inspected AION's training targets, so the claim about what the objective did or did not contain is outside what these measurements can support. [interpreted]
 
 Not established, and the scoping document expected it might be: **handedness is not encoded as a single direction**. The leading axis of the difference is stronger in achiral pools than chiral ones, only a quarter of the difference lies along it, and the projections are unimodal. The self-supervised handedness label the design hoped to extract does not exist in this representation, and this diagnostic does not deliver one.
 
